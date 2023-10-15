@@ -17,7 +17,7 @@ public class ProjectDbContextFactory : IDesignTimeDbContextFactory<ProjectDbCont
         var configuration = BuildConfiguration();
 
         var builder = new DbContextOptionsBuilder<ProjectDbContext>()
-            .UseSqlServer(configuration.GetConnectionString("Default"));
+            .UseMySql(configuration.GetConnectionString("Default"),new MySqlServerVersion(new Version(5,7,17)));
 
         return new ProjectDbContext(builder.Options);
     }
