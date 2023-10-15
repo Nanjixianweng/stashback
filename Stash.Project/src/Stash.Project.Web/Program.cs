@@ -25,6 +25,7 @@ public class Program
             .WriteTo.Async(c => c.Console())
             .CreateLogger();
 
+
         try
         {
             Log.Information("Starting web host.");

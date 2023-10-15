@@ -11,6 +11,7 @@ using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
+using Stash.Project.Stash.WarehouseManage.Model;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace Stash.Project.EntityFrameworkCore;
@@ -51,6 +52,29 @@ public class ProjectDbContext :
     public DbSet<Tenant> Tenants { get; set; }
     public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
 
+    //实体上下文
+
+    /// <summary>
+    /// 单据类型表
+    /// </summary>
+    public DbSet<DocumentType> DocumentType { get; set; }
+    /// <summary>
+    /// 出库单表
+    /// </summary>
+    public DbSet<OutStorageTable> OutStorageTable { get; set; }
+    /// <summary>
+    /// 入库单状态表
+    /// </summary>
+    public DbSet<PutStorageStateTable> PutStorageStateTable { get; set; }
+    /// <summary>
+    /// 入库单表
+    /// </summary>
+    public DbSet<PutStorageTable> PutStorageTable { get; set; }
+    /// <summary>
+    /// 仓库产品关系表
+    /// </summary>
+    public DbSet<StashProductTable> StashProductTable { get; set; }
+
     #endregion
 
     public ProjectDbContext(DbContextOptions<ProjectDbContext> options)
@@ -82,5 +106,11 @@ public class ProjectDbContext :
         //    b.ConfigureByConvention(); //auto configure for the base class props
         //    //...
         //});
+        builder.Entity<DocumentType>(x =>
+        {
+            x.ToTable("DocumentType");
+            x.HasKey(y=>y.DocumentI_Id);
+            x.Property(y=>y.Document_Name).HasMaxLength(200);
+        });
     }
 }
