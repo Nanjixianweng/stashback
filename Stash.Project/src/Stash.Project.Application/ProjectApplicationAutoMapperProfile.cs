@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Stash.Project.BasicDto;
+using Stash.Project.Stash.BasicData.Model;
 
 namespace Stash.Project;
 
@@ -9,5 +11,6 @@ public class ProjectApplicationAutoMapperProfile : Profile
         /* You can configure your AutoMapper mapping configuration here.
          * Alternatively, you can split your mapping configurations
          * into multiple profile classes for a better organization. */
+        CreateMap<StoreDto, StoreTale>().ReverseMap();
     }
 }
