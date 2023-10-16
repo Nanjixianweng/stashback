@@ -1,4 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Stash.Project.Stash.BusinessManage.Model;
+using Stash.Project.Stash.SystemSetting.Model;
+using Stash.Project.Stash.WarehouseManage.Model;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -11,7 +14,6 @@ using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
-using Stash.Project.Stash.WarehouseManage.Model;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace Stash.Project.EntityFrameworkCore;
@@ -291,5 +293,6 @@ public class ProjectDbContext :
             x.ToTable("SalesReturnsTable");
             x.HasKey(y => y.Id);
         });
+        #endregion
     }
 }
