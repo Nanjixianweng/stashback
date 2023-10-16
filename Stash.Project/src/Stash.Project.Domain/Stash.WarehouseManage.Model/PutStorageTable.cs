@@ -13,10 +13,6 @@ namespace Stash.Project.Stash.WarehouseManage.Model
     public class PutStorageTable: BasicAggregateRoot<long>
     {
         /// <summary>
-        /// 入库单编号
-        /// </summary>
-        public long PutStorage_Id { get; set; }
-        /// <summary>
         /// 入库单类型编号
         /// </summary>
         public long PutStorageType_Id { get; set; }
@@ -47,7 +43,7 @@ namespace Stash.Project.Stash.WarehouseManage.Model
         /// <summary>
         /// 制单时间
         /// </summary>
-        public string? Operator_Date { get; set; }
+        public DateTime Operator_Date { get; set; }
         /// <summary>
         /// 备注
         /// </summary>

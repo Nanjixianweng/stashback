@@ -13,10 +13,6 @@ namespace Stash.Project.Stash.WarehouseManage.Model
     public class StashProductTable: BasicAggregateRoot<long>
     {
         /// <summary>
-        /// 关系编号
-        /// </summary>
-        public long StashProduct_Id { get; set; }
-        /// <summary>
         /// 产品编号
         /// </summary>
         public long Product_Id { get; set; }

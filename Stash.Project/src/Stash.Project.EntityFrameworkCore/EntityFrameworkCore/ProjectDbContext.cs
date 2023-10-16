@@ -105,12 +105,68 @@ public class ProjectDbContext :
         //    b.ToTable(ProjectConsts.DbTablePrefix + "YourEntities", ProjectConsts.DbSchema);
         //    b.ConfigureByConvention(); //auto configure for the base class props
         //    //...
-        //});
+        //});0
+
+        //单据类型表
         builder.Entity<DocumentType>(x =>
         {
             x.ToTable("DocumentType");
-            x.HasKey(y=>y.DocumentI_Id);
-            x.Property(y=>y.Document_Name).HasMaxLength(200);
+            x.HasKey(y => y.Id);
+            x.Property(y=>y.Document_Name).HasMaxLength(200).IsRequired();
+        });
+
+        //出库单表
+        builder.Entity<OutStorageTable>(x =>
+        {
+            x.ToTable("OutStorageTable");
+            x.HasKey(y => y.Id);
+            x.Property(y => y.OutStorageType_Id).IsRequired();
+            x.Property(y => y.OutStorage_OrderId).IsRequired();
+            x.Property(y => y.OuttStorage_SupplierId).IsRequired();
+            x.Property(y => y.Operator_Date).IsRequired();
+            x.Property(y => y.OutStorage_Name).HasMaxLength(200).IsRequired();
+            x.Property(y => y.OutStorage_ContactPerson).HasMaxLength(200).IsRequired();
+            x.Property(y => y.OutStorage_Phone).HasMaxLength(200).IsRequired();
+            x.Property(y => y.Operator_Name).HasMaxLength(200).IsRequired();
+            x.Property(y => y.OutStorage_Remark).HasMaxLength(200).IsRequired();          
+        });
+
+        //入库单状态表
+        builder.Entity<PutStorageStateTable>(x =>
+        {
+            x.ToTable("PutStorageStateTable");
+            x.HasKey(y => y.Id);
+            x.Property(y => y.PutStorageState_Name).HasMaxLength(200).IsRequired();
+        });
+
+        //入库单表
+        builder.Entity<PutStorageTable>(x =>
+        {
+            x.ToTable("PutStorageTable");
+            x.HasKey(y => y.Id);
+            x.Property(y => y.PutStorageType_Id).IsRequired();
+            x.Property(y => y.PutStorage_OrderId).IsRequired();
+            x.Property(y => y.PutStorage_SupplierId).IsRequired();
+            x.Property(y => y.Operator_Date).IsRequired();
+            x.Property(y => y.PutStorage_Name).HasMaxLength(200).IsRequired();
+            x.Property(y => y.PutStorage_ContactPerson).HasMaxLength(200).IsRequired();
+            x.Property(y => y.PutStorage_Phone).HasMaxLength(200).IsRequired();
+            x.Property(y => y.Operator_Name).HasMaxLength(200).IsRequired();
+            x.Property(y => y.PutStorage_Remark).HasMaxLength(200).IsRequired();
+        });
+
+        //仓库产品关系表
+        builder.Entity<StashProductTable>(x =>
+        {
+            x.ToTable("StashProductTable");
+            x.HasKey(y=>y.Id);
+            x.Property(y => y.Product_Id).IsRequired();
+            x.Property(y => y.PutStorage_Id).IsRequired();
+            x.Property(y => y.PutStorage_Lot).IsRequired();
+            x.Property(y => y.PutStorage_Price).HasColumnType("decimal(32,2)").IsRequired();
+            x.Property(y => y.PutStorage_Num).IsRequired();
+            x.Property(y => y.PutStorage_SumPrice).HasColumnType("decimal(32,2)").IsRequired();
+            x.Property(y => y.PutStorage_Position).HasMaxLength(200).IsRequired();
         });
     }
 }

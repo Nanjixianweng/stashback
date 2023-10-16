@@ -13,12 +13,8 @@ namespace Stash.Project.Stash.WarehouseManage.Model
     public class PutStorageStateTable : BasicAggregateRoot<long>
     {
         /// <summary>
-        /// 入库单编号
-        /// </summary>
-        public long PutStorageState_Id { get; set; }
-        /// <summary>
         /// 入库单名称
         /// </summary>
-        public long PutStorageState_Name { get; set; }
+        public string?PutStorageState_Name { get; set; }
     }
 }
