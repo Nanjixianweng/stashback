@@ -13,6 +13,7 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Stash.Project.Stash.WarehouseManage.Model;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Stash.Project.Stash.SystemSetting.Model;
 
 namespace Stash.Project.EntityFrameworkCore;
 
@@ -83,6 +84,14 @@ public class ProjectDbContext :
 
     }
 
+    //系统设置数据集
+    public DbSet<UserInfo> UserInfo { get; set; }
+    public DbSet<AccessInfo> AccessInfo { get; set; }
+    public DbSet<RoleInfo> RoleInfo { get; set; }
+    public DbSet<RoleAccessInfo> RoleAccessInfo { get; set; }
+    public DbSet<RoleUserInfo> RoleSectorInfo { get; set; }
+    public DbSet<SectorInfo> SectorInfo { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -106,6 +115,51 @@ public class ProjectDbContext :
         //    b.ConfigureByConvention(); //auto configure for the base class props
         //    //...
         //});0
+
+        //系统设置
+        //用户
+        builder.Entity<UserInfo>(b =>
+        {
+            b.ToTable("UserInfo");
+            b.HasKey(y => y.Id);
+            b.Property(u => u.Id).IsRequired().HasMaxLength(50);
+        });
+        //权限
+        builder.Entity<AccessInfo>(b =>
+        {
+            b.ToTable("AccessInfo");
+            b.HasKey(y => y.Id);
+            b.Property(u => u.Id).IsRequired().HasMaxLength(50);
+        });
+        //角色
+        builder.Entity<RoleInfo>(b =>
+        {
+            b.ToTable("RoleInfo");
+            b.HasKey(y => y.Id);
+            b.Property(u => u.Id).IsRequired().HasMaxLength(50);
+        });
+        //部门
+        builder.Entity<SectorInfo>(b =>
+        {
+            b.ToTable("SectorInfo");
+            b.HasKey(y => y.Id);
+            b.Property(u => u.Id).IsRequired().HasMaxLength(50);
+        });
+        //角色用户
+        builder.Entity<RoleUserInfo>(b =>
+        {
+            b.ToTable("RoleUserInfo");
+            b.HasKey(y => y.Id);
+            b.Property(u => u.Id).IsRequired().HasMaxLength(50);
+        });
+        //角色权限
+        builder.Entity<RoleAccessInfo>(b =>
+        {
+            b.ToTable("RoleAccessInfo");
+            b.HasKey(y => y.Id);
+            b.Property(u => u.Id).IsRequired().HasMaxLength(50);
+        });
+
 
         //单据类型表
         builder.Entity<DocumentType>(x =>

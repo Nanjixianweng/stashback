@@ -21,6 +21,190 @@ namespace Stash.Project.Migrations
                 .HasAnnotation("ProductVersion", "7.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("Stash.Project.Stash.SystemSetting.Model.AccessInfo", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(50)
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Access_Button")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("Access_CreateTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("Access_FatherId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Access_Icon")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Access_Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Access_Route")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Access_Sort")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Access_Type")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AccessInfo", (string)null);
+                });
+
+            modelBuilder.Entity("Stash.Project.Stash.SystemSetting.Model.RoleAccessInfo", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(50)
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Access_Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Role_Id")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RoleAccessInfo", (string)null);
+                });
+
+            modelBuilder.Entity("Stash.Project.Stash.SystemSetting.Model.RoleInfo", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(50)
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("Role_CreateTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Role_Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Role_Remark")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RoleInfo", (string)null);
+                });
+
+            modelBuilder.Entity("Stash.Project.Stash.SystemSetting.Model.RoleUserInfo", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(50)
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Role_Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("User_Id")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RoleUserInfo", (string)null);
+                });
+
+            modelBuilder.Entity("Stash.Project.Stash.SystemSetting.Model.SectorInfo", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(50)
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Sector_FatherId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("Sector_IsDel")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Sector_Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SectorInfo", (string)null);
+                });
+
+            modelBuilder.Entity("Stash.Project.Stash.SystemSetting.Model.UserInfo", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(50)
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Role_Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Sector_Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("USer_Remarks")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("User_CreateTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("User_Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("User_IsDel")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("User_IsLock")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("User_JobNumber")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("User_LoginNum")
+                        .HasColumnType("int");
+
+                    b.Property<string>("User_Mobilephone")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("User_Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("User_Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("User_RealName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("User_Telephone")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserInfo", (string)null);
+                });
+
             modelBuilder.Entity("Stash.Project.Stash.WarehouseManage.Model.DocumentType", b =>
                 {
                     b.Property<long>("Id")
