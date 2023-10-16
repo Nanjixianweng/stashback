@@ -28,7 +28,6 @@
   <ItemGroup>
     <Folder Include="Stash.SystemSetting.Model\" />
     <Folder Include="Stash.BasicData.Model\" />
-    <Folder Include="Stash.BusinessManage.Model\" />
   </ItemGroup>
 
 </Project>

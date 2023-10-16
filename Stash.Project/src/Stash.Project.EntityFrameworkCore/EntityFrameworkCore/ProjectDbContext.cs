@@ -13,6 +13,7 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Stash.Project.Stash.WarehouseManage.Model;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Stash.Project.Stash.BusinessManage.Model;
 
 namespace Stash.Project.EntityFrameworkCore;
 
@@ -74,7 +75,32 @@ public class ProjectDbContext :
     /// 仓库产品关系表
     /// </summary>
     public DbSet<StashProductTable> StashProductTable { get; set; }
-
+    #endregion
+    #region 业务
+    /// <summary>
+    /// 采购表
+    /// </summary>
+    public DbSet<PurchaseTable> PurchaseTable { get; set; }
+    /// <summary>
+    /// 采购产品关系表
+    /// </summary>
+    public DbSet<PurchaseProductRelationshipTable> PurchaseProductRelationshipTable { get; set; }
+    /// <summary>
+    /// 采购退货表
+    /// </summary>
+    public DbSet<PurchaseReturnGoodsTable> PurchaseReturnGoodsTable { get; set; }
+    /// <summary>
+    /// 销售表
+    /// </summary>
+    public DbSet<SellTable> SellTable { get; set; }
+    /// <summary>
+    /// 销售产品关系表
+    /// </summary>
+    public DbSet<SellProductRelationshipTable> SellProductRelationshipTable { get; set; }
+    /// <summary>
+    /// 销售退货表
+    /// </summary>
+    public DbSet<SalesReturnsTable> SalesReturnsTable { get; set; }
     #endregion
 
     public ProjectDbContext(DbContextOptions<ProjectDbContext> options)
@@ -168,5 +194,60 @@ public class ProjectDbContext :
             x.Property(y => y.PutStorage_SumPrice).HasColumnType("decimal(32,2)").IsRequired();
             x.Property(y => y.PutStorage_Position).HasMaxLength(200).IsRequired();
         });
+        #region 业务
+        //采购表
+        builder.Entity<PurchaseTable>(x =>
+        {
+            x.ToTable("PurchaseTable");
+            x.HasKey(y=>y.Id);
+            x.Property(y => y.AssociatedOrderNumber).HasMaxLength(50).IsRequired();
+            x.Property(y => y.SupplierName).HasMaxLength(50).IsRequired();
+            x.Property(y => y.CustomerName).HasMaxLength(50).IsRequired();
+            x.Property(y => y.ContactPerson).HasMaxLength(50).IsRequired();
+            x.Property(y => y.Telephone).HasMaxLength(50).IsRequired();
+            x.Property(y => y.Remark).HasMaxLength(50).IsRequired();
+            x.Property(y => y.Documenter).HasMaxLength(50).IsRequired();
+        });
+        //采购产品关系
+        builder.Entity<PurchaseProductRelationshipTable>(x =>
+        {
+            x.ToTable("PurchaseProductRelationshipTable");
+            x.HasKey(y => y.Id);
+            x.Property(y => y.TotalPrice).HasColumnType("decimal(32,2)").IsRequired();
+        });
+        //采购退货表
+        builder.Entity<PurchaseReturnGoodsTable>(x =>
+        {
+            x.ToTable("PurchaseReturnGoodsTable");
+            x.HasKey(y => y.Id);
+        });
+        //销售表
+        builder.Entity<SellTable>(x =>
+        {
+            x.ToTable("SellTable");
+            x.HasKey(y => y.Id);
+            x.Property(y => y.AssociatedOrderNumber).HasMaxLength(50).IsRequired();
+            x.Property(y => y.SupplierName).HasMaxLength(50).IsRequired();
+            x.Property(y => y.CustomerName).HasMaxLength(50).IsRequired();
+            x.Property(y => y.ContactPerson).HasMaxLength(50).IsRequired();
+            x.Property(y => y.Telephone).HasMaxLength(50).IsRequired();
+            x.Property(y => y.Remark).HasMaxLength(50).IsRequired();
+            x.Property(y => y.Documenter).HasMaxLength(50).IsRequired();
+        });
+        //销售产品关系
+        builder.Entity<SellProductRelationshipTable>(x =>
+        {
+            x.ToTable("SellProductRelationshipTable");
+            x.HasKey(y => y.Id);
+            x.Property(y => y.TotalPrice).HasColumnType("decimal(32,2)").IsRequired();
+        });
+        //销售退货表
+        builder.Entity<SalesReturnsTable>(x =>
+        {
+            x.ToTable("SalesReturnsTable");
+            x.HasKey(y => y.Id);
+        });
+        #endregion 
+
     }
 }

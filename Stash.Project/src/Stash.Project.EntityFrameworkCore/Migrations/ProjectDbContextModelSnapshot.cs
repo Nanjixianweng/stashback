@@ -21,6 +21,214 @@ namespace Stash.Project.Migrations
                 .HasAnnotation("ProductVersion", "7.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("Stash.Project.Stash.BusinessManage.Model.PurchaseProductRelationshipTable", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("EnterOrNot")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("ReturnGoods")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(32,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PurchaseProductRelationshipTable", (string)null);
+                });
+
+            modelBuilder.Entity("Stash.Project.Stash.BusinessManage.Model.PurchaseReturnGoodsTable", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("AddTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("SellId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PurchaseReturnGoodsTable", (string)null);
+                });
+
+            modelBuilder.Entity("Stash.Project.Stash.BusinessManage.Model.PurchaseTable", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("AssociatedOrderNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("ContactPerson")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<DateTime?>("DeliveryDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("DocumentPreparationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("DocumentType")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Documenter")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Remark")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("SupplierName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Telephone")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PurchaseTable", (string)null);
+                });
+
+            modelBuilder.Entity("Stash.Project.Stash.BusinessManage.Model.SalesReturnsTable", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("AddTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("SellId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SalesReturnsTable", (string)null);
+                });
+
+            modelBuilder.Entity("Stash.Project.Stash.BusinessManage.Model.SellProductRelationshipTable", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("EnterOrNot")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("ReturnGoods")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(32,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SellProductRelationshipTable", (string)null);
+                });
+
+            modelBuilder.Entity("Stash.Project.Stash.BusinessManage.Model.SellTable", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("AssociatedOrderNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("ContactPerson")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<DateTime?>("DeliveryDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("DocumentPreparationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("DocumentType")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Documenter")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Remark")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("SupplierName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Telephone")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SellTable", (string)null);
+                });
+
             modelBuilder.Entity("Stash.Project.Stash.WarehouseManage.Model.DocumentType", b =>
                 {
                     b.Property<long>("Id")
