@@ -13,6 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.12">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Volo.Abp.Emailing" Version="7.4.0" />
     <PackageReference Include="Volo.Abp.Identity.Domain" Version="7.4.0" />
     <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Identity" Version="7.4.0" />
@@ -27,6 +31,7 @@
 
   <ItemGroup>
     <Folder Include="Stash.SystemSetting.Model\" />
+    <Folder Include="Stash.BasicData.Model\" />
     <Folder Include="Stash.BusinessManage.Model\" />
   </ItemGroup>
 
