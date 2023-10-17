@@ -23,7 +23,7 @@ namespace Stash.Project.SystemSetting.Service
         /// <summary>
         /// 登录
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">登陆传输对象</param>
         /// <returns></returns>
         public async Task<ApiResult> LoginShow(LoginDto obj)
         {
