@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Stash.Project.BasicDto;
 using Stash.Project.IBusinessRealizeAppService.BusinessDto;
 using Stash.Project.IBasicService.BasicDto;
 using Stash.Project.Stash.BasicData.Model;
