@@ -1,51 +1,53 @@
 ﻿using Stash.Project.IBasicService.BasicDto;
+using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 
 namespace Stash.Project.IBasicService
 {
-    public interface IStoreService : IApplicationService
+    public interface ISupplierService : IApplicationService
     {
         /// <summary>
-        /// 仓库新增
+        /// 供应商新增
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> CreateStoreAsync(StoreDto dto);
+        Task<ApiResult> CreateSupplierAsync(SupplierDto dto);
 
         /// <summary>
-        /// 仓库查询
+        /// 供应商查询
         /// </summary>
         /// <returns></returns>
-        Task<ApiResult> GetStoreAsync();
+        Task<ApiResult> GetSupplierAsync();
 
         /// <summary>
-        /// 仓库条件查询
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-        Task<ApiResult> CreateStoreListAsync(StoreinquireDto dto);
-
-        /// <summary>
-        /// 删除仓库
-        /// </summary>
-        /// <param name="storeid"></param>
-        /// <returns></returns>
-        Task<ApiResult> DeleteStoreAsync(long storeid);
-
-        /// <summary>
-        /// 修改仓库
+        /// 供应商条件查询
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> UpdateStoreAsync(StoreDto dto);
+        Task<ApiResult> CreateSupplierListAsync(SupplierInquireDto dto);
 
         /// <summary>
-        /// 查询指定仓库信息
+        /// 删除供应商
         /// </summary>
-        /// <param name="storeid"></param>
+        /// <param name="supplierid"></param>
         /// <returns></returns>
-        Task<ApiResult> GetStoreInfoAsync(long storeid);
+        Task<ApiResult> DeleteSupplierAsync(long supplierid);
+
+        /// <summary>
+        /// 修改供应商
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        Task<ApiResult> UpdateSupplierAsync(SupplierDto dto);
+
+        /// <summary>
+        /// 查询指定供应商信息
+        /// </summary>
+        /// <param name="supplierid"></param>
+        /// <returns></returns>
+        Task<ApiResult> GetSupplierInfoAsync(long supplierid);
     }
 }

@@ -45,7 +45,7 @@ namespace Stash.Project.BasicService
         }
 
         /// <summary>
-        /// 删除仓储
+        /// 删除仓库
         /// </summary>
         /// <param name="storeid"></param>
         /// <returns></returns>
@@ -96,9 +96,9 @@ namespace Stash.Project.BasicService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<ApiResult> GetStoreListAsync(StoreinquireDto dto)
+        public async Task<ApiResult> CreateStoreListAsync(StoreinquireDto dto)
         {
-            var list = (await _store.ToListAsync())
+            var list = (await _store.GetListAsync())
                 .WhereIf(dto.number != 0, x => x.Id == dto.number)
                 .WhereIf(!string.IsNullOrEmpty(dto.name), x => x.StoreName.Contains(dto.name))
                 .WhereIf(dto.departmentid != 0, x => x.DepartmentId == dto.departmentid)
@@ -117,7 +117,7 @@ namespace Stash.Project.BasicService
         }
 
         /// <summary>
-        /// 修改仓储
+        /// 修改仓库
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
@@ -130,6 +130,17 @@ namespace Stash.Project.BasicService
                 return new ApiResult { code = ResultCode.Error, msg = ResultMsg.UpdateError, data = res };
             }
             return new ApiResult { code = ResultCode.Success, msg = ResultMsg.UpdateSuccess, data = res };
+        }
+
+        /// <summary>
+        /// 仓库查询
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ApiResult> GetStoreAsync()
+        {
+            var list = await _store.GetListAsync();
+
+            return new ApiResult { code=ResultCode.Success,msg=ResultMsg.RequestSuccess,data = list};
         }
     }
 }

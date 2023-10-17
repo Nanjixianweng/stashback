@@ -1,51 +1,53 @@
 ﻿using Stash.Project.IBasicService.BasicDto;
+using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 
 namespace Stash.Project.IBasicService
 {
-    public interface IStoreService : IApplicationService
+    public interface ICustomerService : IApplicationService
     {
         /// <summary>
-        /// 仓库新增
+        /// 客户新增
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> CreateStoreAsync(StoreDto dto);
+        Task<ApiResult> CreateCustomerAsync(CustomerDto dto);
 
         /// <summary>
-        /// 仓库查询
+        /// 客户数据
         /// </summary>
         /// <returns></returns>
-        Task<ApiResult> GetStoreAsync();
+        Task<ApiResult> GetCustomerAsync();
 
         /// <summary>
-        /// 仓库条件查询
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-        Task<ApiResult> CreateStoreListAsync(StoreinquireDto dto);
-
-        /// <summary>
-        /// 删除仓库
-        /// </summary>
-        /// <param name="storeid"></param>
-        /// <returns></returns>
-        Task<ApiResult> DeleteStoreAsync(long storeid);
-
-        /// <summary>
-        /// 修改仓库
+        /// 客户条件查询
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> UpdateStoreAsync(StoreDto dto);
+        Task<ApiResult> CreateCustomerListAsync(CustomerinquireDto dto);
 
         /// <summary>
-        /// 查询指定仓库信息
+        /// 删除客户
         /// </summary>
-        /// <param name="storeid"></param>
+        /// <param name="customerid"></param>
         /// <returns></returns>
-        Task<ApiResult> GetStoreInfoAsync(long storeid);
+        Task<ApiResult> DeleteCustomerAsync(long customerid);
+
+        /// <summary>
+        /// 修改客户
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        Task<ApiResult> UpdateCustomerAsync(CustomerDto dto);
+
+        /// <summary>
+        /// 查询指定客户信息
+        /// </summary>
+        /// <param name="customerid"></param>
+        /// <returns></returns>
+        Task<ApiResult> GetCustomerInfoAsync(long customerid);
     }
 }

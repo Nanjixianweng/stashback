@@ -7,47 +7,47 @@ using Volo.Abp.Application.Services;
 
 namespace Stash.Project.IBasicService
 {
-    public interface IStorageLocationService : IApplicationService
+    public interface IProductCategoryService : IApplicationService
     {
         /// <summary>
-        /// 库位新增
+        /// 产品类别新增
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> CreateStorageLocationAsync(StorageLocationDto dto);
+        Task<ApiResult> CreateProductCategoryAsync(ProductCategoryDto dto);
 
         /// <summary>
-        /// 库位条件查询
+        /// 产品类别条件查询
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> CreateStorageLocationListAsync(StorageLocationinquireDto dto);
+        Task<ApiResult> CreateProductCategoryListAsync(ProductCategoryInquireDto dto);
 
         /// <summary>
-        /// 库位查询
+        /// 产品类别查询
         /// </summary>
         /// <returns></returns>
-        Task<ApiResult> GetStorageLocationAsync();
+        Task<ApiResult> GetProductCategoryAsync();
 
         /// <summary>
-        /// 删除库位
+        /// 删除产品类别
         /// </summary>
-        /// <param name="storageid"></param>
+        /// <param name="productcategoryid"></param>
         /// <returns></returns>
-        Task<ApiResult> DeleteStorageLocationAsync(long storageid);
+        Task<ApiResult> DeleteProductCategoryAsync(long productcategoryid);
 
         /// <summary>
-        /// 修改库位
+        /// 修改产品类别
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> UpdateStorageLocationAsync(StorageLocationDto dto);
+        Task<ApiResult> UpdateProductCategoryAsync(ProductCategoryDto dto);
 
         /// <summary>
-        /// 查询指定库位信息
+        /// 查询指定产品类别信息
         /// </summary>
-        /// <param name="storageid"></param>
+        /// <param name="productcategoryid"></param>
         /// <returns></returns>
-        Task<ApiResult> GetStorageLocationInfoAsync(long storageid);
+        Task<ApiResult> GetProductCategoryInfoAsync(long productcategoryid);
     }
 }

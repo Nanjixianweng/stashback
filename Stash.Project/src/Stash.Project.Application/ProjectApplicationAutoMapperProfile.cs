@@ -13,5 +13,11 @@ public class ProjectApplicationAutoMapperProfile : Profile
          * into multiple profile classes for a better organization. */
         CreateMap<StoreDto, StoreTale>().ReverseMap();
         CreateMap<StorageLocationDto, StorageLocationTable>().ReverseMap();
+        CreateMap<SupplierDto, SupplierTable>().ReverseMap();
+        CreateMap<UnitDto, UnitTable>().ReverseMap();
+        CreateMap<ProductCategoryDto, ProductCategoryTable>().ReverseMap();
+        CreateMap<ProductDto, ProductTable>().ReverseMap();
+        CreateMap<ContactDto, ContactTable>().ReverseMap();
+        CreateMap<CustomerDto, CustomerTable>().ReverseMap();
     }
 }
