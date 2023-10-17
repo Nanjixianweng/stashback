@@ -192,6 +192,7 @@ public class ProjectWebModule : AbpModule
 
         app.UseCorrelationId();
         app.UseStaticFiles();
+        app.UseCors(x=>x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
         app.UseRouting();
         app.UseAuthentication();
         app.UseAbpOpenIddictValidation();
