@@ -1,5 +1,4 @@
 ﻿using System;
-using Volo.Abp.Domain.Entities;
 
 namespace Stash.Project.SettingDto
 {

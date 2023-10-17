@@ -1,10 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
+using System;
+using System.Threading.Tasks;
+using Yitter.IdGenerator;
 
 namespace Stash.Project.Web;
 
@@ -24,7 +25,7 @@ public class Program
             .WriteTo.Async(c => c.File("Logs/logs.txt"))
             .WriteTo.Async(c => c.Console())
             .CreateLogger();
-
+        YitIdHelper.SetIdGenerator(new IdGeneratorOptions());
 
         try
         {
@@ -35,6 +36,7 @@ public class Program
                 .UseSerilog();
             await builder.AddApplicationAsync<ProjectWebModule>();
             var app = builder.Build();
+            //app.UseCors(x=>x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
             await app.InitializeApplicationAsync();
             await app.RunAsync();
             return 0;

@@ -9,10 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Stash.Project.Domain.Shared\Stash.Project.Domain.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.12">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -33,6 +29,10 @@
     <Folder Include="Stash.SystemSetting.Model\" />
     <Folder Include="Stash.BasicData.Model\" />
     <Folder Include="Stash.BusinessManage.Model\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Stash.Project.Domain.Shared\Stash.Project.Domain.Shared.csproj" />
   </ItemGroup>
 
 </Project>

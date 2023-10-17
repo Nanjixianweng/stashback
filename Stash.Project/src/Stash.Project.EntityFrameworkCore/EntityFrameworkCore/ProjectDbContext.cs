@@ -105,6 +105,15 @@ public class ProjectDbContext :
     public DbSet<SalesReturnsTable> SalesReturnsTable { get; set; }
     #endregion
 
+    #region RBAC
+    public DbSet<UserInfo> UserInfo { get; set; }
+    public DbSet<AccessInfo> AccessInfo { get; set; }
+    public DbSet<RoleInfo> RoleInfo { get; set; }
+    public DbSet<RoleAccessInfo> RoleAccessInfo { get; set; }
+    public DbSet<RoleUserInfo> RoleUserInfo { get; set; }
+    public DbSet<SectorInfo> SectorInfo { get; set; }
+    #endregion
+
     #region 基础信息
 
     public DbSet<CarrierTable> CarrierTable { get; set; }
@@ -151,6 +160,9 @@ public class ProjectDbContext :
         //});0
 
         //系统设置
+
+
+
         //用户
         builder.Entity<UserInfo>(b =>
         {
@@ -200,7 +212,7 @@ public class ProjectDbContext :
         {
             x.ToTable("DocumentType");
             x.HasKey(y => y.Id);
-            x.Property(y=>y.Document_Name).HasMaxLength(200).IsRequired();
+            x.Property(y => y.Document_Name).HasMaxLength(200).IsRequired();
         });
 
         //出库单表
@@ -216,7 +228,7 @@ public class ProjectDbContext :
             x.Property(y => y.OutStorage_ContactPerson).HasMaxLength(200).IsRequired();
             x.Property(y => y.OutStorage_Phone).HasMaxLength(200).IsRequired();
             x.Property(y => y.Operator_Name).HasMaxLength(200).IsRequired();
-            x.Property(y => y.OutStorage_Remark).HasMaxLength(200).IsRequired();          
+            x.Property(y => y.OutStorage_Remark).HasMaxLength(200).IsRequired();
         });
 
         //入库单状态表
@@ -247,7 +259,7 @@ public class ProjectDbContext :
         builder.Entity<StashProductTable>(x =>
         {
             x.ToTable("StashProductTable");
-            x.HasKey(y=>y.Id);
+            x.HasKey(y => y.Id);
             x.Property(y => y.Product_Id).IsRequired();
             x.Property(y => y.PutStorage_Id).IsRequired();
             x.Property(y => y.PutStorage_Lot).IsRequired();
@@ -261,7 +273,7 @@ public class ProjectDbContext :
         builder.Entity<PurchaseTable>(x =>
         {
             x.ToTable("PurchaseTable");
-            x.HasKey(y=>y.Id);
+            x.HasKey(y => y.Id);
             x.Property(y => y.AssociatedOrderNumber).HasMaxLength(50).IsRequired();
             x.Property(y => y.SupplierName).HasMaxLength(50).IsRequired();
             x.Property(y => y.CustomerName).HasMaxLength(50).IsRequired();
