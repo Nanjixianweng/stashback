@@ -13,29 +13,28 @@ using Yitter.IdGenerator;
 
 namespace Stash.Project.BasicService
 {
-    public class StorageLocationService : ApplicationService, IStorageLocationService
+    public class UnitService : ApplicationService, IUnitService
     {
-        public readonly IRepository<StorageLocationTable, long> _storage;
+        public readonly IRepository<UnitTable, long> _unit;
         public readonly IMapper _mapper;
 
-        public StorageLocationService(IRepository<StorageLocationTable, long> storage, IMapper mapper)
+        public UnitService(IRepository<UnitTable, long> unit,IMapper mapper)
         {
-            _storage = storage;
+            _unit = unit;
             _mapper = mapper;
         }
 
         /// <summary>
-        /// 库位新增
+        /// 单位新增
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<ApiResult> CreateStorageLocationAsync(StorageLocationDto dto)
+        public async Task<ApiResult> CreateUnitAsync(UnitDto dto)
         {
             YitIdHelper.SetIdGenerator(new IdGeneratorOptions());
             dto.Id = YitIdHelper.NextId();
-            dto.CreationTime = DateTime.Now;
-            var info = _mapper.Map<StorageLocationDto, StorageLocationTable>(dto);
-            var res = await _storage.InsertAsync(info);
+            var info = _mapper.Map<UnitDto, UnitTable>(dto);
+            var res = await _unit.InsertAsync(info);
             if (res == null)
             {
                 return new ApiResult { code = ResultCode.Error, msg = ResultMsg.AddError, data = res };
@@ -44,15 +43,15 @@ namespace Stash.Project.BasicService
         }
 
         /// <summary>
-        /// 删除库位
+        /// 删除单位
         /// </summary>
-        /// <param name="storageid"></param>
+        /// <param name="unitid"></param>
         /// <returns></returns>
-        public async Task<ApiResult> DeleteStorageLocationAsync(long storageid)
+        public async Task<ApiResult> DeleteUnitAsync(long unitid)
         {
-            var res = await _storage.FirstOrDefaultAsync(x => x.Id == storageid);
+            var res = await _unit.FirstOrDefaultAsync(x => x.Id == unitid);
 
-            await _storage.DeleteAsync(storageid);
+            await _unit.DeleteAsync(unitid);
 
             if (res != null)
             {
@@ -73,13 +72,13 @@ namespace Stash.Project.BasicService
         }
 
         /// <summary>
-        /// 查询指定库位信息
+        /// 查询指定单位信息
         /// </summary>
-        /// <param name="storageid"></param>
+        /// <param name="unitid"></param>
         /// <returns></returns>
-        public async Task<ApiResult> GetStorageLocationInfoAsync(long storageid)
+        public async Task<ApiResult> GetUnitInfoAsync(long unitid)
         {
-            var res = await _storage.FirstOrDefaultAsync(x => x.Id == storageid);
+            var res = await _unit.FirstOrDefaultAsync(x => x.Id == unitid);
 
             return new ApiResult
             {
@@ -90,21 +89,20 @@ namespace Stash.Project.BasicService
         }
 
         /// <summary>
-        /// 库位条件查询
+        /// 单位条件查询
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<ApiResult> CreateStorageLocationListAsync(StorageLocationinquireDto dto)
+        public async Task<ApiResult> CreateUnitListAsync(UnitInquireDto dto)
         {
-            var list = (await _storage.GetListAsync())
-                .WhereIf(dto.storagelocationid != 0, x => x.Id == dto.storagelocationid)
-                .WhereIf(!string.IsNullOrEmpty(dto.storagelocationname), x => x.LibraryLocationName.Contains(dto.storagelocationname))
-                .WhereIf(dto.storeid != 0, x => x.Stash == dto.storeid);
+            var list = (await _unit.GetListAsync())
+                .WhereIf(dto.unitnumber != 0, x => x.Id == dto.unitnumber)
+                .WhereIf(!string.IsNullOrEmpty(dto.unitname), x => x.UnitName.Contains(dto.unitname));
 
 
             var totalcount = list.Count();
 
-            list = list.OrderByDescending(x=>x.CreationTime).Skip((dto.pageIndex - 1) * dto.pageSize).Take(dto.pageSize).ToList();
+            list = list.Skip((dto.pageIndex - 1) * dto.pageSize).Take(dto.pageSize).ToList();
 
             if (list == null)
             {
@@ -114,14 +112,14 @@ namespace Stash.Project.BasicService
         }
 
         /// <summary>
-        /// 修改库位
+        /// 修改单位
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<ApiResult> UpdateStorageLocationAsync(StorageLocationDto dto)
-        { 
-            var info = _mapper.Map<StorageLocationDto, StorageLocationTable>(dto);
-            var res = await _storage.UpdateAsync(info);
+        public async Task<ApiResult> UpdateUnitAsync(UnitDto dto)
+        {
+            var info = _mapper.Map<UnitDto, UnitTable>(dto);
+            var res = await _unit.UpdateAsync(info);
             if (res == null)
             {
                 return new ApiResult { code = ResultCode.Error, msg = ResultMsg.UpdateError, data = res };
@@ -130,12 +128,12 @@ namespace Stash.Project.BasicService
         }
 
         /// <summary>
-        /// 库位查询
+        /// 单位查询
         /// </summary>
         /// <returns></returns>
-        public async Task<ApiResult> GetStorageLocationAsync()
+        public async Task<ApiResult> GetStoreAsync()
         {
-            var list = await _storage.GetListAsync();
+            var list = await _unit.GetListAsync();
 
             return new ApiResult { code = ResultCode.Success, msg = ResultMsg.RequestSuccess, data = list };
         }

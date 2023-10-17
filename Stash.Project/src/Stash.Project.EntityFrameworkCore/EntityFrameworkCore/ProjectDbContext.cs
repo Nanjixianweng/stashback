@@ -395,6 +395,7 @@ public class ProjectDbContext :
             b.Property(x => x.Category).IsRequired();
             b.Property(x => x.UpperLimitValue).IsRequired();
             b.Property(x => x.LowerLimitValue).IsRequired();
+            b.Property(x => x.Num).IsRequired();
             b.Property(x => x.Specification).IsRequired();
             b.Property(x => x.Price).IsRequired();
             b.Property(x => x.Weight).IsRequired();

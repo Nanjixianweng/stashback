@@ -1,12 +1,15 @@
-﻿using Volo.Abp.Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace Stash.Project.Stash.BasicData.Model
+namespace Stash.Project.IBasicService.BasicDto
 {
-    /// <summary>
-    /// 产品表
-    /// </summary>
-    public class ProductTable : BasicAggregateRoot<long>
+    public class ProductDto
     {
+        /// <summary>
+        /// 产品编号
+        /// </summary>
+        public long Id { get; set; }
 
         /// <summary>
         /// 产品名称
@@ -46,7 +49,7 @@ namespace Stash.Project.Stash.BasicData.Model
         /// <summary>
         /// 数量
         /// </summary>
-        public int Num {  get; set; }
+        public int Num { get; set; }
 
         /// <summary>
         /// 规格

@@ -29,5 +29,11 @@ public class ProjectApplicationAutoMapperProfile : Profile
         CreateMap<SalesReturnsTable, SalesReturnsTableDto>().ReverseMap();
         #endregion
         CreateMap<StorageLocationDto, StorageLocationTable>().ReverseMap();
+        CreateMap<SupplierDto, SupplierTable>().ReverseMap();
+        CreateMap<UnitDto, UnitTable>().ReverseMap();
+        CreateMap<ProductCategoryDto, ProductCategoryTable>().ReverseMap();
+        CreateMap<ProductDto, ProductTable>().ReverseMap();
+        CreateMap<ContactDto, ContactTable>().ReverseMap();
+        CreateMap<CustomerDto, CustomerTable>().ReverseMap();
     }
 }

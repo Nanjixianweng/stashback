@@ -1,52 +1,53 @@
-﻿
-using Stash.Project.IBasicService.BasicDto;
+﻿using Stash.Project.IBasicService.BasicDto;
+using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 
 namespace Stash.Project.IBasicService
 {
-    public interface IStoreService : IApplicationService
+    public interface IUnitService : IApplicationService
     {
         /// <summary>
-        /// 仓库新增
+        /// 单位新增
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> CreateStoreAsync(StoreDto dto);
+        Task<ApiResult> CreateUnitAsync(UnitDto dto);
 
         /// <summary>
-        /// 仓库查询
+        /// 单位查询
         /// </summary>
         /// <returns></returns>
         Task<ApiResult> GetStoreAsync();
 
         /// <summary>
-        /// 仓库条件查询
+        /// 单位条件查询
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> CreateStoreListAsync(StoreinquireDto dto);
+        Task<ApiResult> CreateUnitListAsync(UnitInquireDto dto);
 
         /// <summary>
-        /// 删除仓库
+        /// 删除单位
         /// </summary>
-        /// <param name="storeid"></param>
+        /// <param name="unitid"></param>
         /// <returns></returns>
-        Task<ApiResult> DeleteStoreAsync(long storeid);
+        Task<ApiResult> DeleteUnitAsync(long unitid);
 
         /// <summary>
-        /// 修改仓库
+        /// 修改单位
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> UpdateStoreAsync(StoreDto dto);
+        Task<ApiResult> UpdateUnitAsync(UnitDto dto);
 
         /// <summary>
-        /// 查询指定仓库信息
+        /// 查询指定单位信息
         /// </summary>
-        /// <param name="storeid"></param>
+        /// <param name="unitid"></param>
         /// <returns></returns>
-        Task<ApiResult> GetStoreInfoAsync(long storeid);
+        Task<ApiResult> GetUnitInfoAsync(long unitid);
     }
 }
