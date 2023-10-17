@@ -9,16 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Stash.Project.Application.Contracts\Stash.Project.Application.Contracts.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Volo.Abp.Account.HttpApi" Version="7.4.0" />
     <PackageReference Include="Volo.Abp.Identity.HttpApi" Version="7.4.0" />
     <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi" Version="7.4.0" />
     <PackageReference Include="Volo.Abp.TenantManagement.HttpApi" Version="7.4.0" />
     <PackageReference Include="Volo.Abp.FeatureManagement.HttpApi" Version="7.4.0" />
     <PackageReference Include="Volo.Abp.SettingManagement.HttpApi" Version="7.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Stash.Project.Application.Contracts\Stash.Project.Application.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

@@ -35,8 +35,6 @@
 
   <ItemGroup>
     <PackageReference Include="Volo.Abp.Autofac" Version="7.4.0" />
-    <ProjectReference Include="..\Stash.Project.Application.Contracts\Stash.Project.Application.Contracts.csproj" />
-    <ProjectReference Include="..\Stash.Project.EntityFrameworkCore\Stash.Project.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,6 +42,11 @@
     <Content Remove="Logs\**" />
     <EmbeddedResource Remove="Logs\**" />
     <None Remove="Logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Stash.Project.Application.Contracts\Stash.Project.Application.Contracts.csproj" />
+    <ProjectReference Include="..\Stash.Project.EntityFrameworkCore\Stash.Project.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
 </Project>
