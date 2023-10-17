@@ -9,10 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Stash.Project.Application.Contracts\Stash.Project.Application.Contracts.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Volo.Abp.Account.HttpApi.Client" Version="7.4.0" />
     <PackageReference Include="Volo.Abp.Identity.HttpApi.Client" Version="7.4.0" />
     <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi.Client" Version="7.4.0" />
@@ -24,6 +20,10 @@
   <ItemGroup>
     <EmbeddedResource Include="**\*generate-proxy.json" />
     <Content Remove="**\*generate-proxy.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Stash.Project.Application.Contracts\Stash.Project.Application.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

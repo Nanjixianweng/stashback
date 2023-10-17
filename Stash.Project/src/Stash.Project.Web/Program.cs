@@ -36,7 +36,7 @@ public class Program
                 .UseSerilog();
             await builder.AddApplicationAsync<ProjectWebModule>();
             var app = builder.Build();
-            app.UseCors(x=>x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+            //app.UseCors(x=>x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
             await app.InitializeApplicationAsync();
             await app.RunAsync();
             return 0;
