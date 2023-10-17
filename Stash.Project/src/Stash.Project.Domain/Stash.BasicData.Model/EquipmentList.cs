@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Volo.Abp.Domain.Entities;
+﻿using Volo.Abp.Domain.Entities;
 
 namespace Stash.Project.Stash.BasicData.Model
 {
@@ -28,7 +21,7 @@ namespace Stash.Project.Stash.BasicData.Model
         /// <summary>
         /// 是否授权
         /// </summary>
-        public bool AuthorizationorNot {  get; set; }
+        public bool AuthorizationorNot { get; set; }
 
         /// <summary>
         /// 状态

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Stash.Project.BasicDto
+﻿namespace Stash.Project.BasicDto
 {
     public class StoreinquireDto
     {
-        public long number {  get; set; }
+        public long number { get; set; }
 
         public string? name { get; set; }
 

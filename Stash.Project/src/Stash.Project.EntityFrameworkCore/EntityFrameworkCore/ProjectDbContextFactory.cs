@@ -1,8 +1,8 @@
-﻿using System;
-using System.IO;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.IO;
 
 namespace Stash.Project.EntityFrameworkCore;
 
@@ -17,7 +17,7 @@ public class ProjectDbContextFactory : IDesignTimeDbContextFactory<ProjectDbCont
         var configuration = BuildConfiguration();
 
         var builder = new DbContextOptionsBuilder<ProjectDbContext>()
-            .UseMySql(configuration.GetConnectionString("Default"),new MySqlServerVersion(new Version(5,7,17)));
+            .UseMySql(configuration.GetConnectionString("Default"), new MySqlServerVersion(new Version(5, 7, 17)));
 
         return new ProjectDbContext(builder.Options);
     }

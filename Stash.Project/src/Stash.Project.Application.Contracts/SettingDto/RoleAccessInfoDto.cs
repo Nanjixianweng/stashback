@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Volo.Abp.Domain.Entities;
-
-namespace Stash.Project.SettingDto
+﻿namespace Stash.Project.SettingDto
 {
     /// <summary>
     /// 角色权限表

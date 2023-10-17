@@ -2,10 +2,8 @@
 using Stash.Project.BasicDto;
 using Stash.Project.IBasicService;
 using Stash.Project.Stash.BasicData.Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
@@ -15,7 +13,7 @@ namespace Stash.Project.BasicService
 {
     public class StoreService : ApplicationService, IStoreService
     {
-        public readonly IRepository<StoreTale,long> _store;
+        public readonly IRepository<StoreTale, long> _store;
         public readonly IMapper _mapper;
 
         public StoreService(IRepository<StoreTale, long> store, IMapper mapper)
@@ -35,7 +33,7 @@ namespace Stash.Project.BasicService
             dto.Id = YitIdHelper.NextId();
             var info = _mapper.Map<StoreDto, StoreTale>(dto);
             var res = await _store.InsertAsync(info);
-            if(res == null)
+            if (res == null)
             {
                 return new ApiResult { code = ResultCode.Error, msg = ResultMsg.AddError, data = res };
             }
@@ -51,9 +49,9 @@ namespace Stash.Project.BasicService
         {
             await _store.DeleteAsync(storeid);
 
-            var res = await _store.FirstOrDefaultAsync(x=>x.Id == storeid);
+            var res = await _store.FirstOrDefaultAsync(x => x.Id == storeid);
 
-            if(res == null)
+            if (res == null)
             {
                 return new ApiResult
                 {
@@ -101,7 +99,7 @@ namespace Stash.Project.BasicService
                 .WhereIf(!string.IsNullOrEmpty(dto.name), x => x.StoreName.Contains(dto.name))
                 .WhereIf(dto.departmentid != 0, x => x.DepartmentId == dto.departmentid)
                 .WhereIf(dto.storetype != 0, x => x.StoreType == dto.storetype);
-                
+
 
             var totalcount = list.Count();
 

@@ -1,14 +1,14 @@
 ﻿using Stash.Project.Stash.TableStatus;
-using Volo.Abp.Domain.Entities;
 
-namespace Stash.Project.Stash.BusinessManage.Model
+
+namespace Stash.Project.IBusinessRealizeAppService.BusinessDto
 {
     /// <summary>
-    /// 采购产品关系
+    /// 采购产品关系ID
     /// </summary>
-    public class PurchaseProductRelationshipTable : BasicAggregateRoot<long>
+    public class PurchaseProductRelationshipTableDto
     {
-
+        public long Id { get; set; }
         /// <summary>
         /// 产品ID  
         /// </summary>

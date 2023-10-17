@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Volo.Abp.Domain.Entities;
+﻿using Volo.Abp.Domain.Entities;
 
 namespace Stash.Project.Stash.WarehouseManage.Model
 {
     /// <summary>
     /// 仓库产品关系表
     /// </summary>
-    public class StashProductTable: BasicAggregateRoot<long>
+    public class StashProductTable : BasicAggregateRoot<long>
     {
         /// <summary>
         /// 产品编号
@@ -39,6 +34,6 @@ namespace Stash.Project.Stash.WarehouseManage.Model
         /// <summary>
         /// 库位
         /// </summary>
-        public string?PutStorage_Position { get; set; }
+        public string? PutStorage_Position { get; set; }
     }
 }
