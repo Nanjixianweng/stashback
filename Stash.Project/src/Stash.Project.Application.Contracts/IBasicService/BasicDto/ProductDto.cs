@@ -47,6 +47,11 @@ namespace Stash.Project.IBasicService.BasicDto
         public int LowerLimitValue { get; set; }
 
         /// <summary>
+        /// 数量
+        /// </summary>
+        public int Num { get; set; }
+
+        /// <summary>
         /// 规格
         /// </summary>
         public string? Specification { get; set; }

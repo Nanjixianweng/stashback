@@ -32,6 +32,7 @@ namespace Stash.Project.BasicService
         {
             YitIdHelper.SetIdGenerator(new IdGeneratorOptions());
             dto.Id = YitIdHelper.NextId();
+            dto.Num = 1;
             var info = _mapper.Map<ProductDto, ProductTable>(dto);
             var res = await _product.InsertAsync(info);
             if (res == null)

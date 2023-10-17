@@ -44,6 +44,11 @@ namespace Stash.Project.Stash.BasicData.Model
         public int LowerLimitValue { get; set; }
 
         /// <summary>
+        /// 数量
+        /// </summary>
+        public int Num {  get; set; }
+
+        /// <summary>
         /// 规格
         /// </summary>
         public string? Specification { get; set; }
