@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Stash.Project.SettingDto
+namespace Stash.Project.SystemSetting.Dto.SettingDto
 {
     /// <summary>
     /// 用户表
@@ -16,32 +16,32 @@ namespace Stash.Project.SettingDto
         /// <summary>
         /// 用户名
         /// </summary>
-        public string User_Name { get; set; }
+        public string? User_Name { get; set; }
 
         /// <summary>
         /// 密码
         /// </summary>
-        public string User_Password { get; set; }
+        public string? User_Password { get; set; }
 
         /// <summary>
         /// 工号
         /// </summary>
-        public string User_JobNumber { get; set; }
+        public string? User_JobNumber { get; set; }
 
         /// <summary>
         /// 真实姓名
         /// </summary>
-        public string User_RealName { get; set; }
+        public string? User_RealName { get; set; }
 
         /// <summary>
         /// 邮箱
         /// </summary>
-        public string User_Email { get; set; }
+        public string? User_Email { get; set; }
 
         /// <summary>
         /// 手机
         /// </summary>
-        public string User_Mobilephone { get; set; }
+        public string? User_Mobilephone { get; set; }
 
         /// <summary>
         /// 登录次数
@@ -66,7 +66,7 @@ namespace Stash.Project.SettingDto
         /// <summary>
         /// 固定电话
         /// </summary>
-        public string User_Telephone { get; set; }
+        public string? User_Telephone { get; set; }
 
         /// <summary>
         /// 备注
@@ -76,11 +76,11 @@ namespace Stash.Project.SettingDto
         /// <summary>
         /// 部门id
         /// </summary>
-        public long Sector_Id { get; set; }
+        public long? Sector_Id { get; set; }
 
         /// <summary>
         /// 角色id
         /// </summary>
-        public long Role_Id { get; set; }
+        public long? Role_Id { get; set; }
     }
 }
