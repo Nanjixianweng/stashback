@@ -12,44 +12,44 @@ namespace Stash.Project.Stash.SystemSetting.Model
         /// <summary>
         /// 用户名
         /// </summary>
-#pragma warning disable CS8618 // 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑声明为可以为 null。
-        public string User_Name { get; set; }
-#pragma warning restore CS8618 // 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑声明为可以为 null。
+
+        public string? User_Name { get; set; }
+
 
         /// <summary>
         /// 密码
         /// </summary>
-#pragma warning disable CS8618 // 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑声明为可以为 null。
-        public string User_Password { get; set; }
-#pragma warning restore CS8618 // 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑声明为可以为 null。
+
+        public string? User_Password { get; set; }
+
 
         /// <summary>
         /// 工号
         /// </summary>
-#pragma warning disable CS8618 // 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑声明为可以为 null。
-        public string User_JobNumber { get; set; }
-#pragma warning restore CS8618 // 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑声明为可以为 null。
+
+        public string? User_JobNumber { get; set; }
+
 
         /// <summary>
         /// 真实姓名
         /// </summary>
-#pragma warning disable CS8618 // 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑声明为可以为 null。
-        public string User_RealName { get; set; }
-#pragma warning restore CS8618 // 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑声明为可以为 null。
+
+        public string? User_RealName { get; set; }
+
 
         /// <summary>
         /// 邮箱
         /// </summary>
-#pragma warning disable CS8618 // 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑声明为可以为 null。
-        public string User_Email { get; set; }
-#pragma warning restore CS8618 // 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑声明为可以为 null。
+
+        public string? User_Email { get; set; }
+
 
         /// <summary>
         /// 手机
         /// </summary>
-#pragma warning disable CS8618 // 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑声明为可以为 null。
-        public string User_Mobilephone { get; set; }
-#pragma warning restore CS8618 // 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑声明为可以为 null。
+
+        public string? User_Mobilephone { get; set; }
+
 
         /// <summary>
         /// 登录次数
@@ -74,16 +74,16 @@ namespace Stash.Project.Stash.SystemSetting.Model
         /// <summary>
         /// 固定电话
         /// </summary>
-#pragma warning disable CS8618 // 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑声明为可以为 null。
-        public string User_Telephone { get; set; }
-#pragma warning restore CS8618 // 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑声明为可以为 null。
+
+        public string? User_Telephone { get; set; }
+
 
         /// <summary>
         /// 备注
         /// </summary>
-#pragma warning disable CS8618 // 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑声明为可以为 null。
-        public string USer_Remarks { get; set; }
-#pragma warning restore CS8618 // 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑声明为可以为 null。
+
+        public string? USer_Remarks { get; set; }
+
 
         /// <summary>
         /// 部门id

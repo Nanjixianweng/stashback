@@ -1,4 +1,6 @@
-﻿namespace Stash.Project.SettingDto
+﻿using System.Collections.Generic;
+
+namespace Stash.Project.SystemSetting.Dto.SettingDto
 {
     /// <summary>
     /// 部门表
@@ -24,5 +26,7 @@
         /// 是否删除
         /// </summary>
         public bool Sector_IsDel { get; set; }
+
+        public List<SectorInfoDto>? Children { get; set; }
     }
 }
