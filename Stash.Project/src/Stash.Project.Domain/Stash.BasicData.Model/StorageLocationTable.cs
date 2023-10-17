@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
 
 namespace Stash.Project.Stash.BasicData.Model
@@ -28,7 +22,7 @@ namespace Stash.Project.Stash.BasicData.Model
         /// <summary>
         /// 仓库
         /// </summary>
-        public long Stash {  get; set; }
+        public long Stash { get; set; }
 
         /// <summary>
         /// 是否禁用

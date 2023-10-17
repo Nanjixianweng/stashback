@@ -1,2 +1,2 @@
 ﻿using System.Runtime.CompilerServices;
-[assembly:InternalsVisibleToAttribute("Stash.Project.Application.Tests")]
+[assembly: InternalsVisibleToAttribute("Stash.Project.Application.Tests")]

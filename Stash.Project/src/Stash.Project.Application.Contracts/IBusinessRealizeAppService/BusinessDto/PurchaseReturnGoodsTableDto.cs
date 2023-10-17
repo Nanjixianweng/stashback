@@ -1,13 +1,16 @@
 ﻿using System;
-using Volo.Abp.Domain.Entities;
 
-namespace Stash.Project.Stash.BusinessManage.Model
+namespace Stash.Project.IBusinessRealizeAppService.BusinessDto
 {
     /// <summary>
-    /// 采购退货表
+    /// 采购退货表 DTO
     /// </summary>
-    public class PurchaseReturnGoodsTable : BasicAggregateRoot<long>
+    public class PurchaseReturnGoodsTableDto
     {
+        /// <summary>
+        /// 采购表ID
+        /// </summary>
+        public long Id { get; set; }
         /// <summary>
         /// 产品Id
         /// </summary>

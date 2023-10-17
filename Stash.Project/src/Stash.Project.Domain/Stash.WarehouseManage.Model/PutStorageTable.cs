@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
 
 namespace Stash.Project.Stash.WarehouseManage.Model
@@ -10,7 +6,7 @@ namespace Stash.Project.Stash.WarehouseManage.Model
     /// <summary>
     /// 入库单表
     /// </summary>
-    public class PutStorageTable: BasicAggregateRoot<long>
+    public class PutStorageTable : BasicAggregateRoot<long>
     {
         /// <summary>
         /// 入库单类型编号
