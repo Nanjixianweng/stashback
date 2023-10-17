@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Stash.Project.Stash.BasicData.Model;
 using Stash.Project.Stash.BusinessManage.Model;
+using Stash.Project.Stash.Dictionary.Model;
 using Stash.Project.Stash.SystemSetting.Model;
 using Stash.Project.Stash.WarehouseManage.Model;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
@@ -113,6 +114,8 @@ public class ProjectDbContext :
     public DbSet<RoleUserInfo> RoleUserInfo { get; set; }
     public DbSet<SectorInfo> SectorInfo { get; set; }
     #endregion
+
+    public DbSet<DictionaryTable> DictionaryTable { get;set; }
 
     #region 基础信息
 
@@ -268,6 +271,18 @@ public class ProjectDbContext :
             x.Property(y => y.PutStorage_SumPrice).HasColumnType("decimal(32,2)").IsRequired();
             x.Property(y => y.PutStorage_Position).HasMaxLength(200).IsRequired();
         });
+
+
+        //字典表
+        builder.Entity<DictionaryTable>(x =>
+        {
+            x.ToTable("DictionaryTable");
+            x.HasKey(y => y.Id);
+            x.Property(y => y.Dictionary_Name).HasMaxLength(200).IsRequired();
+            x.Property(y => y.Dictionary_Type).HasMaxLength(200).IsRequired();
+            x.Property(y => y.Dictionary_PageType).HasMaxLength(200).IsRequired();
+        });
+
         #region 业务
         //采购表
         builder.Entity<PurchaseTable>(x =>
