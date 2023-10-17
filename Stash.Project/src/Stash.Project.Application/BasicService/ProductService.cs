@@ -28,7 +28,7 @@ namespace Stash.Project.BasicService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<ApiResult> CreateStoreAsync(ProductDto dto)
+        public async Task<ApiResult> CreateProductAsync(ProductDto dto)
         {
             YitIdHelper.SetIdGenerator(new IdGeneratorOptions());
             dto.Id = YitIdHelper.NextId();
@@ -46,7 +46,7 @@ namespace Stash.Project.BasicService
         /// </summary>
         /// <param name="productid"></param>
         /// <returns></returns>
-        public async Task<ApiResult> DeleteStoreAsync(long productid)
+        public async Task<ApiResult> DeleteProductAsync(long productid)
         {
             var res = await _product.FirstOrDefaultAsync(x => x.Id == productid);
 
@@ -74,7 +74,7 @@ namespace Stash.Project.BasicService
         /// 产品查询
         /// </summary>
         /// <returns></returns>
-        public async Task<ApiResult> GetStoreAsync()
+        public async Task<ApiResult> GetProductAsync()
         {
             var list = await _product.GetListAsync();
 
@@ -86,7 +86,7 @@ namespace Stash.Project.BasicService
         /// </summary>
         /// <param name="productid"></param>
         /// <returns></returns>
-        public async Task<ApiResult> GetStoreInfoAsync(long productid)
+        public async Task<ApiResult> GetProductInfoAsync(long productid)
         {
             var res = await _product.FirstOrDefaultAsync(x => x.Id == productid);
 
@@ -103,7 +103,7 @@ namespace Stash.Project.BasicService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public Task<ApiResult> GetStoreListAsync(ProductInquireDto dto)
+        public Task<ApiResult> GetProductListAsync(ProductInquireDto dto)
         {
             throw new NotImplementedException();
         }
@@ -114,7 +114,7 @@ namespace Stash.Project.BasicService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<ApiResult> UpdateStoreAsync(ProductDto dto)
+        public async Task<ApiResult> UpdateProductAsync(ProductDto dto)
         {
             var info = _mapper.Map<ProductDto, ProductTable>(dto);
             var res = await _product.UpdateAsync(info);

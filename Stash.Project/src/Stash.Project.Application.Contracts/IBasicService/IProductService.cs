@@ -14,40 +14,40 @@ namespace Stash.Project.IBasicService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> CreateStoreAsync(ProductDto dto);
+        Task<ApiResult> CreateProductAsync(ProductDto dto);
 
         /// <summary>
         /// 产品查询
         /// </summary>
         /// <returns></returns>
-        Task<ApiResult> GetStoreAsync();
+        Task<ApiResult> GetProductAsync();
 
         /// <summary>
         /// 产品条件查询
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> GetStoreListAsync(ProductInquireDto dto);
+        Task<ApiResult> GetProductListAsync(ProductInquireDto dto);
 
         /// <summary>
         /// 删除产品
         /// </summary>
         /// <param name="productid"></param>
         /// <returns></returns>
-        Task<ApiResult> DeleteStoreAsync(long productid);
+        Task<ApiResult> DeleteProductAsync(long productid);
 
         /// <summary>
         /// 修改产品
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> UpdateStoreAsync(ProductDto dto);
+        Task<ApiResult> UpdateProductAsync(ProductDto dto);
 
         /// <summary>
         /// 查询指定产品信息
         /// </summary>
         /// <param name="productid"></param>
         /// <returns></returns>
-        Task<ApiResult> GetStoreInfoAsync(long productid);
+        Task<ApiResult> GetProductInfoAsync(long productid);
     }
 }
