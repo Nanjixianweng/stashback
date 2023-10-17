@@ -1,4 +1,4 @@
-﻿using Stash.Project.BasicDto;
+﻿using Stash.Project.IBasicService.BasicDto;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;

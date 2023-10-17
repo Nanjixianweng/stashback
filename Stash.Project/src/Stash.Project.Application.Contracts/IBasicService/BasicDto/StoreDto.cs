@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Stash.Project.BasicDto
+namespace Stash.Project.IBasicService.BasicDto
 {
     public class StoreDto
     {
