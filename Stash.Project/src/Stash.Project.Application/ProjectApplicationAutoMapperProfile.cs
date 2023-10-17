@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Stash.Project.BasicDto;
 using Stash.Project.IBusinessRealizeAppService.BusinessDto;
+using Stash.Project.IBasicService.BasicDto;
 using Stash.Project.Stash.BasicData.Model;
 using Stash.Project.Stash.BusinessManage.Model;
 
@@ -28,5 +29,6 @@ public class ProjectApplicationAutoMapperProfile : Profile
         //销售退货表
         CreateMap<SalesReturnsTable, SalesReturnsTableDto>().ReverseMap();
         #endregion
+        CreateMap<StorageLocationDto, StorageLocationTable>().ReverseMap();
     }
 }

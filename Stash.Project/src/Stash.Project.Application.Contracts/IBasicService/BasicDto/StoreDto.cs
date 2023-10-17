@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Stash.Project.BasicDto
+namespace Stash.Project.IBasicService.BasicDto
 {
     public class StoreDto
     {

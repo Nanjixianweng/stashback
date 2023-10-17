@@ -1,4 +1,8 @@
-﻿namespace Stash.Project.BasicDto
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Stash.Project.IBasicService.BasicDto
 {
     public class StoreinquireDto
     {

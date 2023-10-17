@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Stash.Project.BasicDto;
 using Stash.Project.IBasicService;
+using Stash.Project.IBasicService.BasicDto;
 using Stash.Project.Stash.BasicData.Model;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +31,8 @@ namespace Stash.Project.BasicService
         {
             YitIdHelper.SetIdGenerator(new IdGeneratorOptions());
             dto.Id = YitIdHelper.NextId();
+            dto.DefaultrorNot = false;
+            dto.WhethertoDisable = false;
             var info = _mapper.Map<StoreDto, StoreTale>(dto);
             var res = await _store.InsertAsync(info);
             if (res == null)
@@ -47,24 +49,24 @@ namespace Stash.Project.BasicService
         /// <returns></returns>
         public async Task<ApiResult> DeleteStoreAsync(long storeid)
         {
-            await _store.DeleteAsync(storeid);
-
             var res = await _store.FirstOrDefaultAsync(x => x.Id == storeid);
 
-            if (res == null)
+            await _store.DeleteAsync(storeid);
+
+            if(res != null)
             {
                 return new ApiResult
                 {
-                    code = ResultCode.Error,
-                    msg = ResultMsg.DeleteError,
+                    code = ResultCode.Success,
+                    msg = ResultMsg.DeleteSuccess,
                     data = res
                 };
             }
 
             return new ApiResult
             {
-                code = ResultCode.Success,
-                msg = ResultMsg.DeleteSuccess,
+                code = ResultCode.Error,
+                msg = ResultMsg.DeleteError,
                 data = res
             };
 
