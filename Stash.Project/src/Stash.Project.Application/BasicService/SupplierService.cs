@@ -13,29 +13,29 @@ using Yitter.IdGenerator;
 
 namespace Stash.Project.BasicService
 {
-    public class StorageLocationService : ApplicationService, IStorageLocationService
+    public class SupplierService : ApplicationService, ISupplierService
     {
-        public readonly IRepository<StorageLocationTable, long> _storage;
+        public readonly IRepository<SupplierTable, long> _supplier;
         public readonly IMapper _mapper;
 
-        public StorageLocationService(IRepository<StorageLocationTable, long> storage, IMapper mapper)
+        public SupplierService(IMapper mapper,IRepository<SupplierTable,long> supplier)
         {
-            _storage = storage;
             _mapper = mapper;
+            _supplier = supplier;
         }
 
         /// <summary>
-        /// 库位新增
+        /// 供应商新增
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<ApiResult> CreateStorageLocationAsync(StorageLocationDto dto)
+        public async Task<ApiResult> CreateSupplierAsync(SupplierDto dto)
         {
             YitIdHelper.SetIdGenerator(new IdGeneratorOptions());
             dto.Id = YitIdHelper.NextId();
-            dto.CreationTime = DateTime.Now;
-            var info = _mapper.Map<StorageLocationDto, StorageLocationTable>(dto);
-            var res = await _storage.InsertAsync(info);
+            dto.CreationTime  = DateTime.Now;
+            var info = _mapper.Map<SupplierDto, SupplierTable>(dto);
+            var res = await _supplier.InsertAsync(info);
             if (res == null)
             {
                 return new ApiResult { code = ResultCode.Error, msg = ResultMsg.AddError, data = res };
@@ -44,15 +44,15 @@ namespace Stash.Project.BasicService
         }
 
         /// <summary>
-        /// 删除库位
+        /// 删除供应商
         /// </summary>
-        /// <param name="storageid"></param>
+        /// <param name="supplierid"></param>
         /// <returns></returns>
-        public async Task<ApiResult> DeleteStorageLocationAsync(long storageid)
+        public async Task<ApiResult> DeleteSupplierAsync(long supplierid)
         {
-            var res = await _storage.FirstOrDefaultAsync(x => x.Id == storageid);
-
-            await _storage.DeleteAsync(storageid);
+            var res = await _supplier.FirstOrDefaultAsync(x => x.Id == supplierid);
+            
+            await _supplier.DeleteAsync(supplierid);
 
             if (res != null)
             {
@@ -73,13 +73,13 @@ namespace Stash.Project.BasicService
         }
 
         /// <summary>
-        /// 查询指定库位信息
+        /// 查询指定供应商信息
         /// </summary>
-        /// <param name="storageid"></param>
+        /// <param name="supplierid"></param>
         /// <returns></returns>
-        public async Task<ApiResult> GetStorageLocationInfoAsync(long storageid)
+        public async Task<ApiResult> GetSupplierInfoAsync(long supplierid)
         {
-            var res = await _storage.FirstOrDefaultAsync(x => x.Id == storageid);
+            var res = await _supplier.FirstOrDefaultAsync(x => x.Id == supplierid);
 
             return new ApiResult
             {
@@ -90,16 +90,17 @@ namespace Stash.Project.BasicService
         }
 
         /// <summary>
-        /// 库位条件查询
+        /// 供应商条件查询
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<ApiResult> CreateStorageLocationListAsync(StorageLocationinquireDto dto)
+        public async Task<ApiResult> CreateSupplierListAsync(SupplierInquireDto dto)
         {
-            var list = (await _storage.GetListAsync())
-                .WhereIf(dto.storagelocationid != 0, x => x.Id == dto.storagelocationid)
-                .WhereIf(!string.IsNullOrEmpty(dto.storagelocationname), x => x.LibraryLocationName.Contains(dto.storagelocationname))
-                .WhereIf(dto.storeid != 0, x => x.Stash == dto.storeid);
+            var list = (await _supplier.GetListAsync())
+                .WhereIf(dto.supplierid != 0, x => x.Id == dto.supplierid)
+                .WhereIf(!string.IsNullOrEmpty(dto.suppliername), x => x.SupplierName.Contains(dto.suppliername))
+                .WhereIf(dto.suppliertype != 0, x => x.SupplierType == dto.suppliertype)
+                .WhereIf(!string.IsNullOrEmpty(dto.telephone),x=>x.Telephone.Contains(dto.telephone));
 
 
             var totalcount = list.Count();
@@ -114,14 +115,14 @@ namespace Stash.Project.BasicService
         }
 
         /// <summary>
-        /// 修改库位
+        /// 修改供应商
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<ApiResult> UpdateStorageLocationAsync(StorageLocationDto dto)
-        { 
-            var info = _mapper.Map<StorageLocationDto, StorageLocationTable>(dto);
-            var res = await _storage.UpdateAsync(info);
+        public async Task<ApiResult> UpdateSupplierAsync(SupplierDto dto)
+        {
+            var info = _mapper.Map<SupplierDto, SupplierTable>(dto);
+            var res = await _supplier.UpdateAsync(info);
             if (res == null)
             {
                 return new ApiResult { code = ResultCode.Error, msg = ResultMsg.UpdateError, data = res };
@@ -130,12 +131,12 @@ namespace Stash.Project.BasicService
         }
 
         /// <summary>
-        /// 库位查询
+        /// 供应商查询
         /// </summary>
         /// <returns></returns>
-        public async Task<ApiResult> GetStorageLocationAsync()
+        public async Task<ApiResult> GetSupplierAsync()
         {
-            var list = await _storage.GetListAsync();
+            var list = await _supplier.GetListAsync();
 
             return new ApiResult { code = ResultCode.Success, msg = ResultMsg.RequestSuccess, data = list };
         }

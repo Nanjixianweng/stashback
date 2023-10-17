@@ -1,52 +1,53 @@
-﻿
-using Stash.Project.IBasicService.BasicDto;
+﻿using Stash.Project.IBasicService.BasicDto;
+using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 
 namespace Stash.Project.IBasicService
 {
-    public interface IStoreService : IApplicationService
+    public interface IProductService : IApplicationService
     {
         /// <summary>
-        /// 仓库新增
+        /// 产品新增
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> CreateStoreAsync(StoreDto dto);
+        Task<ApiResult> CreateStoreAsync(ProductDto dto);
 
         /// <summary>
-        /// 仓库查询
+        /// 产品查询
         /// </summary>
         /// <returns></returns>
         Task<ApiResult> GetStoreAsync();
 
         /// <summary>
-        /// 仓库条件查询
+        /// 产品条件查询
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> CreateStoreListAsync(StoreinquireDto dto);
+        Task<ApiResult> GetStoreListAsync(ProductInquireDto dto);
 
         /// <summary>
-        /// 删除仓库
+        /// 删除产品
         /// </summary>
-        /// <param name="storeid"></param>
+        /// <param name="productid"></param>
         /// <returns></returns>
-        Task<ApiResult> DeleteStoreAsync(long storeid);
+        Task<ApiResult> DeleteStoreAsync(long productid);
 
         /// <summary>
-        /// 修改仓库
+        /// 修改产品
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> UpdateStoreAsync(StoreDto dto);
+        Task<ApiResult> UpdateStoreAsync(ProductDto dto);
 
         /// <summary>
-        /// 查询指定仓库信息
+        /// 查询指定产品信息
         /// </summary>
-        /// <param name="storeid"></param>
+        /// <param name="productid"></param>
         /// <returns></returns>
-        Task<ApiResult> GetStoreInfoAsync(long storeid);
+        Task<ApiResult> GetStoreInfoAsync(long productid);
     }
 }
