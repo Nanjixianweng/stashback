@@ -5,7 +5,7 @@ namespace Stash.Project.ISystemSetting.SettingDto
     /// <summary>
     /// 用户表
     /// </summary>
-    public class UserInfoDto
+    public class UserInfoCreateDto
     {
 
         /// <summary>
@@ -79,18 +79,9 @@ namespace Stash.Project.ISystemSetting.SettingDto
         public long? Sector_Id { get; set; }
 
         /// <summary>
-        /// 部门名称
-        /// </summary>
-        public string Sector_Name { get; set; }
-
-        /// <summary>
         /// 角色id
         /// </summary>
         public long? Role_Id { get; set; }
 
-        /// <summary>
-        /// 角色名称
-        /// </summary>
-        public string Role_Name { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using Stash.Project.ISystemSetting;
 using Stash.Project.ISystemSetting.SettingDto;
 using Stash.Project.Stash.SystemSetting.Model;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,11 +33,11 @@ namespace Stash.Project.SettingService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<ApiResult> CreateUserAsync(UserInfoDto dto)
+        public async Task<ApiResult> CreateUserAsync(UserInfoCreateDto dto)
         {
             YitIdHelper.SetIdGenerator(new IdGeneratorOptions());
             dto.Id = YitIdHelper.NextId();
-            var info = _mapper.Map<UserInfoDto, UserInfo>(dto);
+            var info = _mapper.Map<UserInfoCreateDto, UserInfo>(dto);
             var res = await _user.InsertAsync(info);
             return new ApiResult
             {
@@ -194,9 +195,9 @@ namespace Stash.Project.SettingService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<ApiResult> UpdateUserAsync(UserInfoDto dto)
+        public async Task<ApiResult> UpdateUserAsync(UserInfoCreateDto dto)
         {
-            var info = _mapper.Map<UserInfoDto, UserInfo>(dto);
+            var info = _mapper.Map<UserInfoCreateDto, UserInfo>(dto);
             var res = await _user.UpdateAsync(info);
             return new ApiResult
             {

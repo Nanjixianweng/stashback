@@ -3,6 +3,8 @@ using Stash.Project.IBusinessRealizeAppService.BusinessDto;
 using Stash.Project.IBasicService.BasicDto;
 using Stash.Project.Stash.BasicData.Model;
 using Stash.Project.Stash.BusinessManage.Model;
+using Stash.Project.ISystemSetting.SettingDto;
+using Stash.Project.Stash.SystemSetting.Model;
 
 namespace Stash.Project;
 
@@ -35,5 +37,14 @@ public class ProjectApplicationAutoMapperProfile : Profile
         CreateMap<ProductDto, ProductTable>().ReverseMap();
         CreateMap<ContactDto, ContactTable>().ReverseMap();
         CreateMap<CustomerDto, CustomerTable>().ReverseMap();
+
+        #region 系统设置模块
+        CreateMap<AccessInfoDto, AccessInfo>().ReverseMap();
+        CreateMap<RoleAccessInfoDto, RoleAccessInfo>().ReverseMap();
+        CreateMap<RoleInfoDto, RoleInfo>().ReverseMap();
+        CreateMap<RoleUserInfoDto, RoleUserInfo>().ReverseMap();
+        CreateMap<UserInfoQueryDto, UserInfo>().ReverseMap();
+        CreateMap<UserInfoCreateDto, UserInfo>().ReverseMap();
+        #endregion
     }
 }

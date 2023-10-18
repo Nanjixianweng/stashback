@@ -24,7 +24,7 @@ namespace Stash.Project.ISystemSetting
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> CreateUserAsync(UserInfoDto dto);
+        Task<ApiResult> CreateUserAsync(UserInfoCreateDto dto);
 
         /// <summary>
         /// 用户列表查询
@@ -45,7 +45,7 @@ namespace Stash.Project.ISystemSetting
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> UpdateUserAsync(UserInfoDto dto);
+        Task<ApiResult> UpdateUserAsync(UserInfoCreateDto dto);
 
         /// <summary>
         /// 逻辑删除用户
