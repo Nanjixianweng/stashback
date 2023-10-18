@@ -31,7 +31,7 @@ namespace Stash.Project.ISystemSetting
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> GetUserListAsync(string? userName, string? jobNember, long sectorId, long roleId);
+        Task<ApiResult> GetUserListAsync(string? userName, string? jobNember, long sectorId, long roleId,int pageIndex,int pageSize);
 
         /// <summary>
         /// 用户信息反填

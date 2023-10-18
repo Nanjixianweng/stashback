@@ -144,7 +144,7 @@ namespace Stash.Project.SettingService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<ApiResult> GetUserListAsync(string? userName, string? jobNember, long sectorId, long roleId)
+        public async Task<ApiResult> GetUserListAsync(string? userName, string? jobNember, long sectorId, long roleId, int pageIndex, int pageSize)
         {
             var user = await _user.GetListAsync();
             var role = await _role.GetListAsync();
@@ -176,18 +176,16 @@ namespace Stash.Project.SettingService
                            role_Id = u.Role_Id,
                            role_Name = r.Role_Name
                        };
+            int dataCount = list.Count();
 
-            //var list = (await _user.ToListAsync())
-            //    .WhereIf(!string.IsNullOrWhiteSpace(userName), x => x.User_RealName.Contains(userName))
-            //    .WhereIf(!string.IsNullOrWhiteSpace(jobNember), x => x.User_JobNumber.Contains(jobNember))
-            //    .WhereIf(Sector_Id != 0, x => x.Sector_Id == Sector_Id)
-            //    .WhereIf(Role_Id != 0, x => x.Role_Id == Role_Id);
+            list = list.Skip((pageIndex - 1) * pageSize).Take(pageSize);
 
             return new ApiResult
             {
                 code = ResultCode.Success,
                 msg = ResultMsg.RequestSuccess,
-                data = list
+                data = list,
+                count = dataCount,
             };
         }
 
