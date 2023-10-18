@@ -82,7 +82,7 @@ namespace Stash.Project.Stash.SystemSetting.Model
         /// 备注
         /// </summary>
 
-        public string? USer_Remarks { get; set; }
+        public string? User_Remarks { get; set; }
 
 
         /// <summary>

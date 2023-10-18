@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Stash.Project.SystemSetting.Dto.SettingDto
+namespace Stash.Project.ISystemSetting.SettingDto
 {
     /// <summary>
     /// 权限表

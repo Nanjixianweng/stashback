@@ -1,19 +1,19 @@
-﻿namespace Stash.Project.SystemSetting.Dto.SettingDto
+﻿namespace Stash.Project.ISystemSetting.SettingDto
 {
     /// <summary>
-    /// 角色权限表
+    /// 角色用户表
     /// </summary>
-    public class RoleAccessInfoDto
+    public class RoleUserInfoDto
     {
         /// <summary>
-        /// 角色权限编号
+        /// 角色用户编号
         /// </summary>
         public long Id { get; set; }
 
         /// <summary>
-        /// 权限id
+        /// 用户id
         /// </summary>
-        public long Access_Id { get; set; }
+        public long User_Id { get; set; }
 
         /// <summary>
         /// 角色id

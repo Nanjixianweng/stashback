@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Stash.Project.SystemSetting.Dto.SettingDto
+namespace Stash.Project.ISystemSetting.SettingDto
 {
     /// <summary>
     /// 用户表
@@ -71,7 +71,7 @@ namespace Stash.Project.SystemSetting.Dto.SettingDto
         /// <summary>
         /// 备注
         /// </summary>
-        public string USer_Remarks { get; set; }
+        public string User_Remarks { get; set; }
 
         /// <summary>
         /// 部门id
@@ -79,8 +79,18 @@ namespace Stash.Project.SystemSetting.Dto.SettingDto
         public long? Sector_Id { get; set; }
 
         /// <summary>
+        /// 部门名称
+        /// </summary>
+        public string Sector_Name { get; set; }
+
+        /// <summary>
         /// 角色id
         /// </summary>
         public long? Role_Id { get; set; }
+
+        /// <summary>
+        /// 角色名称
+        /// </summary>
+        public string Role_Name { get; set; }
     }
 }

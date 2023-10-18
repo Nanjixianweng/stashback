@@ -1,9 +1,9 @@
-﻿using Stash.Project.SystemSetting.Dto.SettingDto;
+﻿using Stash.Project.ISystemSetting.SettingDto;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 
-namespace Stash.Project.SystemSetting.ISettingService
+namespace Stash.Project.ISystemSetting
 {
     public interface IRBACService : IApplicationService
     {
@@ -11,13 +11,13 @@ namespace Stash.Project.SystemSetting.ISettingService
         /// 部门列表
         /// </summary>
         /// <returns></returns>
-        Task<List<SectorInfoDto>> GetSectorListAsync(long? fid);
+        Task<ApiResult> GetSectorListAsync(long? fid);
 
         /// <summary>
         /// 角色列表
         /// </summary>
         /// <returns></returns>
-        Task<List<RoleInfoDto>> GetRoleListAsync();
+        Task<ApiResult> GetRoleListAsync();
 
         /// <summary>
         /// 新增用户
@@ -31,7 +31,7 @@ namespace Stash.Project.SystemSetting.ISettingService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> GetUserListAsync(string? userName, string? jobNember, long Sector_Id, long Role_Id);
+        Task<ApiResult> GetUserListAsync(string? userName, string? jobNember, long sectorId, long roleId);
 
         /// <summary>
         /// 用户信息反填

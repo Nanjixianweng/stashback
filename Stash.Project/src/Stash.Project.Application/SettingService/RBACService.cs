@@ -1,17 +1,16 @@
 ﻿using AutoMapper;
+using Stash.Project.ISystemSetting;
+using Stash.Project.ISystemSetting.SettingDto;
 using Stash.Project.Stash.SystemSetting.Model;
-using Stash.Project.SystemSetting.Dto.SettingDto;
-using Stash.Project.SystemSetting.ISettingService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
-using Volo.Abp.ObjectMapping;
 using Yitter.IdGenerator;
 
-namespace Stash.Project.SystemSetting.SettingService
+namespace Stash.Project.SettingService
 {
     public class RBACService : ApplicationService, IRBACService
     {
@@ -92,16 +91,19 @@ namespace Stash.Project.SystemSetting.SettingService
             };
         }
 
-
-
         /// <summary>
         /// 角色列表
         /// </summary>
         /// <returns></returns>
-        public async Task<List<RoleInfoDto>> GetRoleListAsync()
+        public async Task<ApiResult> GetRoleListAsync()
         {
             var list = await _role.ToListAsync();
-            return ObjectMapper.Map<List<RoleInfo>, List<RoleInfoDto>>(list);
+            return new ApiResult
+            {
+                code = ResultCode.Success,
+                msg = ResultMsg.RequestSuccess,
+                data = list
+            };
         }
 
         /// <summary>
@@ -109,11 +111,16 @@ namespace Stash.Project.SystemSetting.SettingService
         /// </summary>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<List<SectorInfoDto>> GetSectorListAsync(long? fid = 0)
+        public async Task<ApiResult> GetSectorListAsync(long? fid = 0)
         {
             var list = (await _sector.ToListAsync())
                 .WhereIf(fid != 0, x => x.Sector_FatherId == fid);
-            return ObjectMapper.Map<List<SectorInfo>, List<SectorInfoDto>>((List<SectorInfo>)list);
+            return new ApiResult
+            {
+                code = ResultCode.Success,
+                msg = ResultMsg.RequestSuccess,
+                data = list
+            };
         }
 
         /// <summary>
@@ -137,19 +144,50 @@ namespace Stash.Project.SystemSetting.SettingService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<ApiResult> GetUserListAsync(string? userName, string? jobNember, long Sector_Id, long Role_Id)
+        public async Task<ApiResult> GetUserListAsync(string? userName, string? jobNember, long sectorId, long roleId)
         {
-            var list = (await _user.ToListAsync())
-                .WhereIf(!string.IsNullOrWhiteSpace(userName), x => x.User_RealName.Contains(userName))
-                .WhereIf(!string.IsNullOrWhiteSpace(jobNember), x => x.User_JobNumber.Contains(jobNember))
-                .WhereIf(Sector_Id != 0, x => x.Sector_Id == Sector_Id)
-                .WhereIf(Role_Id != 0, x => x.Role_Id == Role_Id);
+            var user = await _user.GetListAsync();
+            var role = await _role.GetListAsync();
+            var sector = await _sector.GetListAsync();
+            var list = from u in user
+                       join r in role on u.Role_Id equals r.Id
+                       join s in sector on u.Sector_Id equals s.Id
+                       where (string.IsNullOrWhiteSpace(userName) || u.User_RealName.Contains(userName))
+                        && (string.IsNullOrWhiteSpace(jobNember) || u.User_JobNumber.Contains(jobNember))
+                        && (sectorId == 0 || u.Sector_Id == sectorId)
+                        && (roleId == 0 || u.Role_Id == roleId)
+                       select new
+                       {
+                           id = u.Id,
+                           user_Name = u.User_Name,
+                           user_Password = u.User_Password,
+                           user_JobNumber = u.User_JobNumber,
+                           user_RealName = u.User_RealName,
+                           user_Email = u.User_Email,
+                           user_Mobilephone = u.User_Mobilephone,
+                           user_LoginNum = u.User_LoginNum,
+                           user_IsLock = u.User_IsLock,
+                           user_IsDel = u.User_IsDel,
+                           user_CreateTime = u.User_CreateTime,
+                           user_Telephone = u.User_Telephone,
+                           user_Remarks = u.User_Remarks,
+                           sector_Id = u.Sector_Id,
+                           sector_Name = s.Sector_Name,
+                           role_Id = u.Role_Id,
+                           role_Name = r.Role_Name
+                       };
+
+            //var list = (await _user.ToListAsync())
+            //    .WhereIf(!string.IsNullOrWhiteSpace(userName), x => x.User_RealName.Contains(userName))
+            //    .WhereIf(!string.IsNullOrWhiteSpace(jobNember), x => x.User_JobNumber.Contains(jobNember))
+            //    .WhereIf(Sector_Id != 0, x => x.Sector_Id == Sector_Id)
+            //    .WhereIf(Role_Id != 0, x => x.Role_Id == Role_Id);
+
             return new ApiResult
             {
                 code = ResultCode.Success,
                 msg = ResultMsg.RequestSuccess,
-                data = list,
-                count = 0
+                data = list
             };
         }
 
