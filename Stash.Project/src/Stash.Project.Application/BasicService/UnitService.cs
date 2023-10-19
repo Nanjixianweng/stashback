@@ -93,7 +93,7 @@ namespace Stash.Project.BasicService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<ApiResult> CreateUnitListAsync(UnitInquireDto dto)
+        public async Task<ApiResult> GetUnitListAsync(UnitInquireDto dto)
         {
             var list = (await _unit.GetListAsync())
                 .WhereIf(dto.unitnumber != 0, x => x.Id == dto.unitnumber)
@@ -102,13 +102,9 @@ namespace Stash.Project.BasicService
 
             var totalcount = list.Count();
 
-            list = list.Skip((dto.pageIndex - 1) * dto.pageSize).Take(dto.pageSize).ToList();
+            var res = list.Skip((dto.pageIndex - 1) * dto.pageSize).Take(dto.pageSize).ToList();
 
-            if (list == null)
-            {
-                return new ApiResult { code = ResultCode.Error, msg = ResultMsg.RequestError, data = list, count = totalcount };
-            }
-            return new ApiResult { code = ResultCode.Success, msg = ResultMsg.RequestSuccess, data = list, count = totalcount };
+            return new ApiResult { code = ResultCode.Success, msg = ResultMsg.RequestSuccess, data = res, count = totalcount };
         }
 
         /// <summary>

@@ -27,7 +27,7 @@ namespace Stash.Project.IBasicService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> CreateSupplierListAsync(SupplierInquireDto dto);
+        Task<ApiResult> GetSupplierListAsync(SupplierInquireDto dto);
 
         /// <summary>
         /// 删除供应商

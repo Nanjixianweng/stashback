@@ -27,7 +27,7 @@ namespace Stash.Project.IBasicService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> CreateUnitListAsync(UnitInquireDto dto);
+        Task<ApiResult> GetUnitListAsync(UnitInquireDto dto);
 
         /// <summary>
         /// 删除单位
