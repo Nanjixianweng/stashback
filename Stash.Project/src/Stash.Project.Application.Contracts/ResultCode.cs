@@ -2,7 +2,7 @@
 {
     public class ResultCode
     {
-        public const int Success = 200;
+        public const int Success = 0;
 
         public const int Error = 500;
     }

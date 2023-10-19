@@ -21,7 +21,7 @@ namespace Stash.Project.IBasicService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> CreateProductCategoryListAsync(ProductCategoryInquireDto dto);
+        Task<ApiResult> GetProductCategoryListAsync(ProductCategoryInquireDto dto);
 
         /// <summary>
         /// 产品类别查询

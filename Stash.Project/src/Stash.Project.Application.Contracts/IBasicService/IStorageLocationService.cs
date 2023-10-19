@@ -21,7 +21,7 @@ namespace Stash.Project.IBasicService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> CreateStorageLocationListAsync(StorageLocationinquireDto dto);
+        Task<ApiResult> GetStorageLocationListAsync(StorageLocationinquireDto dto);
 
         /// <summary>
         /// 库位查询
