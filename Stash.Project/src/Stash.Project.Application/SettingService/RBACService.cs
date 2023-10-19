@@ -36,9 +36,15 @@ namespace Stash.Project.SettingService
         public async Task<ApiResult> CreateUserAsync(UserInfoCreateDto dto)
         {
             YitIdHelper.SetIdGenerator(new IdGeneratorOptions());
+
             dto.Id = YitIdHelper.NextId();
+
+            dto.User_JobNumber=DateTime.Now.ToString("yyyyMMddHHmmss");
+
             var info = _mapper.Map<UserInfoCreateDto, UserInfo>(dto);
+
             var res = await _user.InsertAsync(info);
+
             return new ApiResult
             {
                 code = ResultCode.Success,
@@ -46,7 +52,6 @@ namespace Stash.Project.SettingService
                 data = res
             };
         }
-
         /// <summary>
         /// 删除角色
         /// </summary>
@@ -145,7 +150,7 @@ namespace Stash.Project.SettingService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<ApiResult> GetUserListAsync(string? userName, string? jobNember, long sectorId, long roleId)
+        public async Task<ApiResult> GetUserListAsync(string? userName, string? jobNember, long?sectorId, long?roleId, int pageIndex, int pageSize)
         {
             var user = await _user.GetListAsync();
             var role = await _role.GetListAsync();
@@ -155,8 +160,9 @@ namespace Stash.Project.SettingService
                        join s in sector on u.Sector_Id equals s.Id
                        where (string.IsNullOrWhiteSpace(userName) || u.User_RealName.Contains(userName))
                         && (string.IsNullOrWhiteSpace(jobNember) || u.User_JobNumber.Contains(jobNember))
-                        && (sectorId == 0 || u.Sector_Id == sectorId)
-                        && (roleId == 0 || u.Role_Id == roleId)
+                        && (sectorId == 0|| sectorId==null || u.Sector_Id == sectorId)
+                        && (roleId == 0 || roleId==null || u.Role_Id == roleId)
+                        && u.User_IsDel==false
                        select new
                        {
                            id = u.Id,
@@ -177,18 +183,16 @@ namespace Stash.Project.SettingService
                            role_Id = u.Role_Id,
                            role_Name = r.Role_Name
                        };
+            int dataCount = list.Count();
 
-            //var list = (await _user.ToListAsync())
-            //    .WhereIf(!string.IsNullOrWhiteSpace(userName), x => x.User_RealName.Contains(userName))
-            //    .WhereIf(!string.IsNullOrWhiteSpace(jobNember), x => x.User_JobNumber.Contains(jobNember))
-            //    .WhereIf(Sector_Id != 0, x => x.Sector_Id == Sector_Id)
-            //    .WhereIf(Role_Id != 0, x => x.Role_Id == Role_Id);
+            list = list.Skip((pageIndex - 1) * pageSize).Take(pageSize);
 
             return new ApiResult
             {
                 code = ResultCode.Success,
                 msg = ResultMsg.RequestSuccess,
-                data = list
+                data = list,
+                count = dataCount,
             };
         }
 
@@ -206,6 +210,32 @@ namespace Stash.Project.SettingService
                 code = ResultCode.Success,
                 msg = ResultMsg.UpdateSuccess,
                 data = res
+            };
+        }
+        /// <summary>
+        /// 批量删除用户
+        /// </summary>
+        /// <param name="Ids">字符编号</param>
+        /// <returns></returns>
+        public async Task<ApiResult> DeleteBatchAsync(string Ids)
+        {
+            var id = Ids.Split(',');
+
+            foreach (var item in id)
+            {
+                var obj = await _user.FirstOrDefaultAsync(x=>x.Id==Convert.ToInt64(item));
+
+                obj.User_IsDel = true;
+
+                _user.UpdateAsync(obj);
+            }
+
+            return new ApiResult()
+            {
+                code = ResultCode.Success,
+                count = 0,
+                data = null,
+                msg = ResultMsg.RequestSuccess
             };
         }
     }
