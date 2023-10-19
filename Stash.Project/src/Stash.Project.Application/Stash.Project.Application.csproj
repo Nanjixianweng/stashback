@@ -6,6 +6,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <RootNamespace>Stash.Project</RootNamespace>
+    <UserSecretsId>d8af0bc0-bb4d-45e0-88a8-982db793f8f3</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

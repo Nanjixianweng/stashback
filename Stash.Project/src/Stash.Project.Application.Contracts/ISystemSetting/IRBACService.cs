@@ -74,5 +74,45 @@ namespace Stash.Project.ISystemSetting
         ///// <returns></returns>
         //Task<ApiResult> GetUserAccessAsync(long uid);
 
+        #region 部门CRUD
+
+        /// <summary>
+        /// 新增部门
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        Task<ApiResult> CreateSectorAsync(SectorInfoDto dto);
+
+        /// <summary>
+        /// 部门查询
+        /// </summary>
+        /// <param name="sectorName"></param>
+        /// <param name="remark"></param>
+        /// <returns></returns>
+        Task<ApiResult> QuerySectorAsync(string? sectorName, string? remark);
+
+        /// <summary>
+        /// 部门信息反填
+        /// </summary>
+        /// <param name="sid"></param>
+        /// <returns></returns>
+        Task<ApiResult> GetSectorInfoAsync(long sid);
+
+        /// <summary>
+        /// 编辑部门
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        Task<ApiResult> UpdateSectorAsync(SectorInfoDto dto);
+
+        /// <summary>
+        /// 删除部门
+        /// </summary>
+        /// <param name="sid"></param>
+        /// <returns></returns>
+        Task<ApiResult> DeleteSectorAsync(long sid);
+
+        #endregion
+
     }
 }

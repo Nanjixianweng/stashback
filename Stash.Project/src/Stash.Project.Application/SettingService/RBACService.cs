@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Stash.Project.ISystemSetting;
 using Stash.Project.ISystemSetting.SettingDto;
 using Stash.Project.Stash.SystemSetting.Model;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
@@ -42,7 +41,7 @@ namespace Stash.Project.SettingService
 
             dto.Id = YitIdHelper.NextId();
 
-            dto.User_JobNumber=DateTime.Now.ToString("yyyyMMddHHmmss");
+            dto.User_JobNumber = DateTime.Now.ToString("yyyyMMddHHmmss");
 
             var info = _mapper.Map<UserInfoCreateDto, UserInfo>(dto);
 
@@ -55,6 +54,7 @@ namespace Stash.Project.SettingService
                 data = res
             };
         }
+
         /// <summary>
         /// 删除角色
         /// </summary>
@@ -81,6 +81,7 @@ namespace Stash.Project.SettingService
                 };
             }
         }
+
         /// <summary>
         /// 逻辑删除用户
         /// </summary>
@@ -99,7 +100,6 @@ namespace Stash.Project.SettingService
             };
         }
 
-        
 
         /// <summary>
         /// 角色列表
@@ -115,6 +115,7 @@ namespace Stash.Project.SettingService
                 data = list
             };
         }
+
         /// <summary>
         /// 部门列表
         /// </summary>
@@ -131,7 +132,6 @@ namespace Stash.Project.SettingService
                 data = list
             };
         }
-
 
         /// <summary>
         /// 用户信息反填
@@ -154,7 +154,7 @@ namespace Stash.Project.SettingService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<ApiResult> GetUserListAsync(string? userName, string? jobNember, long?sectorId, long?roleId, int pageIndex, int pageSize)
+        public async Task<ApiResult> GetUserListAsync(string? userName, string? jobNember, long? sectorId, long? roleId, int pageIndex, int pageSize)
         {
             var user = await _user.GetListAsync();
             var role = await _role.GetListAsync();
@@ -164,9 +164,9 @@ namespace Stash.Project.SettingService
                        join s in sector on u.Sector_Id equals s.Id
                        where (string.IsNullOrWhiteSpace(userName) || u.User_RealName.Contains(userName))
                         && (string.IsNullOrWhiteSpace(jobNember) || u.User_JobNumber.Contains(jobNember))
-                        && (sectorId == 0|| sectorId==null || u.Sector_Id == sectorId)
-                        && (roleId == 0 || roleId==null || u.Role_Id == roleId)
-                        && u.User_IsDel==false
+                        && (sectorId == 0 || sectorId == null || u.Sector_Id == sectorId)
+                        && (roleId == 0 || roleId == null || u.Role_Id == roleId)
+                        && u.User_IsDel == false
                        select new
                        {
                            id = u.Id,
@@ -216,6 +216,7 @@ namespace Stash.Project.SettingService
                 data = res
             };
         }
+
         /// <summary>
         /// 批量删除用户
         /// </summary>
@@ -227,7 +228,7 @@ namespace Stash.Project.SettingService
 
             foreach (var item in id)
             {
-                var obj = await _user.FirstOrDefaultAsync(x=>x.Id==Convert.ToInt64(item));
+                var obj = await _user.FirstOrDefaultAsync(x => x.Id == Convert.ToInt64(item));
 
                 obj.User_IsDel = true;
 
@@ -242,7 +243,6 @@ namespace Stash.Project.SettingService
                 msg = ResultMsg.RequestSuccess
             };
         }
-
 
         ///// <summary>
         ///// 获取用户权限列表
@@ -303,5 +303,102 @@ namespace Stash.Project.SettingService
         //    return list.ToList();
         //}
 
+        #region 部门CRUD
+
+        /// <summary>
+        /// 新增部门
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<ApiResult> CreateSectorAsync(SectorInfoDto dto)
+        {
+            YitIdHelper.SetIdGenerator(new IdGeneratorOptions());
+            dto.Id = YitIdHelper.NextId();
+            dto.Sector_CreateTime = DateTime.Now;
+            dto.Sector_Remark = dto.Sector_CreateTime.ToString("yyyyMMdd") + "-" + dto.Sector_Name + "-" + dto.Sector_FatherId;
+            dto.Sector_IsDel = false;
+            var info = ObjectMapper.Map<SectorInfoDto, SectorInfo>(dto);
+            var res = await _sector.InsertAsync(info);
+
+            return new ApiResult
+            {
+                code = ResultCode.Success,
+                msg = ResultMsg.AddSuccess,
+                data = res
+            };
+        }
+
+        /// <summary>
+        /// 部门查询
+        /// </summary>
+        /// <param name="sectorName"></param>
+        /// <param name="remark"></param>
+        /// <returns></returns>
+        public async Task<ApiResult> QuerySectorAsync(string? sectorName, string? remark)
+        {
+            var list = (await _sector.ToListAsync())
+                .WhereIf(!string.IsNullOrWhiteSpace(sectorName), x => x.Sector_Name.Contains(sectorName))
+                .WhereIf(!string.IsNullOrWhiteSpace(remark), x => x.Sector_Remark.Contains(remark));
+            return new ApiResult
+            {
+                code = ResultCode.Success,
+                msg = ResultMsg.RequestSuccess,
+                data = list,
+                count = 0,
+            };
+        }
+
+        /// <summary>
+        /// 部门信息反填
+        /// </summary>
+        /// <param name="sid"></param>
+        /// <returns></returns>
+        public async Task<ApiResult> GetSectorInfoAsync(long sid)
+        {
+            var info = await _sector.FirstOrDefaultAsync(x => x.Id == sid);
+            return new ApiResult
+            {
+                code = ResultCode.Success,
+                msg = ResultMsg.RequestSuccess,
+                data = info
+            };
+        }
+
+        /// <summary>
+        /// 编辑部门
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<ApiResult> UpdateSectorAsync(SectorInfoDto dto)
+        {
+            var info = ObjectMapper.Map<SectorInfoDto, SectorInfo>(dto);
+            var res = await _sector.UpdateAsync(info);
+            return new ApiResult
+            {
+                code = ResultCode.Success,
+                msg = ResultMsg.UpdateSuccess,
+                data = res
+            };
+        }
+
+        /// <summary>
+        /// 删除部门
+        /// </summary>
+        /// <param name="sid"></param>
+        /// <returns></returns>
+        public async Task<ApiResult> DeleteSectorAsync(long sid)
+        {
+            var info = await _sector.FirstOrDefaultAsync(x => x.Id == sid);
+            info.Sector_IsDel = true;
+            var res = await _sector.UpdateAsync(info);
+            return new ApiResult
+            {
+                code = ResultCode.Success,
+                msg = ResultMsg.DeleteSuccess,
+                data = res
+            };
+        }
+
+        #endregion 部门CRUD
     }
 }

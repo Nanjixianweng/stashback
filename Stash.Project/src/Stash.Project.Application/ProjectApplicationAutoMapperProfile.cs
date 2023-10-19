@@ -45,6 +45,7 @@ public class ProjectApplicationAutoMapperProfile : Profile
         CreateMap<RoleUserInfoDto, RoleUserInfo>().ReverseMap();
         CreateMap<UserInfoQueryDto, UserInfo>().ReverseMap();
         CreateMap<UserInfoCreateDto, UserInfo>().ReverseMap();
+        CreateMap<SectorInfoDto, SectorInfo>().ReverseMap();
         #endregion
     }
 }
