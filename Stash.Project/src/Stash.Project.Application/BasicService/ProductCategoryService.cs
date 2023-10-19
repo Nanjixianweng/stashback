@@ -94,7 +94,7 @@ namespace Stash.Project.BasicService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<ApiResult> CreateProductCategoryListAsync(ProductCategoryInquireDto dto)
+        public async Task<ApiResult> GetProductCategoryListAsync(ProductCategoryInquireDto dto)
         {
             var list = (await _productcategory.GetListAsync())
                 .WhereIf(dto.productcategoryid != 0, x => x.Id == dto.productcategoryid)
@@ -103,13 +103,9 @@ namespace Stash.Project.BasicService
 
             var totalcount = list.Count();
 
-            list = list.OrderByDescending(x=>x.CreationTime).Skip((dto.pageIndex - 1) * dto.pageSize).Take(dto.pageSize).ToList();
+            var res = list.OrderByDescending(x=>x.CreationTime).Skip((dto.pageIndex - 1) * dto.pageSize).Take(dto.pageSize).ToList();
 
-            if (list == null)
-            {
-                return new ApiResult { code = ResultCode.Error, msg = ResultMsg.RequestError, data = list, count = totalcount };
-            }
-            return new ApiResult { code = ResultCode.Success, msg = ResultMsg.RequestSuccess, data = list, count = totalcount };
+            return new ApiResult { code = ResultCode.Success, msg = ResultMsg.RequestSuccess, data = res, count = totalcount };
         }
 
         /// <summary>

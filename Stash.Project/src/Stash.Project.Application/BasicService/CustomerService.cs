@@ -112,7 +112,7 @@ namespace Stash.Project.BasicService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<ApiResult> CreateCustomerListAsync(CustomerinquireDto dto)
+        public async Task<ApiResult> GetCustomerListAsync(CustomerinquireDto dto)
         {
             var customer = await _customer.GetListAsync();
             
@@ -122,9 +122,9 @@ namespace Stash.Project.BasicService
             var list =  from a in customer
                              join b in contact
                              on a.Id equals b.CustomerNumber
-                        where (dto.customerid != 0 || a.Id == b.CustomerNumber) &&
-                        (!string.IsNullOrEmpty(dto.customername) || a.CustomerName.Contains(dto.customername)) &&
-                        (!string.IsNullOrEmpty(dto.telephone) || a.Telephone.Contains(dto.telephone))
+                        where (dto.customerid == 0 || a.Id.Equals(b.CustomerNumber)) &&
+                        (string.IsNullOrEmpty(dto.customername) || a.CustomerName.Contains(dto.customername)) &&
+                        (string.IsNullOrEmpty(dto.telephone) || a.Telephone.Contains(dto.telephone))
                         select new ShowCustomerDto
                              {
                                  Id = a.Id,
@@ -139,12 +139,11 @@ namespace Stash.Project.BasicService
                                  CreationTime = b.CreationTime,
                              };
 
-            var ableList = await list.ToDynamicArrayAsync();
-            if (ableList.Count() == 0)
-            {
-                return new ApiResult { code = ResultCode.Error, msg = ResultMsg.RequestError, data = list };
-            }
-            return new ApiResult { code = ResultCode.Success, msg = ResultMsg.RequestSuccess, data = list };
+            var totalcount = list.Count();
+
+            var res = list.Skip((dto.pageIndex - 1) * dto.pageSize).Take(dto.pageSize).ToList();
+
+            return new ApiResult { code = ResultCode.Success, msg = ResultMsg.RequestSuccess, data = res, count = totalcount };
         }
 
 
