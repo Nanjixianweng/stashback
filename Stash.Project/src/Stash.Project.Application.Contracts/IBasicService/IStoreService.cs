@@ -37,9 +37,9 @@ namespace Stash.Project.IBasicService
         /// <summary>
         /// 删除仓库
         /// </summary>
-        /// <param name="storeid"></param>
+        /// <param name="ids"></param>
         /// <returns></returns>
-        Task<ApiResult> DeleteStoreAsync(long storeid);
+        Task<ApiResult> DeleteStoreAsync(string ids);
 
         /// <summary>
         /// 修改仓库

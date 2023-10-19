@@ -50,29 +50,32 @@ namespace Stash.Project.BasicService
         /// <summary>
         /// 删除供应商
         /// </summary>
-        /// <param name="supplierid"></param>
+        /// <param name="ids"></param>
         /// <returns></returns>
-        public async Task<ApiResult> DeleteSupplierAsync(long supplierid)
+        public async Task<ApiResult> DeleteSupplierAsync(string ids)
         {
-            var res = await _supplier.FirstOrDefaultAsync(x => x.Id == supplierid);
-            
-            await _supplier.DeleteAsync(supplierid);
+            var supplierid = ids.Split(',');
 
-            if (res != null)
+            if (supplierid == null)
             {
                 return new ApiResult
                 {
-                    code = ResultCode.Success,
-                    msg = ResultMsg.DeleteSuccess,
-                    data = res
+                    code = ResultCode.Error,
+                    msg = ResultMsg.RequestError,
+                    data = ""
                 };
+            }
+
+            foreach (var id in supplierid)
+            {
+                await _supplier.DeleteAsync(Convert.ToInt64(id));
             }
 
             return new ApiResult
             {
-                code = ResultCode.Error,
-                msg = ResultMsg.DeleteError,
-                data = res
+                code = ResultCode.Success,
+                msg = ResultMsg.RequestSuccess,
+                data = ""
             };
         }
 

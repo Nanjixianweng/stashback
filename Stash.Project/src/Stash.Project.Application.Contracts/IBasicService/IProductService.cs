@@ -32,9 +32,9 @@ namespace Stash.Project.IBasicService
         /// <summary>
         /// 删除产品
         /// </summary>
-        /// <param name="productid"></param>
+        /// <param name="ids"></param>
         /// <returns></returns>
-        Task<ApiResult> DeleteProductAsync(long productid);
+        Task<ApiResult> DeleteProductAsync(string ids);
 
         /// <summary>
         /// 修改产品

@@ -4,6 +4,7 @@ using Stash.Project.IBasicService.BasicDto;
 using Stash.Project.Stash.BasicData.Model;
 using Stash.Project.Stash.Dictionary.Model;
 using Stash.Project.Stash.SystemSetting.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -38,8 +39,6 @@ namespace Stash.Project.BasicService
         {
             YitIdHelper.SetIdGenerator(new IdGeneratorOptions());
             dto.Id = YitIdHelper.NextId();
-            dto.DefaultrorNot = false;
-            dto.WhethertoDisable = false;
             var info = _mapper.Map<StoreDto, StoreTale>(dto);
             var res = await _store.InsertAsync(info);
             if (res == null)
@@ -52,29 +51,32 @@ namespace Stash.Project.BasicService
         /// <summary>
         /// 删除仓库
         /// </summary>
-        /// <param name="storeid"></param>
+        /// <param name="ids"></param>
         /// <returns></returns>
-        public async Task<ApiResult> DeleteStoreAsync(long storeid)
+        public async Task<ApiResult> DeleteStoreAsync(string ids)
         {
-            var res = await _store.FirstOrDefaultAsync(x => x.Id == storeid);
+            var storeid = ids.Split(',');
 
-            await _store.DeleteAsync(storeid);
-
-            if(res != null)
+            if (storeid == null)
             {
                 return new ApiResult
                 {
-                    code = ResultCode.Success,
-                    msg = ResultMsg.DeleteSuccess,
-                    data = res
+                    code = ResultCode.Error,
+                    msg = ResultMsg.RequestError,
+                    data = ""
                 };
+            }
+
+            foreach (var id in storeid)
+            {
+                await _store.DeleteAsync(Convert.ToInt64(id));
             }
 
             return new ApiResult
             {
-                code = ResultCode.Error,
-                msg = ResultMsg.DeleteError,
-                data = res
+                code = ResultCode.Success,
+                msg = ResultMsg.RequestSuccess,
+                data = ""
             };
 
         }

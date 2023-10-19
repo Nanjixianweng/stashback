@@ -30,6 +30,9 @@ public class ProjectApplicationAutoMapperProfile : Profile
         //销售退货表
         CreateMap<SalesReturnsTable, SalesReturnsTableDto>().ReverseMap();
         #endregion
+
+        #region 基本信息
+
         CreateMap<StorageLocationDto, StorageLocationTable>().ReverseMap();
         CreateMap<SupplierDto, SupplierTable>().ReverseMap();
         CreateMap<UnitDto, UnitTable>().ReverseMap();
@@ -37,6 +40,8 @@ public class ProjectApplicationAutoMapperProfile : Profile
         CreateMap<ProductDto, ProductTable>().ReverseMap();
         CreateMap<ContactDto, ContactTable>().ReverseMap();
         CreateMap<CustomerDto, CustomerTable>().ReverseMap();
+
+        #endregion
 
         #region 系统设置模块
         CreateMap<AccessInfoDto, AccessInfo>().ReverseMap();

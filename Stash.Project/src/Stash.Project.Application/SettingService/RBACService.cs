@@ -15,19 +15,23 @@ namespace Stash.Project.SettingService
 {
     public class RBACService : ApplicationService, IRBACService
     {
-        public readonly IRepository<UserInfo, long> _user;
-        public readonly IRepository<SectorInfo, long> _sector;
-        public readonly IRepository<RoleInfo, long> _role;
-        public readonly IRepository<AccessInfo, long> _access;
-        public readonly IRepository<RoleAccessInfo, long> _roleaccess;
-        public readonly IMapper _mapper;
+        private readonly IRepository<UserInfo, long> _user;
+        private readonly IRepository<SectorInfo, long> _sector;
+        private readonly IRepository<RoleInfo, long> _role;
+        private readonly IRepository<AccessInfo, long> _access;
+        private readonly IRepository<RoleUserInfo, long> _roleuser;
+        private readonly IRepository<RoleAccessInfo, long> _roleaccess;
+        private readonly IMapper _mapper;
 
-        public RBACService(IRepository<UserInfo, long> user, IRepository<SectorInfo, long> sector, IRepository<RoleInfo, long> role, IMapper mapper)
+        public RBACService(IRepository<UserInfo, long> user, IRepository<SectorInfo, long> sector, IRepository<RoleInfo, long> role, IMapper mapper, IRepository<RoleUserInfo, long> roleuser, IRepository<RoleAccessInfo, long> roleaccess, IRepository<AccessInfo, long> access)
         {
             _user = user;
             _sector = sector;
             _role = role;
             _mapper = mapper;
+            _roleuser = roleuser;
+            _roleaccess= roleaccess;
+            _access= access;
         }
 
         /// <summary>
@@ -99,8 +103,6 @@ namespace Stash.Project.SettingService
                 data = res
             };
         }
-
-
         /// <summary>
         /// 角色列表
         /// </summary>
@@ -243,65 +245,60 @@ namespace Stash.Project.SettingService
                 msg = ResultMsg.RequestSuccess
             };
         }
+        /// <summary>
+        /// 递归查询
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        public async Task<List<AccessInfoDto>> GetRBACAsync(long uid)
+        {
 
-        ///// <summary>
-        ///// 获取用户权限列表
-        ///// </summary>
-        ///// <param name="uid"></param>
-        ///// <returns></returns>
-        //public async Task<ApiResult> GetUserAccessAsync(long uid)
-        //{
-        //    var userInfo = await _user.FirstOrDefaultAsync(x => x.Id == uid);
-        //    var menu = await _roleaccess.GetListAsync(x => x.Role_Id == userInfo.Role_Id);
-        //    List<AccessInfoDto> result = new List<AccessInfoDto>();
-        //    foreach (var item in menu)
-        //    {
-        //        var alist = await _access.FirstOrDefaultAsync(x => x.Id == item.Access_Id);
-        //        AccessInfoDto access = new AccessInfoDto();
-        //        access.Id = item.Id;
-        //        access.Access_Name = item;
-        //        access.Access_FatherId = item.Access_FatherId;
-        //        access.Access_Type = item.
-        //        access.Access_Icon = item.
-        //        access.Access_Sort = item.
-        //        access.Access_Route = item.
-        //        access.Access_CreateTime= item.
-        //        access.Access_Button= item.
-        //        access.AIDtoList = item.
-        //    }
+            var roleUserList = await _roleuser.GetListAsync();
+            var roleAccessList = await _roleaccess.GetListAsync();
+            var accessList = await _access.GetListAsync();
 
-        //    return new ApiResult
-        //    {
-        //        code = ResultCode.Success,
-        //        msg = ResultMsg.RequestSuccess,
-        //        data = list
-        //    };
-        //}
+            var list = from a in roleUserList
+                       join b in roleAccessList on a.Role_Id equals b.Role_Id
+                       join c in accessList on b.Access_Id equals c.Id
+                       where a.User_Id == uid
+                       select c;
 
-        ///// <summary>
-        ///// 获取权限父级菜单
-        ///// </summary>
-        ///// <param name="fid"></param>
-        ///// <returns></returns>
-        //private List<AccessInfoDto> GetAccessFidAsync(List<AccessInfoDto> menus,int fid)
-        //{
-        //    var list = menus
-        //        .Where(x => x.Access_FatherId == fid)
-        //        .Select(a => new AccessInfoDto
-        //        {
-        //            Id=a.Id,
-        //            Access_Name=a.Access_Name,
-        //            Access_FatherId=a.Access_FatherId,
-        //            Access_Type = a.Access_Type,
-        //            Access_Icon = a.Access_Icon,
-        //            Access_Sort = a.Access_Sort,
-        //            Access_Route = a.Access_Route,
-        //            Access_CreateTime= a.Access_CreateTime,
-        //            Access_Button= a.Access_Button,
-        //            AIDtoList= GetAccessFidAsync(menus, fid)
-        //        });
-        //    return list.ToList();
-        //}
+            var alllist = list.Select(x => new AccessInfoDto
+            {
+                Access_Button = x.Access_Button,
+                Access_CreateTime = x.Access_CreateTime,
+                Access_FatherId = x.Access_FatherId,
+                Access_Icon = x.Access_Icon,
+                Access_Name = x.Access_Name,
+                Access_Route = x.Access_Route,
+                Access_Sort = x.Access_Sort,
+                Access_Type = x.Access_Type,
+                Id = x.Id,
+                AIDtoList = null
+            }).Distinct().ToList();
+
+            return await GetRBACA2sync(alllist, 0);
+        }
+        public async Task<List<AccessInfoDto>> GetRBACA2sync(List<AccessInfoDto> obj, long Pid)
+        {
+            var tasks = obj.Where(x => x.Access_FatherId == Pid)
+                           .Select(async x =>
+                           {
+                               var newAccessInfo = new AccessInfoDto
+                               {
+                                   Access_FatherId = x.Access_FatherId,
+                                   Access_Button = x.Access_Button,
+                                   Access_CreateTime = x.Access_CreateTime,
+                                   Access_Icon = x.Access_Icon,
+                                   Access_Name = x.Access_Name,
+                                   Access_Route = x.Access_Route,
+                                   Access_Sort = x.Access_Sort,
+                                   Access_Type = x.Access_Type,
+                                   Id = x.Id,
+                                   AIDtoList = await GetRBACA2sync(obj, x.Id)
+                               };
+                               return newAccessInfo;
+                           }).ToList();
 
         #region 部门CRUD
 
@@ -400,5 +397,8 @@ namespace Stash.Project.SettingService
         }
 
         #endregion 部门CRUD
+            var result = await Task.WhenAll(tasks);
+            return result.ToList();
+        }
     }
 }

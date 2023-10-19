@@ -32,9 +32,9 @@ namespace Stash.Project.IBasicService
         /// <summary>
         /// 删除单位
         /// </summary>
-        /// <param name="unitid"></param>
+        /// <param name="ids"></param>
         /// <returns></returns>
-        Task<ApiResult> DeleteUnitAsync(long unitid);
+        Task<ApiResult> DeleteUnitAsync(string ids);
 
         /// <summary>
         /// 修改单位

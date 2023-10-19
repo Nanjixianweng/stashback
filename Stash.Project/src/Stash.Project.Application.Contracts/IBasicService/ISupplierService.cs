@@ -32,9 +32,9 @@ namespace Stash.Project.IBasicService
         /// <summary>
         /// 删除供应商
         /// </summary>
-        /// <param name="supplierid"></param>
+        /// <param name="ids"></param>
         /// <returns></returns>
-        Task<ApiResult> DeleteSupplierAsync(long supplierid);
+        Task<ApiResult> DeleteSupplierAsync(string ids);
 
         /// <summary>
         /// 修改供应商

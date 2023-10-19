@@ -32,9 +32,9 @@ namespace Stash.Project.IBasicService
         /// <summary>
         /// 删除客户
         /// </summary>
-        /// <param name="customerid"></param>
+        /// <param name="ids"></param>
         /// <returns></returns>
-        Task<ApiResult> DeleteCustomerAsync(long customerid);
+        Task<ApiResult> DeleteCustomerAsync(string ids);
 
         /// <summary>
         /// 修改客户
