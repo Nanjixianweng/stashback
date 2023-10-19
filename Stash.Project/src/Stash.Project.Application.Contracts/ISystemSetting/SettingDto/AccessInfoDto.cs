@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Stash.Project.ISystemSetting.SettingDto
 {
@@ -51,5 +52,7 @@ namespace Stash.Project.ISystemSetting.SettingDto
         /// 按钮权限
         /// </summary>
         public long Access_Button { get; set; }
+
+        public List<AccessInfoDto> AIDtoList { get; set; }
     }
 }

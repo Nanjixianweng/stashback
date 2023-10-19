@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
@@ -18,6 +19,8 @@ namespace Stash.Project.SettingService
         public readonly IRepository<UserInfo, long> _user;
         public readonly IRepository<SectorInfo, long> _sector;
         public readonly IRepository<RoleInfo, long> _role;
+        public readonly IRepository<AccessInfo, long> _access;
+        public readonly IRepository<RoleAccessInfo, long> _roleaccess;
         public readonly IMapper _mapper;
 
         public RBACService(IRepository<UserInfo, long> user, IRepository<SectorInfo, long> sector, IRepository<RoleInfo, long> role, IMapper mapper)
@@ -78,7 +81,6 @@ namespace Stash.Project.SettingService
                 };
             }
         }
-
         /// <summary>
         /// 逻辑删除用户
         /// </summary>
@@ -97,6 +99,8 @@ namespace Stash.Project.SettingService
             };
         }
 
+        
+
         /// <summary>
         /// 角色列表
         /// </summary>
@@ -111,7 +115,6 @@ namespace Stash.Project.SettingService
                 data = list
             };
         }
-
         /// <summary>
         /// 部门列表
         /// </summary>
@@ -128,6 +131,7 @@ namespace Stash.Project.SettingService
                 data = list
             };
         }
+
 
         /// <summary>
         /// 用户信息反填
@@ -238,5 +242,66 @@ namespace Stash.Project.SettingService
                 msg = ResultMsg.RequestSuccess
             };
         }
+
+
+        ///// <summary>
+        ///// 获取用户权限列表
+        ///// </summary>
+        ///// <param name="uid"></param>
+        ///// <returns></returns>
+        //public async Task<ApiResult> GetUserAccessAsync(long uid)
+        //{
+        //    var userInfo = await _user.FirstOrDefaultAsync(x => x.Id == uid);
+        //    var menu = await _roleaccess.GetListAsync(x => x.Role_Id == userInfo.Role_Id);
+        //    List<AccessInfoDto> result = new List<AccessInfoDto>();
+        //    foreach (var item in menu)
+        //    {
+        //        var alist = await _access.FirstOrDefaultAsync(x => x.Id == item.Access_Id);
+        //        AccessInfoDto access = new AccessInfoDto();
+        //        access.Id = item.Id;
+        //        access.Access_Name = item;
+        //        access.Access_FatherId = item.Access_FatherId;
+        //        access.Access_Type = item.
+        //        access.Access_Icon = item.
+        //        access.Access_Sort = item.
+        //        access.Access_Route = item.
+        //        access.Access_CreateTime= item.
+        //        access.Access_Button= item.
+        //        access.AIDtoList = item.
+        //    }
+
+        //    return new ApiResult
+        //    {
+        //        code = ResultCode.Success,
+        //        msg = ResultMsg.RequestSuccess,
+        //        data = list
+        //    };
+        //}
+
+        ///// <summary>
+        ///// 获取权限父级菜单
+        ///// </summary>
+        ///// <param name="fid"></param>
+        ///// <returns></returns>
+        //private List<AccessInfoDto> GetAccessFidAsync(List<AccessInfoDto> menus,int fid)
+        //{
+        //    var list = menus
+        //        .Where(x => x.Access_FatherId == fid)
+        //        .Select(a => new AccessInfoDto
+        //        {
+        //            Id=a.Id,
+        //            Access_Name=a.Access_Name,
+        //            Access_FatherId=a.Access_FatherId,
+        //            Access_Type = a.Access_Type,
+        //            Access_Icon = a.Access_Icon,
+        //            Access_Sort = a.Access_Sort,
+        //            Access_Route = a.Access_Route,
+        //            Access_CreateTime= a.Access_CreateTime,
+        //            Access_Button= a.Access_Button,
+        //            AIDtoList= GetAccessFidAsync(menus, fid)
+        //        });
+        //    return list.ToList();
+        //}
+
     }
 }
