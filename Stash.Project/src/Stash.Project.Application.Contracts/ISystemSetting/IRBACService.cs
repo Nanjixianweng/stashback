@@ -60,5 +60,13 @@ namespace Stash.Project.ISystemSetting
         /// <param name="rid"></param>
         /// <returns></returns>
         Task<ApiResult> DeleteRoleAsync(long rid);
+
+        ///// <summary>
+        ///// 获取用户权限列表
+        ///// </summary>
+        ///// <param name="uid"></param>
+        ///// <returns></returns>
+        //Task<ApiResult> GetUserAccessAsync(long uid);
+
     }
 }

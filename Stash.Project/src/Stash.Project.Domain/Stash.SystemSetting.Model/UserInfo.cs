@@ -10,6 +10,11 @@ namespace Stash.Project.Stash.SystemSetting.Model
     {
 
         /// <summary>
+        /// 用户编号
+        /// </summary>
+        public long Id { get; set; }
+
+        /// <summary>
         /// 用户名
         /// </summary>
 
