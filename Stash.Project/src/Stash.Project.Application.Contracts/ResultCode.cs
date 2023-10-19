@@ -5,6 +5,7 @@
         public const int Success = 0;
 
         public const int Error = 500;
+      
     }
 
     public class ResultMsg

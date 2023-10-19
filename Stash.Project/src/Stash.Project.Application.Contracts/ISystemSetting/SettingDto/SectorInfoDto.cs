@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Stash.Project.SystemSetting.Dto.SettingDto
+namespace Stash.Project.ISystemSetting.SettingDto
 {
     /// <summary>
     /// 部门表
