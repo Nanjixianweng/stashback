@@ -31,7 +31,7 @@ namespace Stash.Project.ISystemSetting
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> GetUserListAsync(string? userName, string? jobNember, long sectorId, long roleId,int pageIndex,int pageSize);
+        Task<ApiResult> GetUserListAsync(string? userName, string? jobNember, long?sectorId, long?roleId,int pageIndex,int pageSize);
 
         /// <summary>
         /// 用户信息反填
@@ -60,5 +60,11 @@ namespace Stash.Project.ISystemSetting
         /// <param name="rid"></param>
         /// <returns></returns>
         Task<ApiResult> DeleteRoleAsync(long rid);
+        /// <summary>
+        /// 批量删除用户
+        /// </summary>
+        /// <param name="Ids">字符编号</param>
+        /// <returns></returns>
+        Task<ApiResult> DeleteBatchAsync(string Ids);
     }
 }
