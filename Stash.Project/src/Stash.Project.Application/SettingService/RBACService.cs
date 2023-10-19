@@ -78,7 +78,6 @@ namespace Stash.Project.SettingService
                 };
             }
         }
-
         /// <summary>
         /// 逻辑删除用户
         /// </summary>
@@ -111,7 +110,6 @@ namespace Stash.Project.SettingService
                 data = list
             };
         }
-
         /// <summary>
         /// 部门列表
         /// </summary>
