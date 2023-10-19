@@ -49,33 +49,32 @@ namespace Stash.Project.BasicService
         /// <summary>
         /// 删除客户
         /// </summary>
-        /// <param name="customerid"></param>
+        /// <param name="ids"></param>
         /// <returns></returns>
-        public async Task<ApiResult> DeleteCustomerAsync(long customerid)
+        public async Task<ApiResult> DeleteCustomerAsync(string ids)
         {
-            var res = await _customer.FirstOrDefaultAsync(x => x.Id == customerid);
+            var customerid = ids.Split(',');
 
-            await _customer.DeleteAsync(customerid);
-
-            var list = (await _contact.GetListAsync()).Where(x=>x.CustomerNumber == customerid).ToList();
-
-            await _contact.DeleteManyAsync(list);
-
-            if (res != null)
+            if (customerid == null)
             {
                 return new ApiResult
                 {
-                    code = ResultCode.Success,
-                    msg = ResultMsg.DeleteSuccess,
-                    data = res
+                    code = ResultCode.Error,
+                    msg = ResultMsg.RequestError,
+                    data = ""
                 };
+            }
+
+            foreach (var id in customerid)
+            {
+                await _customer.DeleteAsync(Convert.ToInt64(id));
             }
 
             return new ApiResult
             {
-                code = ResultCode.Error,
-                msg = ResultMsg.DeleteError,
-                data = res
+                code = ResultCode.Success,
+                msg = ResultMsg.RequestSuccess,
+                data = ""
             };
         }
 

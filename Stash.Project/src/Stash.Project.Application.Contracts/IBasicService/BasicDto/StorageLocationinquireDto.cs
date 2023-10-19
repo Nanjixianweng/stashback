@@ -6,11 +6,11 @@ namespace Stash.Project.IBasicService.BasicDto
 {
     public class StorageLocationinquireDto
     {
-        public long storagelocationid {  get; set; }
+        public long? storagelocationid {  get; set; }
 
         public string? storagelocationname { get; set; }
 
-        public long storeid { get; set; }
+        public long? storeid { get; set; }
 
         public int pageIndex { get; set; }
 

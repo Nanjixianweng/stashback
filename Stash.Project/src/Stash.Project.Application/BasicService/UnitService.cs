@@ -45,29 +45,32 @@ namespace Stash.Project.BasicService
         /// <summary>
         /// 删除单位
         /// </summary>
-        /// <param name="unitid"></param>
+        /// <param name="ids"></param>
         /// <returns></returns>
-        public async Task<ApiResult> DeleteUnitAsync(long unitid)
+        public async Task<ApiResult> DeleteUnitAsync(string ids)
         {
-            var res = await _unit.FirstOrDefaultAsync(x => x.Id == unitid);
+            var unitid = ids.Split(',');
 
-            await _unit.DeleteAsync(unitid);
-
-            if (res != null)
+            if (unitid == null)
             {
                 return new ApiResult
                 {
-                    code = ResultCode.Success,
-                    msg = ResultMsg.DeleteSuccess,
-                    data = res
+                    code = ResultCode.Error,
+                    msg = ResultMsg.RequestError,
+                    data = ""
                 };
+            }
+
+            foreach (var id in unitid)
+            {
+                await _unit.DeleteAsync(Convert.ToInt64(id));
             }
 
             return new ApiResult
             {
-                code = ResultCode.Error,
-                msg = ResultMsg.DeleteError,
-                data = res
+                code = ResultCode.Success,
+                msg = ResultMsg.RequestSuccess,
+                data = ""
             };
         }
 

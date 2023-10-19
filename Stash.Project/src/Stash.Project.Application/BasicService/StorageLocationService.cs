@@ -52,29 +52,32 @@ namespace Stash.Project.BasicService
         /// <summary>
         /// 删除库位
         /// </summary>
-        /// <param name="storageid"></param>
+        /// <param name="ids"></param>
         /// <returns></returns>
-        public async Task<ApiResult> DeleteStorageLocationAsync(long storageid)
+        public async Task<ApiResult> DeleteStorageLocationAsync(string ids)
         {
-            var res = await _storage.FirstOrDefaultAsync(x => x.Id == storageid);
+            var storageid = ids.Split(',');
 
-            await _storage.DeleteAsync(storageid);
-
-            if (res != null)
+            if (storageid == null)
             {
                 return new ApiResult
                 {
-                    code = ResultCode.Success,
-                    msg = ResultMsg.DeleteSuccess,
-                    data = res
+                    code = ResultCode.Error,
+                    msg = ResultMsg.RequestError,
+                    data = ""
                 };
+            }
+
+            foreach (var id in storageid)
+            {
+                await _storage.DeleteAsync(Convert.ToInt64(id));
             }
 
             return new ApiResult
             {
-                code = ResultCode.Error,
-                msg = ResultMsg.DeleteError,
-                data = res
+                code = ResultCode.Success,
+                msg = ResultMsg.RequestSuccess,
+                data = ""
             };
         }
 
