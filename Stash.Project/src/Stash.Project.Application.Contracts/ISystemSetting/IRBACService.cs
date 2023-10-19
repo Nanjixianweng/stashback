@@ -67,12 +67,6 @@ namespace Stash.Project.ISystemSetting
         /// <returns></returns>
         Task<ApiResult> DeleteBatchAsync(string Ids);
 
-        ///// <summary>
-        ///// 获取用户权限列表
-        ///// </summary>
-        ///// <param name="uid"></param>
-        ///// <returns></returns>
-        //Task<ApiResult> GetUserAccessAsync(long uid);
 
     }
 }

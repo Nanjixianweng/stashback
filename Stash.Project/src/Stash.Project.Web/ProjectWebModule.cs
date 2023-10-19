@@ -10,6 +10,7 @@ using Stash.Project.EntityFrameworkCore;
 using Stash.Project.Localization;
 using Stash.Project.MultiTenancy;
 using Stash.Project.Web.Menus;
+using System;
 using System.IO;
 using Volo.Abp;
 using Volo.Abp.Account.Web;
@@ -162,6 +163,8 @@ public class ProjectWebModule : AbpModule
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "Project API", Version = "v1" });
                 options.DocInclusionPredicate((docName, description) => true);
                 options.CustomSchemaIds(type => type.FullName);
+                var path = AppContext.BaseDirectory + "Stash.Project.Web.xml";
+                options.IncludeXmlComments(path,true);
             }
         );
     }
