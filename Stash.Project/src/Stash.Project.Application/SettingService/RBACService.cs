@@ -299,6 +299,9 @@ namespace Stash.Project.SettingService
                                };
                                return newAccessInfo;
                            }).ToList();
+            var result = await Task.WhenAll(tasks);
+            return result.ToList();
+        }
 
         #region 部门CRUD
 
@@ -397,8 +400,6 @@ namespace Stash.Project.SettingService
         }
 
         #endregion 部门CRUD
-            var result = await Task.WhenAll(tasks);
-            return result.ToList();
-        }
+
     }
 }
