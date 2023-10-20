@@ -8,7 +8,10 @@ namespace Stash.Project.Stash.BusinessManage.Model
     /// </summary>
     public class PurchaseProductRelationshipTable : BasicAggregateRoot<long>
     {
-
+        /// <summary>
+        /// 采购单号
+        /// </summary>
+        public long PurchaseId { get; set; }
         /// <summary>
         /// 产品ID  
         /// </summary>

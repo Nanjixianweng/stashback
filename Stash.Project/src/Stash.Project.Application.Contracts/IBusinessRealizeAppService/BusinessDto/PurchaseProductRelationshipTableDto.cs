@@ -10,6 +10,10 @@ namespace Stash.Project.IBusinessRealizeAppService.BusinessDto
     {
         public long Id { get; set; }
         /// <summary>
+        /// 采购ID  
+        /// </summary>
+        public long PurchaseId { get; set; }
+        /// <summary>
         /// 产品ID  
         /// </summary>
         public long ProductId { get; set; }
@@ -17,7 +21,7 @@ namespace Stash.Project.IBusinessRealizeAppService.BusinessDto
         /// <summary>
         /// 状态 
         /// </summary>
-        public SellProductRelationshipStatus Status { get; set; }
+        public PurchaseProductRelationshipStatus Status { get; set; }
 
         /// <summary>
         /// 是否入账

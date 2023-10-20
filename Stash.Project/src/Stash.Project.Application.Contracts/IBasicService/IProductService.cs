@@ -17,10 +17,10 @@ namespace Stash.Project.IBasicService
         Task<ApiResult> CreateProductAsync(ProductDto dto);
 
         /// <summary>
-        /// 产品查询
+        /// 产品查询 
         /// </summary>
         /// <returns></returns>
-        Task<ApiResult> GetProductAsync();
+        Task<ApiResult> PostProductListAsync(ProductMesDto dto);
 
         /// <summary>
         /// 产品条件查询

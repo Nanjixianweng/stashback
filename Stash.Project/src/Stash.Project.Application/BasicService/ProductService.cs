@@ -17,6 +17,7 @@ namespace Stash.Project.BasicService
     {
         public readonly IRepository<ProductTable, long> _product;
         public readonly IMapper _mapper;
+        
         public ProductService(IRepository<ProductTable, long> product, IMapper mapper)
         {
             _product = product;
@@ -75,11 +76,15 @@ namespace Stash.Project.BasicService
         /// 产品查询
         /// </summary>
         /// <returns></returns>
-        public async Task<ApiResult> GetProductAsync()
+        public async Task<ApiResult> PostProductListAsync(ProductMesDto dto)
         {
-            var list = await _product.GetListAsync();
-
-            return new ApiResult { code=ResultCode.Success,msg=ResultMsg.RequestSuccess, data = list};
+            var list =(await _product.GetListAsync())
+                .WhereIf(dto.idsMes.Count!=0,x=> dto.idsMes.Contains(x.Id))
+                .WhereIf(dto.Id!=0,x=>x.Id.Equals(dto.Id))
+                .WhereIf(!string.IsNullOrWhiteSpace( dto.ProductName),x=>x.ProductName.Equals(dto.ProductName));
+            var totalCount=list.Count();
+            list=list.Skip((dto.pageIndex - 1)* dto.pageSize).Take(dto.pageSize).ToList();
+            return new ApiResult { code=ResultCode.Success,msg=ResultMsg.RequestSuccess, data = list,count= totalCount };
         }
 
         /// <summary>

@@ -16,8 +16,13 @@ namespace Stash.Project.IBusinessRealizeAppService
         Task<ResultApi<bool>> DeletePurchaseTableAsync(long Id);
         Task<ResultApi<PurchaseTableDto>> UpdatePurchaseTableAsync(PurchaseTableDto dto);
         Task<ResultApi<PurchaseTableDto>> FindPurchaseTableAsync(long Id);
+        /// <summary>
+        /// 采购添加
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        Task<ResultApi<string>> CreatePurchaseAsync(PurchaseDto dto);  
         #endregion
-
 
     }
 }

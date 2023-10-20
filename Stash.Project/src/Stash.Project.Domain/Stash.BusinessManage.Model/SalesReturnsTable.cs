@@ -13,7 +13,7 @@ namespace Stash.Project.Stash.BusinessManage.Model
         /// </summary>
         public long ProductId { get; set; }
         /// <summary>
-        /// 采购单号
+        /// 销售单号
         /// </summary>
         public long SellId { get; set; }
         /// <summary>

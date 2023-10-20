@@ -6,6 +6,10 @@ namespace Stash.Project.IBusinessRealizeAppService.BusinessDto
     {
         public long Id { get; set; }
         /// <summary>
+        /// 销售单号
+        /// </summary>
+        public long SellId { get; set; }
+        /// <summary>
         /// 产品ID  
         /// </summary>
         public long ProductId { get; set; }
