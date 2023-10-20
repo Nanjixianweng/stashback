@@ -6,11 +6,11 @@ namespace Stash.Project.IBasicService.BasicDto
 {
     public class SupplierInquireDto
     {
-        public long supplierid { get; set; }
+        public long? supplierid { get; set; }
 
         public string? suppliername { get; set;}
 
-        public int suppliertype { get; set;}
+        public int? suppliertype { get; set;}
 
         public string? telephone { get; set;}
 
