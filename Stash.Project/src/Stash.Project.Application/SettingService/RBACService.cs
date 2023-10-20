@@ -13,6 +13,9 @@ using Yitter.IdGenerator;
 
 namespace Stash.Project.SettingService
 {
+    /// <summary>
+    /// RBAC控制器
+    /// </summary>
     public class RBACService : ApplicationService, IRBACService
     {
         private readonly IRepository<UserInfo, long> _user;
@@ -47,7 +50,7 @@ namespace Stash.Project.SettingService
 
             dto.User_JobNumber = DateTime.Now.ToString("yyyyMMddHHmmss");
 
-            var info = _mapper.Map<UserInfoCreateDto, UserInfo>(dto);
+            var info = ObjectMapper.Map<UserInfoCreateDto, UserInfo>(dto);
 
             var res = await _user.InsertAsync(info);
 

@@ -12,6 +12,9 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Stash.Project.SystemSetting.Service
 {
+    /// <summary>
+    /// 登录控制器
+    /// </summary>
     public class LoginAppService : ApplicationService, ILoginAppService
     {
         private readonly IRepository<UserInfo, long> _repository;

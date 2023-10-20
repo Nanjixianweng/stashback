@@ -16,6 +16,9 @@ using static System.Formats.Asn1.AsnWriter;
 
 namespace Stash.Project.BasicService
 {
+    /// <summary>
+    /// 产品控制器
+    /// </summary>
     public class ProductService : ApplicationService, IProductService
     {
         public readonly IRepository<ProductTable, long> _product;

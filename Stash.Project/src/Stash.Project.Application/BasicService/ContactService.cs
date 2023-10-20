@@ -13,6 +13,9 @@ using Yitter.IdGenerator;
 
 namespace Stash.Project.BasicService
 {
+    /// <summary>
+    /// 联系人控制器
+    /// </summary>
     public class ContactService : ApplicationService, IContactService
     {
         public readonly IRepository<ContactTable, long> _contact;

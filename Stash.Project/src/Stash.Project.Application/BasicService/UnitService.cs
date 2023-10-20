@@ -13,6 +13,9 @@ using Yitter.IdGenerator;
 
 namespace Stash.Project.BasicService
 {
+    /// <summary>
+    /// 单位控制器
+    /// </summary>
     public class UnitService : ApplicationService, IUnitService
     {
         public readonly IRepository<UnitTable, long> _unit;
