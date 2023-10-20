@@ -21,7 +21,7 @@ namespace Stash.Project.IBasicService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> CreateProductCategoryListAsync(ProductCategoryInquireDto dto);
+        Task<ApiResult> GetProductCategoryListAsync(ProductCategoryInquireDto dto);
 
         /// <summary>
         /// 产品类别查询
@@ -32,9 +32,9 @@ namespace Stash.Project.IBasicService
         /// <summary>
         /// 删除产品类别
         /// </summary>
-        /// <param name="productcategoryid"></param>
+        /// <param name="ids"></param>
         /// <returns></returns>
-        Task<ApiResult> DeleteProductCategoryAsync(long productcategoryid);
+        Task<ApiResult> DeleteProductCategoryAsync(string ids);
 
         /// <summary>
         /// 修改产品类别

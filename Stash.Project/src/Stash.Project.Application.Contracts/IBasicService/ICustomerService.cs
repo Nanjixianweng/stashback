@@ -27,14 +27,14 @@ namespace Stash.Project.IBasicService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> CreateCustomerListAsync(CustomerinquireDto dto);
+        Task<ApiResult> GetCustomerListAsync(CustomerinquireDto dto);
 
         /// <summary>
         /// 删除客户
         /// </summary>
-        /// <param name="customerid"></param>
+        /// <param name="ids"></param>
         /// <returns></returns>
-        Task<ApiResult> DeleteCustomerAsync(long customerid);
+        Task<ApiResult> DeleteCustomerAsync(string ids);
 
         /// <summary>
         /// 修改客户

@@ -21,7 +21,7 @@ namespace Stash.Project.IBasicService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> CreateStorageLocationListAsync(StorageLocationinquireDto dto);
+        Task<ApiResult> GetStorageLocationListAsync(StorageLocationinquireDto dto);
 
         /// <summary>
         /// 库位查询
@@ -32,9 +32,9 @@ namespace Stash.Project.IBasicService
         /// <summary>
         /// 删除库位
         /// </summary>
-        /// <param name="storageid"></param>
+        /// <param name="ids"></param>
         /// <returns></returns>
-        Task<ApiResult> DeleteStorageLocationAsync(long storageid);
+        Task<ApiResult> DeleteStorageLocationAsync(string ids);
 
         /// <summary>
         /// 修改库位

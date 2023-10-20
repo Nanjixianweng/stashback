@@ -2,9 +2,11 @@
 using Stash.Project.IBasicService;
 using Stash.Project.IBasicService.BasicDto;
 using Stash.Project.Stash.BasicData.Model;
+using Stash.Project.Stash.Dictionary.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
@@ -16,12 +18,14 @@ namespace Stash.Project.BasicService
     public class SupplierService : ApplicationService, ISupplierService
     {
         public readonly IRepository<SupplierTable, long> _supplier;
+        public readonly IRepository<DictionaryTable, long> _dictionary;
         public readonly IMapper _mapper;
 
-        public SupplierService(IMapper mapper,IRepository<SupplierTable,long> supplier)
+        public SupplierService(IMapper mapper, IRepository<SupplierTable, long> supplier,IRepository<DictionaryTable, long> dictionary)
         {
             _mapper = mapper;
             _supplier = supplier;
+            _dictionary = dictionary;
         }
 
         /// <summary>
@@ -46,29 +50,32 @@ namespace Stash.Project.BasicService
         /// <summary>
         /// 删除供应商
         /// </summary>
-        /// <param name="supplierid"></param>
+        /// <param name="ids"></param>
         /// <returns></returns>
-        public async Task<ApiResult> DeleteSupplierAsync(long supplierid)
+        public async Task<ApiResult> DeleteSupplierAsync(string ids)
         {
-            var res = await _supplier.FirstOrDefaultAsync(x => x.Id == supplierid);
-            
-            await _supplier.DeleteAsync(supplierid);
+            var supplierid = ids.Split(',');
 
-            if (res != null)
+            if (supplierid == null)
             {
                 return new ApiResult
                 {
-                    code = ResultCode.Success,
-                    msg = ResultMsg.DeleteSuccess,
-                    data = res
+                    code = ResultCode.Error,
+                    msg = ResultMsg.RequestError,
+                    data = ""
                 };
+            }
+
+            foreach (var id in supplierid)
+            {
+                await _supplier.DeleteAsync(Convert.ToInt64(id));
             }
 
             return new ApiResult
             {
-                code = ResultCode.Error,
-                msg = ResultMsg.DeleteError,
-                data = res
+                code = ResultCode.Success,
+                msg = ResultMsg.RequestSuccess,
+                data = ""
             };
         }
 
@@ -94,24 +101,38 @@ namespace Stash.Project.BasicService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<ApiResult> CreateSupplierListAsync(SupplierInquireDto dto)
+        public async Task<ApiResult> GetSupplierListAsync(SupplierInquireDto dto)
         {
-            var list = (await _supplier.GetListAsync())
-                .WhereIf(dto.supplierid != 0, x => x.Id == dto.supplierid)
-                .WhereIf(!string.IsNullOrEmpty(dto.suppliername), x => x.SupplierName.Contains(dto.suppliername))
-                .WhereIf(dto.suppliertype != 0, x => x.SupplierType == dto.suppliertype)
-                .WhereIf(!string.IsNullOrEmpty(dto.telephone),x=>x.Telephone.Contains(dto.telephone));
+            var supplier = await _supplier.GetListAsync();
+            var dictionary = await _dictionary.GetListAsync();
 
+            var list = from a in supplier
+                        join b in dictionary
+                        on a.SupplierType equals b.Id
+                        where (dto.supplierid == 0 || a.Id.Equals(dto.supplierid)) &&
+                        (string.IsNullOrEmpty(dto.suppliername) || a.SupplierName.Contains(dto.suppliername)) &&
+                        (dto.suppliertype == 0 || a.SupplierType.Equals(dto.suppliertype)) &&
+                        (string.IsNullOrEmpty(dto.telephone) || a.Telephone.Contains(dto.telephone))
+                        select new ShowSupplierDto
+                        {
+                            Id = a.Id,
+                            SupplierName = a.SupplierName,
+                            SupplierType = a.SupplierType,
+                            SupplierTypeName = b.Dictionary_Name,
+                            Telephone = a.Telephone,
+                            Fax = a.Fax,
+                            Mailbox = a.Mailbox,
+                            ContactPerson = a.ContactPerson,
+                            Address = a.Address,
+                            CreationTime = a.CreationTime,
+                            Description = a.Description,
+                        };
 
             var totalcount = list.Count();
 
-            list = list.OrderByDescending(x=>x.CreationTime).Skip((dto.pageIndex - 1) * dto.pageSize).Take(dto.pageSize).ToList();
+            var res = list.OrderByDescending(x=>x.CreationTime).Skip((dto.pageIndex - 1) * dto.pageSize).Take(dto.pageSize).ToList();
 
-            if (list == null)
-            {
-                return new ApiResult { code = ResultCode.Error, msg = ResultMsg.RequestError, data = list, count = totalcount };
-            }
-            return new ApiResult { code = ResultCode.Success, msg = ResultMsg.RequestSuccess, data = list, count = totalcount };
+            return new ApiResult { code = ResultCode.Success, msg = ResultMsg.RequestSuccess, data = res, count = totalcount };
         }
 
         /// <summary>

@@ -22,18 +22,24 @@ namespace Stash.Project.IBasicService
         Task<ApiResult> GetStoreAsync();
 
         /// <summary>
+        /// 字典表查询
+        /// </summary>
+        /// <returns></returns>
+        Task<ApiResult> GetDictionaryAsync();
+
+        /// <summary>
         /// 仓库条件查询
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> CreateStoreListAsync(StoreinquireDto dto);
+        Task<ApiResult> GetStoreListAsync(StoreinquireDto dto);
 
         /// <summary>
         /// 删除仓库
         /// </summary>
-        /// <param name="storeid"></param>
+        /// <param name="ids"></param>
         /// <returns></returns>
-        Task<ApiResult> DeleteStoreAsync(long storeid);
+        Task<ApiResult> DeleteStoreAsync(string ids);
 
         /// <summary>
         /// 修改仓库

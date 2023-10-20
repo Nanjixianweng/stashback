@@ -27,14 +27,14 @@ namespace Stash.Project.IBasicService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<ApiResult> CreateUnitListAsync(UnitInquireDto dto);
+        Task<ApiResult> GetUnitListAsync(UnitInquireDto dto);
 
         /// <summary>
         /// 删除单位
         /// </summary>
-        /// <param name="unitid"></param>
+        /// <param name="ids"></param>
         /// <returns></returns>
-        Task<ApiResult> DeleteUnitAsync(long unitid);
+        Task<ApiResult> DeleteUnitAsync(string ids);
 
         /// <summary>
         /// 修改单位

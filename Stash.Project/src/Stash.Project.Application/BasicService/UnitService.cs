@@ -45,29 +45,32 @@ namespace Stash.Project.BasicService
         /// <summary>
         /// 删除单位
         /// </summary>
-        /// <param name="unitid"></param>
+        /// <param name="ids"></param>
         /// <returns></returns>
-        public async Task<ApiResult> DeleteUnitAsync(long unitid)
+        public async Task<ApiResult> DeleteUnitAsync(string ids)
         {
-            var res = await _unit.FirstOrDefaultAsync(x => x.Id == unitid);
+            var unitid = ids.Split(',');
 
-            await _unit.DeleteAsync(unitid);
-
-            if (res != null)
+            if (unitid == null)
             {
                 return new ApiResult
                 {
-                    code = ResultCode.Success,
-                    msg = ResultMsg.DeleteSuccess,
-                    data = res
+                    code = ResultCode.Error,
+                    msg = ResultMsg.RequestError,
+                    data = ""
                 };
+            }
+
+            foreach (var id in unitid)
+            {
+                await _unit.DeleteAsync(Convert.ToInt64(id));
             }
 
             return new ApiResult
             {
-                code = ResultCode.Error,
-                msg = ResultMsg.DeleteError,
-                data = res
+                code = ResultCode.Success,
+                msg = ResultMsg.RequestSuccess,
+                data = ""
             };
         }
 
@@ -93,7 +96,7 @@ namespace Stash.Project.BasicService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<ApiResult> CreateUnitListAsync(UnitInquireDto dto)
+        public async Task<ApiResult> GetUnitListAsync(UnitInquireDto dto)
         {
             var list = (await _unit.GetListAsync())
                 .WhereIf(dto.unitnumber != 0, x => x.Id == dto.unitnumber)
@@ -102,13 +105,9 @@ namespace Stash.Project.BasicService
 
             var totalcount = list.Count();
 
-            list = list.Skip((dto.pageIndex - 1) * dto.pageSize).Take(dto.pageSize).ToList();
+            var res = list.Skip((dto.pageIndex - 1) * dto.pageSize).Take(dto.pageSize).ToList();
 
-            if (list == null)
-            {
-                return new ApiResult { code = ResultCode.Error, msg = ResultMsg.RequestError, data = list, count = totalcount };
-            }
-            return new ApiResult { code = ResultCode.Success, msg = ResultMsg.RequestSuccess, data = list, count = totalcount };
+            return new ApiResult { code = ResultCode.Success, msg = ResultMsg.RequestSuccess, data = res, count = totalcount };
         }
 
         /// <summary>

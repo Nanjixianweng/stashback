@@ -46,29 +46,32 @@ namespace Stash.Project.BasicService
         /// <summary>
         /// 删除产品类别
         /// </summary>
-        /// <param name="productcategoryid"></param>
+        /// <param name="ids"></param>
         /// <returns></returns>
-        public async Task<ApiResult> DeleteProductCategoryAsync(long productcategoryid)
+        public async Task<ApiResult> DeleteProductCategoryAsync(string ids)
         {
-            var res = await _productcategory.FirstOrDefaultAsync(x => x.Id == productcategoryid);
+            var productcategoryid = ids.Split(',');
 
-            await _productcategory.DeleteAsync(productcategoryid);
-
-            if (res != null)
+            if (productcategoryid == null)
             {
                 return new ApiResult
                 {
-                    code = ResultCode.Success,
-                    msg = ResultMsg.DeleteSuccess,
-                    data = res
+                    code = ResultCode.Error,
+                    msg = ResultMsg.RequestError,
+                    data = ""
                 };
+            }
+
+            foreach (var id in productcategoryid)
+            {
+                await _productcategory.DeleteAsync(Convert.ToInt64(id));
             }
 
             return new ApiResult
             {
-                code = ResultCode.Error,
-                msg = ResultMsg.DeleteError,
-                data = res
+                code = ResultCode.Success,
+                msg = ResultMsg.RequestSuccess,
+                data = ""
             };
         }
 
@@ -94,7 +97,7 @@ namespace Stash.Project.BasicService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<ApiResult> CreateProductCategoryListAsync(ProductCategoryInquireDto dto)
+        public async Task<ApiResult> GetProductCategoryListAsync(ProductCategoryInquireDto dto)
         {
             var list = (await _productcategory.GetListAsync())
                 .WhereIf(dto.productcategoryid != 0, x => x.Id == dto.productcategoryid)
@@ -103,13 +106,9 @@ namespace Stash.Project.BasicService
 
             var totalcount = list.Count();
 
-            list = list.OrderByDescending(x=>x.CreationTime).Skip((dto.pageIndex - 1) * dto.pageSize).Take(dto.pageSize).ToList();
+            var res = list.OrderByDescending(x=>x.CreationTime).Skip((dto.pageIndex - 1) * dto.pageSize).Take(dto.pageSize).ToList();
 
-            if (list == null)
-            {
-                return new ApiResult { code = ResultCode.Error, msg = ResultMsg.RequestError, data = list, count = totalcount };
-            }
-            return new ApiResult { code = ResultCode.Success, msg = ResultMsg.RequestSuccess, data = list, count = totalcount };
+            return new ApiResult { code = ResultCode.Success, msg = ResultMsg.RequestSuccess, data = res, count = totalcount };
         }
 
         /// <summary>

@@ -2,9 +2,11 @@
 using Stash.Project.IBasicService;
 using Stash.Project.IBasicService.BasicDto;
 using Stash.Project.Stash.BasicData.Model;
+using Stash.Project.Stash.Dictionary.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
@@ -16,12 +18,16 @@ namespace Stash.Project.BasicService
     public class StorageLocationService : ApplicationService, IStorageLocationService
     {
         public readonly IRepository<StorageLocationTable, long> _storage;
+        public readonly IRepository<StoreTale, long> _store;
+        public readonly IRepository<DictionaryTable, long> _dictionary;
         public readonly IMapper _mapper;
 
-        public StorageLocationService(IRepository<StorageLocationTable, long> storage, IMapper mapper)
+        public StorageLocationService(IRepository<StorageLocationTable, long> storage, IMapper mapper, IRepository<StoreTale, long> store, IRepository<DictionaryTable, long> dictionary)
         {
             _storage = storage;
             _mapper = mapper;
+            _store = store;
+            _dictionary = dictionary;
         }
 
         /// <summary>
@@ -46,29 +52,32 @@ namespace Stash.Project.BasicService
         /// <summary>
         /// 删除库位
         /// </summary>
-        /// <param name="storageid"></param>
+        /// <param name="ids"></param>
         /// <returns></returns>
-        public async Task<ApiResult> DeleteStorageLocationAsync(long storageid)
+        public async Task<ApiResult> DeleteStorageLocationAsync(string ids)
         {
-            var res = await _storage.FirstOrDefaultAsync(x => x.Id == storageid);
+            var storageid = ids.Split(',');
 
-            await _storage.DeleteAsync(storageid);
-
-            if (res != null)
+            if (storageid == null)
             {
                 return new ApiResult
                 {
-                    code = ResultCode.Success,
-                    msg = ResultMsg.DeleteSuccess,
-                    data = res
+                    code = ResultCode.Error,
+                    msg = ResultMsg.RequestError,
+                    data = ""
                 };
+            }
+
+            foreach (var id in storageid)
+            {
+                await _storage.DeleteAsync(Convert.ToInt64(id));
             }
 
             return new ApiResult
             {
-                code = ResultCode.Error,
-                msg = ResultMsg.DeleteError,
-                data = res
+                code = ResultCode.Success,
+                msg = ResultMsg.RequestSuccess,
+                data = ""
             };
         }
 
@@ -94,23 +103,39 @@ namespace Stash.Project.BasicService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<ApiResult> CreateStorageLocationListAsync(StorageLocationinquireDto dto)
+        public async Task<ApiResult> GetStorageLocationListAsync(StorageLocationinquireDto dto)
         {
-            var list = (await _storage.GetListAsync())
-                .WhereIf(dto.storagelocationid != 0, x => x.Id == dto.storagelocationid)
-                .WhereIf(!string.IsNullOrEmpty(dto.storagelocationname), x => x.LibraryLocationName.Contains(dto.storagelocationname))
-                .WhereIf(dto.storeid != 0, x => x.Stash == dto.storeid);
+            var storage = await _storage.GetListAsync();
+            var store = await _store.GetListAsync();
+            var dictionary = await _dictionary.GetListAsync();
+
+            var list = from a in storage
+                        join b in store
+                        on a.Stash equals b.Id
+                        join c in dictionary
+                        on a.StorageLocationType equals c.Id
+                        where (dto.storagelocationid == 0 || a.Id.Equals(dto.storagelocationid)) &&
+                        (string.IsNullOrEmpty(dto.storagelocationname) || a.LibraryLocationName.Contains(dto.storagelocationname)) &&
+                        (dto.storeid == 0 || a.Stash.Equals(dto.storeid))
+                        select new ShowStorageLocationDto
+                        {
+                            Id = a.Id,
+                            LibraryLocationName = a.LibraryLocationName,
+                            StorageLocationType = a.StorageLocationType,
+                            StorageLocationTypeName = c.Dictionary_Name,
+                            Stash = a.Stash,
+                            StoreName = b.StoreName,
+                            WhethertoDisable = a.WhethertoDisable,
+                            DefaultrorNot = a.DefaultrorNot,
+                            CreationTime = a.CreationTime,
+                        };
 
 
             var totalcount = list.Count();
 
-            list = list.OrderByDescending(x=>x.CreationTime).Skip((dto.pageIndex - 1) * dto.pageSize).Take(dto.pageSize).ToList();
+            var res = list.OrderByDescending(x=>x.CreationTime).Skip((dto.pageIndex - 1) * dto.pageSize).Take(dto.pageSize).ToList();
 
-            if (list == null)
-            {
-                return new ApiResult { code = ResultCode.Error, msg = ResultMsg.RequestError, data = list, count = totalcount };
-            }
-            return new ApiResult { code = ResultCode.Success, msg = ResultMsg.RequestSuccess, data = list, count = totalcount };
+            return new ApiResult { code = ResultCode.Success, msg = ResultMsg.RequestSuccess, data = res, count = totalcount };
         }
 
         /// <summary>
