@@ -13,6 +13,9 @@ using Yitter.IdGenerator;
 
 namespace Stash.Project.BasicService
 {
+    /// <summary>
+    /// 产品类别控制器
+    /// </summary>
     public class ProductCategoryService : ApplicationService, IProductCategoryService
     {
         public readonly IRepository<ProductCategoryTable, long> _productcategory;

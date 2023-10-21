@@ -15,6 +15,9 @@ using Yitter.IdGenerator;
 
 namespace Stash.Project.BasicService
 {
+    /// <summary>
+    /// 仓库控制器
+    /// </summary>
     public class StoreService : ApplicationService, IStoreService
     {
         public readonly IRepository<StoreTale, long> _store;

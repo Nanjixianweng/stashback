@@ -32,7 +32,7 @@ namespace Stash.Project.Stash.SystemSetting.Model
         /// <summary>
         /// 排序
         /// </summary>
-        public int Access_Sort { get; set; }
+        public string? Access_Sort { get; set; }
 
         /// <summary>
         /// 路由

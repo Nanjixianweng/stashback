@@ -6,9 +6,9 @@ namespace Stash.Project.IBasicService.BasicDto
 {
     public class UnitInquireDto
     {
-        public long unitnumber {  get; set; }
+        public long? unitnumber {  get; set; }
 
-        public string unitname { get; set; }
+        public string? unitname { get; set; }
 
         public int pageIndex { get; set; }
 

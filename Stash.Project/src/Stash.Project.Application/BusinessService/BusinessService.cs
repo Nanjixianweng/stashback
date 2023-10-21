@@ -16,6 +16,9 @@ using Yitter.IdGenerator;
 
 namespace Stash.Project.BusinessService
 {
+    /// <summary>
+    /// 采购控制器
+    /// </summary>
     public class BusinessService : ApplicationService, IBusinessAppService
     {
         /// <summary>

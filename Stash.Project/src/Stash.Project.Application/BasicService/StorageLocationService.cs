@@ -15,6 +15,9 @@ using Yitter.IdGenerator;
 
 namespace Stash.Project.BasicService
 {
+    /// <summary>
+    /// 库位控制器
+    /// </summary>
     public class StorageLocationService : ApplicationService, IStorageLocationService
     {
         public readonly IRepository<StorageLocationTable, long> _storage;

@@ -16,6 +16,9 @@ using Yitter.IdGenerator;
 
 namespace Stash.Project.BasicService
 {
+    /// <summary>
+    /// 客户控制器
+    /// </summary>
     public class CustomerService : ApplicationService, ICustomerService
     {
         public readonly IRepository<CustomerTable, long> _customer;

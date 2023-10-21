@@ -15,6 +15,9 @@ using Yitter.IdGenerator;
 
 namespace Stash.Project.BasicService
 {
+    /// <summary>
+    /// 供应商控制器
+    /// </summary>
     public class SupplierService : ApplicationService, ISupplierService
     {
         public readonly IRepository<SupplierTable, long> _supplier;
