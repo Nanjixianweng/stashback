@@ -1,4 +1,5 @@
 ﻿using Stash.Project.Stash.TableStatus;
+using System;
 using Volo.Abp.Domain.Entities;
 
 namespace Stash.Project.Stash.BusinessManage.Model
@@ -20,7 +21,7 @@ namespace Stash.Project.Stash.BusinessManage.Model
         /// <summary>
         /// 状态 
         /// </summary>
-        public SellProductRelationshipStatus Status { get; set; }
+        public PurchaseProductRelationshipStatus Status { get; set; }
 
         /// <summary>
         /// 是否入账
