@@ -6,7 +6,7 @@ namespace Stash.Project.IBasicService.BasicDto
 {
     public class ProductCategoryInquireDto
     {
-        public long productcategoryid { get; set; }
+        public long? productcategoryid { get; set; }
 
         public string? productcategoryname { get; set;}
 
