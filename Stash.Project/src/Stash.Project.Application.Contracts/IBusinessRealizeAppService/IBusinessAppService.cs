@@ -31,7 +31,25 @@ namespace Stash.Project.IBusinessRealizeAppService
         Task<ResultApi<string>> GetPuraseFindAsync (long Id, int num);
         #endregion
         #region 销售
-
+        /// <summary>
+        /// 采购添加
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        Task<ResultApi<string>> CreateSellAsync(SellDto dto);
+        /// <summary>
+        /// 采购列表
+        /// </summary>
+        /// <returns></returns>
+        Task<ResultApi<List<DisplayPurchasingDto>>> CreateSellListAsync(GetPurchaseInquireDto dto);
+        /// <summary>
+        ///  采购 数量的更改
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        /// 
+        Task<ResultApi<string>> GetSellFindAsync(long Id, int num);
         #endregion
 
     }
