@@ -67,7 +67,6 @@ namespace Stash.Project.ISystemSetting
         /// <returns></returns>
         Task<ApiResult> DeleteBatchAsync(string Ids);
 
-
         #region 部门CRUD
 
         /// <summary>

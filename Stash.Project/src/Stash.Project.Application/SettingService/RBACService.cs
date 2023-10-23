@@ -314,12 +314,48 @@ namespace Stash.Project.SettingService
                                    Id = x.Id,
                                    AIDtoList = await GetRBACA2sync(obj, x.Id)
                                };
+
                                return newAccessInfo;
+
                            }).ToList();
+
             var result = await Task.WhenAll(tasks);
+
             return result.ToList();
         }
+        /// <summary>
+        /// 查询按钮
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<AccessInfoDto>> GetBettenShow(long id,long uid)
+        {
+            var roleUserList = await _roleuser.GetListAsync();
+            var roleAccessList = await _roleaccess.GetListAsync();
+            var accessList = await _access.GetListAsync();
 
+            var list = from a in roleUserList
+                       join b in roleAccessList on a.Role_Id equals b.Role_Id
+                       join c in accessList on b.Access_Id equals c.Id
+                       where a.User_Id == uid
+                       select c;
+
+            var alllist = list.Select(x => new AccessInfoDto
+            {
+                Access_Button = x.Access_Button,
+                Access_CreateTime = x.Access_CreateTime,
+                Access_FatherId = x.Access_FatherId,
+                Access_Icon = x.Access_Icon,
+                Access_Name = x.Access_Name,
+                Access_Route = x.Access_Route,
+                Access_Sort = x.Access_Sort,
+                Access_Type = x.Access_Type,
+                Id = x.Id,
+                AIDtoList = null
+            }).Distinct().ToList();
+
+            return await GetRBACA2sync(alllist, id);
+        }
         #region 部门CRUD
 
         /// <summary>
