@@ -18,6 +18,6 @@
         /// <summary>
         /// 角色id
         /// </summary>
-        public long Role_Id { get; set; }
+        public long? Role_Id { get; set; }
     }
 }

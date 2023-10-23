@@ -5,6 +5,7 @@ using Stash.Project.Stash.BasicData.Model;
 using Stash.Project.Stash.BusinessManage.Model;
 using Stash.Project.ISystemSetting.SettingDto;
 using Stash.Project.Stash.SystemSetting.Model;
+using AutoMapper.Internal.Mappers;
 
 namespace Stash.Project;
 

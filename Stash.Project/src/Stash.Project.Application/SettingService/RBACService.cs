@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.ObjectMapping;
 using Yitter.IdGenerator;
 
 namespace Stash.Project.SettingService
@@ -43,18 +44,64 @@ namespace Stash.Project.SettingService
             YitIdHelper.SetIdGenerator(new IdGeneratorOptions());
 
             dto.Id = YitIdHelper.NextId();
-
             dto.User_JobNumber = DateTime.Now.ToString("yyyyMMddHHmmss");
 
             var info = ObjectMapper.Map<UserInfoCreateDto, UserInfo>(dto);
-
             var res = await _user.InsertAsync(info);
+
+            var userRole = new RoleUserInfoDto();
+            userRole.Id = YitIdHelper.NextId();
+            userRole.User_Id = dto.Id;
+            userRole.Role_Id = dto.Role_Id;
+
+            var ruinfo = ObjectMapper.Map<RoleUserInfoDto, RoleUserInfo>(userRole);
+            var urres = await _roleuser.InsertAsync(ruinfo);
+          
 
             return new ApiResult
             {
                 code = ResultCode.Success,
                 msg = ResultMsg.AddSuccess,
                 data = res
+            };
+        }
+
+        /// <summary>
+        /// 编辑用户
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<ApiResult> UpdateUserAsync(UserInfoCreateDto dto)
+        {
+
+            var ruinfo = await _roleuser.FindAsync(x => x.User_Id == dto.Id);
+            ruinfo.User_Id = dto.Id;
+            ruinfo.Role_Id= dto.Role_Id;
+            await _roleuser.UpdateAsync(ruinfo);
+
+            var info = ObjectMapper.Map<UserInfoCreateDto, UserInfo>(dto);
+            await _user.UpdateAsync(info);
+            return new ApiResult
+            {
+                code = ResultCode.Success,
+                msg = ResultMsg.UpdateSuccess,
+                data = info
+            };
+        }
+
+        /// <summary>
+        /// 用户信息反填
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        public async Task<ApiResult> GetUserInfoAsync(long uid)
+        {
+            var info = await _user.FirstOrDefaultAsync(x => x.Id == uid);
+            return new ApiResult
+            {
+                code = ResultCode.Success,
+                msg = ResultMsg.RequestSuccess,
+                data = info
             };
         }
 
@@ -135,21 +182,7 @@ namespace Stash.Project.SettingService
             };
         }
 
-        /// <summary>
-        /// 用户信息反填
-        /// </summary>
-        /// <param name="uid"></param>
-        /// <returns></returns>
-        public async Task<ApiResult> GetUserInfoAsync(long uid)
-        {
-            var info = await _user.FirstOrDefaultAsync(x => x.Id == uid);
-            return new ApiResult
-            {
-                code = ResultCode.Success,
-                msg = ResultMsg.RequestSuccess,
-                data = info
-            };
-        }
+      
 
         /// <summary>
         /// 用户列表
@@ -199,23 +232,6 @@ namespace Stash.Project.SettingService
                 msg = ResultMsg.RequestSuccess,
                 data = list,
                 count = dataCount,
-            };
-        }
-
-        /// <summary>
-        /// 编辑用户
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-        public async Task<ApiResult> UpdateUserAsync(UserInfoCreateDto dto)
-        {
-            var info = ObjectMapper.Map<UserInfoCreateDto, UserInfo>(dto);
-            var res = await _user.UpdateAsync(info);
-            return new ApiResult
-            {
-                code = ResultCode.Success,
-                msg = ResultMsg.UpdateSuccess,
-                data = res
             };
         }
 
