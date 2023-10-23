@@ -82,7 +82,7 @@ namespace Stash.Project.ISystemSetting
         /// <param name="sectorName"></param>
         /// <param name="remark"></param>
         /// <returns></returns>
-        Task<ApiResult> QuerySectorAsync(string? sectorName, string? remark);
+        Task<ApiResult> GetQuerySectorAsync(string? sectorName, string? remark);
 
         /// <summary>
         /// 部门信息反填

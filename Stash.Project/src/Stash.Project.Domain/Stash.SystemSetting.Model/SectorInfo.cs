@@ -8,10 +8,6 @@ namespace Stash.Project.Stash.SystemSetting.Model
     /// </summary>
     public class SectorInfo : BasicAggregateRoot<long>
     {
-        /// <summary>
-        /// 部门编号
-        /// </summary>
-        public long Id { get; set; }
 
         /// <summary>
         /// 部门名称

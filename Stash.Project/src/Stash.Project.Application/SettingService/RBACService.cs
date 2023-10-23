@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Stash.Project.ISystemSetting;
+﻿using Stash.Project.ISystemSetting;
 using Stash.Project.ISystemSetting.SettingDto;
 using Stash.Project.Stash.SystemSetting.Model;
 using System;
@@ -24,17 +22,15 @@ namespace Stash.Project.SettingService
         private readonly IRepository<AccessInfo, long> _access;
         private readonly IRepository<RoleUserInfo, long> _roleuser;
         private readonly IRepository<RoleAccessInfo, long> _roleaccess;
-        private readonly IMapper _mapper;
 
-        public RBACService(IRepository<UserInfo, long> user, IRepository<SectorInfo, long> sector, IRepository<RoleInfo, long> role, IMapper mapper, IRepository<RoleUserInfo, long> roleuser, IRepository<RoleAccessInfo, long> roleaccess, IRepository<AccessInfo, long> access)
+        public RBACService(IRepository<UserInfo, long> user, IRepository<SectorInfo, long> sector, IRepository<RoleInfo, long> role, IRepository<RoleUserInfo, long> roleuser, IRepository<RoleAccessInfo, long> roleaccess, IRepository<AccessInfo, long> access)
         {
             _user = user;
             _sector = sector;
             _role = role;
-            _mapper = mapper;
             _roleuser = roleuser;
-            _roleaccess= roleaccess;
-            _access= access;
+            _roleaccess = roleaccess;
+            _access = access;
         }
 
         /// <summary>
@@ -106,6 +102,7 @@ namespace Stash.Project.SettingService
                 data = res
             };
         }
+
         /// <summary>
         /// 角色列表
         /// </summary>
@@ -212,7 +209,7 @@ namespace Stash.Project.SettingService
         /// <returns></returns>
         public async Task<ApiResult> UpdateUserAsync(UserInfoCreateDto dto)
         {
-            var info = _mapper.Map<UserInfoCreateDto, UserInfo>(dto);
+            var info = ObjectMapper.Map<UserInfoCreateDto, UserInfo>(dto);
             var res = await _user.UpdateAsync(info);
             return new ApiResult
             {
@@ -248,6 +245,7 @@ namespace Stash.Project.SettingService
                 msg = ResultMsg.RequestSuccess
             };
         }
+
         /// <summary>
         /// 递归查询
         /// </summary>
@@ -255,7 +253,6 @@ namespace Stash.Project.SettingService
         /// <returns></returns>
         public async Task<List<AccessInfoDto>> GetRBACAsync(long uid)
         {
-
             var roleUserList = await _roleuser.GetListAsync();
             var roleAccessList = await _roleaccess.GetListAsync();
             var accessList = await _access.GetListAsync();
@@ -282,6 +279,7 @@ namespace Stash.Project.SettingService
 
             return await GetRBACA2sync(alllist, 0);
         }
+
         public async Task<List<AccessInfoDto>> GetRBACA2sync(List<AccessInfoDto> obj, long Pid)
         {
             var tasks = obj.Where(x => x.Access_FatherId == Pid)
@@ -373,11 +371,12 @@ namespace Stash.Project.SettingService
         /// <param name="sectorName"></param>
         /// <param name="remark"></param>
         /// <returns></returns>
-        public async Task<ApiResult> QuerySectorAsync(string? sectorName, string? remark)
+        public async Task<ApiResult> GetQuerySectorAsync(string? sectorName, string? remark)
         {
             var list = (await _sector.ToListAsync())
                 .WhereIf(!string.IsNullOrWhiteSpace(sectorName), x => x.Sector_Name.Contains(sectorName))
-                .WhereIf(!string.IsNullOrWhiteSpace(remark), x => x.Sector_Remark.Contains(remark));
+                .WhereIf(!string.IsNullOrWhiteSpace(remark), x => x.Sector_Remark.Contains(remark))
+                .Where(x => x.Sector_IsDel == false);
             return new ApiResult
             {
                 code = ResultCode.Success,
@@ -439,6 +438,5 @@ namespace Stash.Project.SettingService
         }
 
         #endregion 部门CRUD
-
     }
 }
