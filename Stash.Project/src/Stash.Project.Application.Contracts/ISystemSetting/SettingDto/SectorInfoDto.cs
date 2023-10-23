@@ -39,5 +39,6 @@ namespace Stash.Project.ISystemSetting.SettingDto
         /// </summary>
         public bool Sector_IsDel { get; set; }
 
+
     }
 }
