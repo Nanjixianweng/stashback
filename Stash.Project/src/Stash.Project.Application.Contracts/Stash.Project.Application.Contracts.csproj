@@ -22,4 +22,8 @@
     <ProjectReference Include="..\Stash.Project.Domain.Shared\Stash.Project.Domain.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="IWarehouseManage\WarehouseDto\" />
+  </ItemGroup>
+
 </Project>
