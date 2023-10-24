@@ -55,12 +55,6 @@ namespace Stash.Project.ISystemSetting
         Task<ApiResult> DeleteUserAsync(long uid);
 
         /// <summary>
-        /// 删除角色
-        /// </summary>
-        /// <param name="rid"></param>
-        /// <returns></returns>
-        Task<ApiResult> DeleteRoleAsync(long rid);
-        /// <summary>
         /// 批量删除用户
         /// </summary>
         /// <param name="Ids">字符编号</param>
@@ -107,5 +101,45 @@ namespace Stash.Project.ISystemSetting
 
         #endregion
 
+
+        #region 角色CRUD
+
+        /// <summary>
+        /// 新增角色
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        Task<ApiResult> CreateRoleAsync(RoleInfoDto dto);
+
+        /// <summary>
+        /// 角色查询
+        /// </summary>
+        /// <param name="sectorName"></param>
+        /// <param name="remark"></param>
+        /// <returns></returns>
+        Task<ApiResult> GetQueryRoleAsync(string? roleName, string? remark);
+
+        /// <summary>
+        /// 角色信息反填
+        /// </summary>
+        /// <param name="sid"></param>
+        /// <returns></returns>
+        Task<ApiResult> GetRoleInfoAsync(long rid);
+
+        /// <summary>
+        /// 编辑角色
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        Task<ApiResult> UpdateRoleAsync(RoleInfoDto dto);
+
+        /// <summary>
+        /// 删除角色
+        /// </summary>
+        /// <param name="rid"></param>
+        /// <returns></returns>
+        Task<ApiResult> DeleteRoleAsync(long rid);
+
+        #endregion
     }
 }

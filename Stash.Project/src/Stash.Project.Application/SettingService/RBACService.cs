@@ -105,33 +105,7 @@ namespace Stash.Project.SettingService
             };
         }
 
-        /// <summary>
-        /// 删除角色
-        /// </summary>
-        /// <param name="rid"></param>
-        /// <returns></returns>
-        public async Task<ApiResult> DeleteRoleAsync(long rid)
-        {
-            var role = await _role.GetAsync(rid);
-            if (role != null)
-            {
-                await _role.DeleteAsync(role);
-                return new ApiResult
-                {
-                    code = ResultCode.Success,
-                    msg = ResultMsg.DeleteSuccess,
-                };
-            }
-            else
-            {
-                return new ApiResult
-                {
-                    code = ResultCode.Error,
-                    msg = ResultMsg.DeleteError,
-                };
-            }
-        }
-
+       
         /// <summary>
         /// 逻辑删除用户
         /// </summary>
@@ -453,6 +427,118 @@ namespace Stash.Project.SettingService
             };
         }
 
+
+
         #endregion 部门CRUD
+
+        #region 角色CRUD
+
+        /// <summary>
+        /// 新增角色
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<ApiResult> CreateRoleAsync(RoleInfoDto dto)
+        {
+            YitIdHelper.SetIdGenerator(new IdGeneratorOptions());
+            dto.Id=YitIdHelper.NextId();
+            dto.Role_CreateTime = DateTime.Now;
+            var info=ObjectMapper.Map<RoleInfoDto, RoleInfo>(dto);  
+            var res = await _role.InsertAsync(info);
+            return new ApiResult
+            {
+                code = ResultCode.Success,
+                msg = ResultMsg.AddSuccess,
+                data = res
+            };
+        }
+
+        /// <summary>
+        /// 角色查询
+        /// </summary>
+        /// <param name="roleName"></param>
+        /// <param name="remark"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<ApiResult> GetQueryRoleAsync(string? roleName, string? remark)
+        {
+            var list = (await _role.ToListAsync())
+                .WhereIf(!string.IsNullOrWhiteSpace(roleName), x => x.Role_Name.Contains(roleName))
+                .WhereIf(!string.IsNullOrWhiteSpace(remark), x => x.Role_Remark.Contains(remark));
+            return new ApiResult
+            {
+                code = ResultCode.Success,
+                msg = ResultMsg.RequestSuccess,
+                data = list,
+                count = 0,
+            };
+
+        }
+
+        /// <summary>
+        /// 角色信息反填
+        /// </summary>
+        /// <param name="rid"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<ApiResult> GetRoleInfoAsync(long rid)
+        {
+            var info=await _role.FirstOrDefaultAsync(x=>x.Id == rid);
+            return new ApiResult
+            {
+                code = ResultCode.Success,
+                msg = ResultMsg.RequestSuccess,
+                data = info
+            };
+        }
+
+        /// <summary>
+        /// 编辑角色
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<ApiResult> UpdateRoleAsync(RoleInfoDto dto)
+        {
+            var info = ObjectMapper.Map<RoleInfoDto, RoleInfo>(dto);
+            var res=await _role.UpdateAsync(info);
+            return new ApiResult
+            {
+                code = ResultCode.Success,
+                msg = ResultMsg.UpdateSuccess,
+                data = res
+            };
+        }
+
+        /// <summary>
+        /// 删除角色
+        /// </summary>
+        /// <param name="rid"></param>
+        /// <returns></returns>
+        public async Task<ApiResult> DeleteRoleAsync(long rid)
+        {
+            var role = await _role.GetAsync(rid);
+            if (role != null)
+            {
+                await _role.DeleteAsync(role);
+                return new ApiResult
+                {
+                    code = ResultCode.Success,
+                    msg = ResultMsg.DeleteSuccess,
+                };
+            }
+            else
+            {
+                return new ApiResult
+                {
+                    code = ResultCode.Error,
+                    msg = ResultMsg.DeleteError,
+                };
+            }
+        }
+
+
+        #endregion
     }
 }
