@@ -8,6 +8,7 @@ using Stash.Project.IWarehouseManage;
 using Volo.Abp.Domain.Repositories;
 using Stash.Project.Stash.WarehouseManage.Model;
 using Microsoft.AspNetCore.Mvc;
+using Stash.Project.IWarehouseManage.WarehouseDto;
 
 namespace Stash.Project.WarehouseManage
 {
@@ -59,6 +60,18 @@ namespace Stash.Project.WarehouseManage
                 data = list,
             };
         }
+        /// <summary>
+        /// 添加入库信息
+        /// </summary>
+        /// <param name="obj">入库信息</param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public Task<ApiResult> PostAddPutWarehouse(AddWarehouseDto obj)
+        {
+            throw new NotImplementedException();
 
+
+
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using Volo.Abp.Domain.Entities;
-
 namespace Stash.Project.Stash.WarehouseManage.Model
 {
     /// <summary>
