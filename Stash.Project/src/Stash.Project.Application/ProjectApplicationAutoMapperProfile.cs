@@ -6,6 +6,8 @@ using Stash.Project.Stash.BusinessManage.Model;
 using Stash.Project.ISystemSetting.SettingDto;
 using Stash.Project.Stash.SystemSetting.Model;
 using AutoMapper.Internal.Mappers;
+using Stash.Project.Stash.WarehouseManage.Model;
+using Stash.Project.IWarehouseManage.WarehouseDto;
 
 namespace Stash.Project;
 
@@ -52,6 +54,12 @@ public class ProjectApplicationAutoMapperProfile : Profile
         CreateMap<UserInfoQueryDto, UserInfo>().ReverseMap();
         CreateMap<UserInfoCreateDto, UserInfo>().ReverseMap();
         CreateMap<SectorInfoDto, SectorInfo>().ReverseMap();
+        #endregion
+
+        #region 仓库管理
+        CreateMap<StashProductDto, StashProductTable>().ReverseMap();
+
+
         #endregion
     }
 }

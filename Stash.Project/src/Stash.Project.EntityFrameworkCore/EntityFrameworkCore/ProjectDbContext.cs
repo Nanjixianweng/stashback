@@ -225,11 +225,7 @@ public class ProjectDbContext :
             x.HasKey(y => y.Id);
             x.Property(y => y.OutStorageType_Id).IsRequired();
             x.Property(y => y.OutStorage_OrderId).IsRequired();
-            x.Property(y => y.OuttStorage_SupplierId).IsRequired();
             x.Property(y => y.Operator_Date).IsRequired();
-            x.Property(y => y.OutStorage_Name).HasMaxLength(200).IsRequired();
-            x.Property(y => y.OutStorage_ContactPerson).HasMaxLength(200).IsRequired();
-            x.Property(y => y.OutStorage_Phone).HasMaxLength(200).IsRequired();
             x.Property(y => y.Operator_Name).HasMaxLength(200).IsRequired();
             x.Property(y => y.OutStorage_Remark).HasMaxLength(200).IsRequired();
         });
@@ -249,11 +245,7 @@ public class ProjectDbContext :
             x.HasKey(y => y.Id);
             x.Property(y => y.PutStorageType_Id).IsRequired();
             x.Property(y => y.PutStorage_OrderId).IsRequired();
-            x.Property(y => y.PutStorage_SupplierId).IsRequired();
             x.Property(y => y.Operator_Date).IsRequired();
-            x.Property(y => y.PutStorage_Name).HasMaxLength(200).IsRequired();
-            x.Property(y => y.PutStorage_ContactPerson).HasMaxLength(200).IsRequired();
-            x.Property(y => y.PutStorage_Phone).HasMaxLength(200).IsRequired();
             x.Property(y => y.Operator_Name).HasMaxLength(200).IsRequired();
             x.Property(y => y.PutStorage_Remark).HasMaxLength(200).IsRequired();
         });

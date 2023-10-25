@@ -7,8 +7,8 @@ namespace Stash.Project.IWarehouseManage.WarehouseDto
 {
     public class AddWarehouseDto
     {
-        public List<PutStorageDto> putStorageDto { get; set; }
-        public StashProductDto stashProductDto { get; set; }
+        public PutStorageDto putStorageDto { get; set; }
+        public List<StashProductDto> stashProductDto { get; set; }
     }
     public class PutStorageDto
     {
@@ -21,22 +21,6 @@ namespace Stash.Project.IWarehouseManage.WarehouseDto
         /// 关联订单号
         /// </summary>
         public long PutStorage_OrderId { get; set; }
-        /// <summary>
-        /// 供应商编号
-        /// </summary>
-        public long PutStorage_SupplierId { get; set; }
-        /// <summary>
-        /// 供应商名称
-        /// </summary>
-        public string? PutStorage_Name { get; set; }
-        /// <summary>
-        /// 供应商联系人
-        /// </summary>
-        public string? PutStorage_ContactPerson { get; set; }
-        /// <summary>
-        /// 供应商联系方式
-        /// </summary>
-        public string? PutStorage_Phone { get; set; }
         /// <summary>
         /// 制单人
         /// </summary>
@@ -52,7 +36,7 @@ namespace Stash.Project.IWarehouseManage.WarehouseDto
     }
     public class StashProductDto
     {
-        public long Ids { get; set; }
+        public long Id { get; set; }
         /// <summary>
         /// 产品编号
         /// </summary>
@@ -64,7 +48,7 @@ namespace Stash.Project.IWarehouseManage.WarehouseDto
         /// <summary>
         /// 批次
         /// </summary>
-        public int PutStorage_Lot { get; set; }
+        public string PutStorage_Lot { get; set; }
         /// <summary>
         /// 单价
         /// </summary>

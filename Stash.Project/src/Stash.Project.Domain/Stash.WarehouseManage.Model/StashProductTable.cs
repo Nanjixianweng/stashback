@@ -18,7 +18,7 @@ namespace Stash.Project.Stash.WarehouseManage.Model
         /// <summary>
         /// 批次
         /// </summary>
-        public int PutStorage_Lot { get; set; }
+        public string PutStorage_Lot { get; set; }
         /// <summary>
         /// 单价
         /// </summary>
