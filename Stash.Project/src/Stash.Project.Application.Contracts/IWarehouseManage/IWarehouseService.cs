@@ -12,6 +12,6 @@ namespace Stash.Project.IWarehouseManage
         Task<ApiResult> GetDocumentTypeAsync();
 
         Task<ApiResult> PostAddPutWarehouse(AddWarehouseDto obj);
-
+        Task<ApiResult> PostPutStorageAsync(GetPutListDto obj);
     }
 }
