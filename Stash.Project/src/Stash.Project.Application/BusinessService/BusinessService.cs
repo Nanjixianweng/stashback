@@ -78,7 +78,6 @@ namespace Stash.Project.BusinessService
         {
             dto.PTD.Id=YitIdHelper.NextId();
             List<PurchaseProductRelationshipTable>? pprt = new List<PurchaseProductRelationshipTable>();
-            var pr=new List<ProductTable>();
             foreach (var p in dto.PD)
             {
                 var prModel = await _productTableRepository.FindAsync(p.Id);
@@ -94,15 +93,11 @@ namespace Stash.Project.BusinessService
                         EnterOrNot = false,
                         Status = Stash.TableStatus.PurchaseProductRelationshipStatus.采购中
                     }));
-                    prModel.Num-=p.Num;
-                    pr.Add(prModel);
                 }
             }
             var ptd = ObjectMapper.Map<PurchaseTableDto,PurchaseTable>(dto.PTD);
             //采购表添加
             var pur= await _purchaseTableRepository.InsertAsync(ptd);
-            //产品批量修改
-             await _productTableRepository.UpdateManyAsync(pr);
             //采购产品关系表批量添加
             await _purchaseProductRelationshipRepository.InsertManyAsync(pprt);
             var api = new ResultApi<string>();
@@ -204,7 +199,6 @@ namespace Stash.Project.BusinessService
         {
             dto.Std.Id = YitIdHelper.NextId();
             List<SellProductRelationshipTable>? pprt = new List<SellProductRelationshipTable>();
-            var pr = new List<ProductTable>();
             foreach (var p in dto.PD)
             {
                 var prModel = await _productTableRepository.FindAsync(p.Id);
@@ -220,15 +214,11 @@ namespace Stash.Project.BusinessService
                         EnterOrNot = false,
                         Status = Stash.TableStatus.SellProductRelationshipStatus.销售中
                     }));
-                    prModel.Num -= p.Num;
-                    pr.Add(prModel);
                 }
             }
             var ptd = ObjectMapper.Map<SellTableDto, SellTable>(dto.Std);
             //采购表添加
             var pur = await _sellTableRepository.InsertAsync(ptd);
-            //产品批量修改
-            await _productTableRepository.UpdateManyAsync(pr);
             //采购产品关系表批量添加
             await _sellProductRelationshipRepository.InsertManyAsync(pprt);
             var api = new ResultApi<string>();
