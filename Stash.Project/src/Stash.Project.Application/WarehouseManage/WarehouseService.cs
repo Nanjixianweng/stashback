@@ -76,6 +76,7 @@ namespace Stash.Project.WarehouseManage
                 data = list,
             };
         }
+
         /// <summary>
         /// 添加入库信息
         /// </summary>
@@ -140,6 +141,77 @@ namespace Stash.Project.WarehouseManage
             foreach (var item in stateList)
             {
                 item.Status = Stash.TableStatus.PurchaseProductRelationshipStatus.全部入库;
+            }
+
+            return new ApiResult()
+            {
+                code = 200,
+            };
+        }
+
+        /// <summary>
+        /// 添加出库信息
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<ApiResult> PostAddOutWarehouse(AddWarehouseDto obj)
+        {
+            obj.putStorageDto.Id = YitIdHelper.NextId();
+
+            //批次生成
+            Random random = new Random();
+            var ints = "";
+
+            for (int i = 0; i < 4; i++)
+            {
+                ints += random.Next(0, 9);
+            }
+
+            //批次生成规则:年月日时分秒+随机数*4
+            var rodNum = DateTime.Now.ToString("yyyyMMddHHmmss") + ints;
+
+            var defuid = _storageLocation.FirstOrDefaultAsync(x => x.DefaultrorNot == true).Id;
+
+            //关系表
+            foreach (var item in obj.stashProductDto)
+            {
+                item.Id = YitIdHelper.NextId();
+
+                item.PutStorage_Id = obj.putStorageDto.Id;
+
+                item.PutStorage_Lot = rodNum;
+
+                item.PutStorage_Position = defuid.ToString();
+            }
+
+            //出库表
+            OutStorageTable outStorageTable = new OutStorageTable();
+
+            var flies = outStorageTable.GetType().GetProperty("Id");
+
+            if (flies != null)
+            {
+                flies.SetValue(outStorageTable, obj.putStorageDto.Id);
+            }
+            outStorageTable.Operator_Date = obj.putStorageDto.Operator_Date;
+            outStorageTable.Operator_Name = obj.putStorageDto.Operator_Name;
+            outStorageTable.OutStorageType_Id = obj.putStorageDto.PutStorageType_Id;
+            outStorageTable.OutStorage_OrderId = obj.putStorageDto.PutStorage_OrderId;
+            outStorageTable.OutStorage_Remark = obj.putStorageDto.PutStorage_Remark;
+
+            await _outStor.InsertAsync(outStorageTable);
+
+            var info = ObjectMapper.Map<List<StashProductDto>, List<StashProductTable>>(obj.stashProductDto);
+
+            await _stashPro.InsertManyAsync(info);
+
+            //更改采购状态
+            var stateList = (await _purchaseProduct.ToListAsync()).WhereIf(outStorageTable.OutStorage_OrderId != null, x => x.PurchaseId == outStorageTable.OutStorage_OrderId);
+
+            foreach (var item in stateList)
+            {
+                item.Status = (Stash.TableStatus.PurchaseProductRelationshipStatus)Stash.TableStatus.SellProductRelationshipStatus.全部出库;
             }
 
             return new ApiResult()
