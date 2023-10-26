@@ -17,22 +17,6 @@ namespace Stash.Project.Stash.WarehouseManage.Model
         /// </summary>
         public long OutStorage_OrderId { get; set; }
         /// <summary>
-        /// 供应商编号
-        /// </summary>
-        public long OuttStorage_SupplierId { get; set; }
-        /// <summary>
-        /// 供应商名称
-        /// </summary>
-        public string? OutStorage_Name { get; set; }
-        /// <summary>
-        /// 供应商联系人
-        /// </summary>
-        public string? OutStorage_ContactPerson { get; set; }
-        /// <summary>
-        /// 供应商联系方式
-        /// </summary>
-        public string? OutStorage_Phone { get; set; }
-        /// <summary>
         /// 制单人
         /// </summary>
         public string? Operator_Name { get; set; }

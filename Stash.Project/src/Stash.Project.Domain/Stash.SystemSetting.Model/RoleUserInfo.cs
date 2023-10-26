@@ -7,6 +7,10 @@ namespace Stash.Project.Stash.SystemSetting.Model
     /// </summary>
     public class RoleUserInfo : BasicAggregateRoot<long>
     {
+        /// <summary>
+        /// 角色用户编号
+        /// </summary>
+        public long Id { get; set; }
 
         /// <summary>
         /// 用户id
@@ -16,6 +20,6 @@ namespace Stash.Project.Stash.SystemSetting.Model
         /// <summary>
         /// 角色id
         /// </summary>
-        public long Role_Id { get; set; }
+        public long? Role_Id { get; set; }
     }
 }
