@@ -13,7 +13,10 @@ namespace Stash.Project.IWarehouseManage
 
         Task<ApiResult> PostAddPutWarehouse(AddWarehouseDto obj);
 
-        Task<ApiResult> PostAddOutWarehouse(AddWarehouseDto obj);
         Task<ApiResult> PostPutStorageAsync(GetPutListDto obj);
+
+        Task<ApiResult> PostAddOutWarehouse(AddWarehouseDto obj);
+
+        Task<ApiResult> PostOutStorageAsync(GetPutListDto obj);
     }
 }

@@ -46,9 +46,13 @@ namespace Stash.Project.WarehouseManage
         /// </summary>
         private readonly IRepository<StorageLocationTable> _storageLocation;
         /// <summary>
-        /// 销售单状态
+        /// 采购产品关系
         /// </summary>
         private readonly IRepository<PurchaseProductRelationshipTable> _purchaseProduct;
+        /// <summary>
+        /// 销售产品关系
+        /// </summary>
+        private readonly IRepository<SellProductRelationshipTable> _sellProduct;
         /// <summary>
         /// 产品表
         /// </summary>
@@ -60,7 +64,7 @@ namespace Stash.Project.WarehouseManage
 
 
 
-        public WarehouseService(IRepository<StashProductTable> stashPro, IRepository<PutStorageTable> putStor, IRepository<OutStorageTable> outStor, IRepository<PutStorageStateTable> warState, IRepository<DocumentType> documentType, IRepository<StorageLocationTable> storageLocation, IRepository<PurchaseProductRelationshipTable> purchaseProduct, IRepository<ProductTable> productTable, IRepository<SupplierTable> supplierTable)
+        public WarehouseService(IRepository<StashProductTable> stashPro, IRepository<PutStorageTable> putStor,IRepository<SellProductRelationshipTable> sellProduct, IRepository<OutStorageTable> outStor, IRepository<PutStorageStateTable> warState, IRepository<DocumentType> documentType, IRepository<StorageLocationTable> storageLocation, IRepository<PurchaseProductRelationshipTable> purchaseProduct, IRepository<ProductTable> productTable, IRepository<SupplierTable> supplierTable)
         {
             _stashPro = stashPro;
             _putStor = putStor;
@@ -70,6 +74,7 @@ namespace Stash.Project.WarehouseManage
             _storageLocation = storageLocation;
             _purchaseProduct = purchaseProduct;
             this.productTable = productTable;
+            _sellProduct = sellProduct;
             _supplierTable = supplierTable;
         }
 
@@ -241,7 +246,7 @@ namespace Stash.Project.WarehouseManage
             //批次生成规则:年月日时分秒+随机数*4
             var rodNum = DateTime.Now.ToString("yyyyMMddHHmmss") + ints;
 
-            var defuid = _storageLocation.FirstOrDefaultAsync(x => x.DefaultrorNot == true).Id;
+            var defuid = (await _storageLocation.FirstOrDefaultAsync(x => x.DefaultrorNot == true)).Id;
 
             //关系表
             foreach (var item in obj.stashProductDto)
@@ -277,17 +282,80 @@ namespace Stash.Project.WarehouseManage
             await _stashPro.InsertManyAsync(info);
 
             //更改采购状态
-            var stateList = (await _purchaseProduct.ToListAsync()).WhereIf(outStorageTable.OutStorage_OrderId != null, x => x.PurchaseId == outStorageTable.OutStorage_OrderId);
+            var stateList = (await _sellProduct.ToListAsync()).WhereIf(outStorageTable.OutStorage_OrderId != null, x => x.SellId == outStorageTable.OutStorage_OrderId);
 
             foreach (var item in stateList)
             {
-                item.Status = (Stash.TableStatus.PurchaseProductRelationshipStatus)Stash.TableStatus.SellProductRelationshipStatus.全部出库;
+                item.Status = Stash.TableStatus.SellProductRelationshipStatus.全部出库;
             }
 
             return new ApiResult()
             {
                 code = 200,
             };
+        }
+
+        /// <summary>
+        /// 出库查询
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<ApiResult> PostOutStorageAsync(GetPutListDto obj)
+        {
+            //出库单表
+            var outStor = await _outStor.GetListAsync();
+
+            //库单产品关系
+            var stashPro = await _stashPro.GetListAsync();
+
+            //产品表
+            var product = await productTable.GetListAsync();
+
+            //库位表
+            var storageLocation = await _storageLocation.GetListAsync();
+
+            //单据类型表
+            var documentType = await _documentType.ToListAsync();
+
+            //供应商表
+            var supplierTable = await _supplierTable.ToListAsync();
+
+            var list = from a in outStor
+                       join b in stashPro on a.Id equals b.PutStorage_Id
+                       join c in product on b.Product_Id equals c.Id
+                       join d in storageLocation on Convert.ToInt64(b.PutStorage_Position) equals d.Id
+                       join e in documentType on a.OutStorageType_Id equals e.Id
+                       join f in supplierTable on c.DefaultSupplier equals f.Id
+                       select new PutListQueryDto
+                       {
+                           Product_Id = c.Id,
+                           Num = c.Num,
+                           Operator_Name = a.Operator_Name,
+                           ProductName = c.ProductName,
+                           PutStorage_Id = b.PutStorage_Id,
+                           PutStorage_Lot = b.PutStorage_Lot,
+                           Specification = c.Specification,
+                           LibraryLocationName = d.LibraryLocationName,
+                           PutStorageType_Name = e.Document_Name,
+                           SupplierName = f.SupplierName,
+                           putStorage_Type = e.Id,
+                       };
+
+            if (obj.putStorage_Id != null && obj.putStorage_Id != 0)
+            {
+                list = list.Where(x => x.PutStorage_Id == obj.putStorage_Id).AsQueryable();
+            }
+            if (obj.putStorage_Type != null && obj.putStorage_Type != 0)
+            {
+                list = list.Where(x => x.putStorage_Type == obj.putStorage_Type).AsQueryable();
+            }
+
+            var dataCount = list.Count();
+
+            list = list.Skip((obj.pageIndext - 1) * obj.pageSize).Take(obj.pageSize).ToList();
+
+            return new ApiResult() { code = 0, data = list, count = dataCount };
         }
     }
 }
