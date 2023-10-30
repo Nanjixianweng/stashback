@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Uow;
 using Yitter.IdGenerator;
 
 namespace Stash.Project.BasicService
@@ -104,6 +105,7 @@ namespace Stash.Project.BasicService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
+        [UnitOfWork]
         public async Task<ApiResult> GetSupplierListAsync(SupplierInquireDto dto)
         {
             var supplier = await _supplier.GetListAsync();
