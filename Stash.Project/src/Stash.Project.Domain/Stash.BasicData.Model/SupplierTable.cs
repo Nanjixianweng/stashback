@@ -51,7 +51,7 @@ namespace Stash.Project.Stash.BasicData.Model
 
         /// <summary>
         /// 描述
-        /// </summary>
+        /// </summary>- 
         public string? Description { get; set; }
     }
 }

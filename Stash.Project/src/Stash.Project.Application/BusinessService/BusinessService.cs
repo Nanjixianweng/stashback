@@ -24,35 +24,35 @@ namespace Stash.Project.BusinessService
         /// <summary>
         /// 采购表
         /// </summary>
-        private readonly  IRepository<PurchaseTable,long> _purchaseTableRepository;
+        private readonly IRepository<PurchaseTable, long> _purchaseTableRepository;
         /// <summary>
         /// 采购产品关系表
         /// </summary>
-        private readonly  IRepository<PurchaseProductRelationshipTable,long> _purchaseProductRelationshipRepository;
+        private readonly IRepository<PurchaseProductRelationshipTable, long> _purchaseProductRelationshipRepository;
         /// <summary>
         /// 采购退货表
         /// </summary>
-        private readonly  IRepository<PurchaseReturnGoodsTable,long> _purchaseReturnGoodsTableRepository;
+        private readonly IRepository<PurchaseReturnGoodsTable, long> _purchaseReturnGoodsTableRepository;
         /// <summary>
         /// 产品表
         /// </summary>
-        private readonly  IRepository<ProductTable,long> _productTableRepository;
+        private readonly IRepository<ProductTable, long> _productTableRepository;
         /// <summary>
         /// 供应商
         /// </summary>
-        private readonly  IRepository<SupplierTable,long> _supplierTableRepository;
+        private readonly IRepository<SupplierTable, long> _supplierTableRepository;
         /// <summary>
         /// 销售表
         /// </summary>
-        private readonly  IRepository<SellTable,long> _sellTableRepository;
+        private readonly IRepository<SellTable, long> _sellTableRepository;
         /// <summary>
         /// 销售产品关系表
         /// </summary>
-        private readonly  IRepository<SellProductRelationshipTable,long> _sellProductRelationshipRepository;
+        private readonly IRepository<SellProductRelationshipTable, long> _sellProductRelationshipRepository;
         /// <summary>
         /// 销售退货表
         /// </summary>
-        private readonly  IRepository<SalesReturnsTable,long> _salesReturnsTableRepository;
+        private readonly IRepository<SalesReturnsTable, long> _salesReturnsTableRepository;
         public BusinessService(IRepository<PurchaseTable, long> purchaseTableRepository, IRepository<PurchaseProductRelationshipTable, long> purchaseProductRelationshipRepository, IRepository<PurchaseReturnGoodsTable, long> purchaseReturnGoodsTableRepository, IRepository<ProductTable, long> productTableRepository, IRepository<SupplierTable, long> supplierTableRepository, IRepository<SellTable, long> sellTableRepository, IRepository<SellProductRelationshipTable, long> sellProductRelationshipRepository, IRepository<SalesReturnsTable, long> salesReturnsTableRepository)
         {
             _purchaseTableRepository = purchaseTableRepository;
@@ -76,12 +76,12 @@ namespace Stash.Project.BusinessService
         /// <exception cref="NotImplementedException"></exception>
         public async Task<ResultApi<string>> CreatePurchaseAsync(PurchaseDto dto)
         {
-            dto.PTD.Id=YitIdHelper.NextId();
+            dto.PTD.Id = YitIdHelper.NextId();
             List<PurchaseProductRelationshipTable>? pprt = new List<PurchaseProductRelationshipTable>();
             foreach (var p in dto.PD)
             {
                 var prModel = await _productTableRepository.FindAsync(p.Id);
-                if (prModel != null&&p.Num<= prModel.Num)
+                if (prModel != null && p.Num <= prModel.Num)
                 {
                     pprt.Add(ObjectMapper.Map<PurchaseProductRelationshipTableDto, PurchaseProductRelationshipTable>(new PurchaseProductRelationshipTableDto
                     {
@@ -89,15 +89,15 @@ namespace Stash.Project.BusinessService
                         ProductId = p.Id,
                         PurchaseId = dto.PTD.Id,
                         TotalPrice = p.Price * p.Num,
-                        Number=p.Num,
+                        Number = p.Num,
                         EnterOrNot = false,
                         Status = Stash.TableStatus.PurchaseProductRelationshipStatus.采购中
                     }));
                 }
             }
-            var ptd = ObjectMapper.Map<PurchaseTableDto,PurchaseTable>(dto.PTD);
+            var ptd = ObjectMapper.Map<PurchaseTableDto, PurchaseTable>(dto.PTD);
             //采购表添加
-            var pur= await _purchaseTableRepository.InsertAsync(ptd);
+            var pur = await _purchaseTableRepository.InsertAsync(ptd);
             //采购产品关系表批量添加
             await _purchaseProductRelationshipRepository.InsertManyAsync(pprt);
             var api = new ResultApi<string>();
@@ -120,37 +120,37 @@ namespace Stash.Project.BusinessService
         /// <exception cref="NotImplementedException"></exception>
         public async Task<ResultApi<List<DisplayPurchasingDto>>> CreatePurchaseListAsync(GetPurchaseInquireDto dto)
         {
-             var pprt=(await _purchaseProductRelationshipRepository.GetListAsync()).WhereIf(dto.Status != 0,x=>x.Status.Equals((PurchaseProductRelationshipStatus)dto.Status));
-             var pr=(await _productTableRepository.GetListAsync())
-                .WhereIf(dto.ProductId != 0,x=>x.Id.Equals(dto.ProductId))
-                .WhereIf(!string.IsNullOrWhiteSpace(dto.ProductName),x=>x.ProductName.Contains(dto.ProductName));
-             var su=await _supplierTableRepository.GetListAsync();
-             var pu = (await _purchaseTableRepository.GetListAsync()).WhereIf(dto.PurchaseId != 0,x=>x.Id.Equals(dto.PurchaseId));
-             var TableList = from a in pprt
+            var pprt = (await _purchaseProductRelationshipRepository.GetListAsync()).WhereIf(dto.Status != 0, x => x.Status.Equals((PurchaseProductRelationshipStatus)dto.Status));
+            var pr = (await _productTableRepository.GetListAsync())
+               .WhereIf(dto.ProductId != 0, x => x.Id.Equals(dto.ProductId))
+               .WhereIf(!string.IsNullOrWhiteSpace(dto.ProductName), x => x.ProductName.Contains(dto.ProductName));
+            var su = await _supplierTableRepository.GetListAsync();
+            var pu = (await _purchaseTableRepository.GetListAsync()).WhereIf(dto.PurchaseId != 0, x => x.Id.Equals(dto.PurchaseId));
+            var TableList = from a in pprt
                             join b in pr on a.ProductId equals b.Id
                             join c in su on b.DefaultSupplier equals c.Id
                             join d in pu on a.PurchaseId equals d.Id
                             select new DisplayPurchasingDto
                             {
                                 PurchaseId = a.PurchaseId,
-                                ProductName=b.ProductName,
-                                ProductId=b.Id,
-                                Specification=b.Specification,
-                                Unit=b.Unit,
-                                Price=b.Price,
-                                Num=a.Number,
-                                DefaultSupplier=b.DefaultSupplier,
-                                SupplierName=c.SupplierName,
-                                TotalPrice=a.TotalPrice,
-                                Status=a.Status,
-                                EnterOrNot=a.EnterOrNot,
-                                ReturnGoods=a.ReturnGoods,
-                                DocumentPreparationTime=d.DocumentPreparationTime,
+                                ProductName = b.ProductName,
+                                ProductId = b.Id,
+                                Specification = b.Specification,
+                                Unit = b.Unit,
+                                Price = b.Price,
+                                Num = a.Number,
+                                DefaultSupplier = b.DefaultSupplier,
+                                SupplierName = c.SupplierName,
+                                TotalPrice = a.TotalPrice,
+                                Status = a.Status,
+                                EnterOrNot = a.EnterOrNot,
+                                ReturnGoods = a.ReturnGoods,
+                                DocumentPreparationTime = d.DocumentPreparationTime,
                             };
-            var totalCount=TableList.Count();   
-            TableList=TableList.Skip((dto.PageIndex - 1) * dto.PageSize).Take(dto.PageSize).ToList();
+            var totalCount = TableList.Count();
+            TableList = TableList.Skip((dto.PageIndex - 1) * dto.PageSize).Take(dto.PageSize).ToList();
             var api = new ResultApi<List<DisplayPurchasingDto>>();
-            if (TableList.Count()!=0)
+            if (TableList.Count() != 0)
             {
                 api.Code = 0;
                 api.Data = TableList.ToList();
@@ -164,29 +164,94 @@ namespace Stash.Project.BusinessService
             return api;
         }
         /// <summary>
-        /// 数量的更改
+        /// 采购订单 具体查询
         /// </summary>
         /// <param name="Id"></param>
         /// <param name="num"></param>
         /// <returns></returns>
-        public async Task<ResultApi<string>> GetPuraseFindAsync(long Id,int num)
+        public async Task<ResultApi<PurchaseDto>> GetPuraseFindAsync(long Id)
         {
-            var pprt= await _purchaseProductRelationshipRepository.FindAsync(Id);
-            pprt.Number=num;
-            var pprtUpdate=await _purchaseProductRelationshipRepository.UpdateAsync(pprt);
-            var api = new ResultApi<string>();
-            if (pprtUpdate!=null)
+            //获取采购表
+            var pu = await _purchaseTableRepository.FindAsync(Id);
+            //获取采购关系表
+            var pprt = (await _purchaseProductRelationshipRepository.ToArrayAsync()).WhereIf(Id != null, x => x.PurchaseId.Equals(Id)).Select(x => x.ProductId);
+            var api = new ResultApi<PurchaseDto>();
+            if (pu != null && pprt.Count() > 0)
             {
-                api.Code = 200;
-                api.Data = "编辑成功!";
+                //查询产品表
+                var pr = (await _productTableRepository.ToArrayAsync()).Where(
+                     x => pprt.Contains(x.Id));
+                api.Code = 0;
+                api.Data = new PurchaseDto
+                {
+                    PTD = ObjectMapper.Map<PurchaseTable,
+                    PurchaseTableDto>(pu),
+                    PD = ObjectMapper.Map<List<ProductTable>, List<
+                    ProductDto>>(pr.ToList())
+                };
             }
             else
             {
                 api.Code = 500;
-                api.Data = "编辑失败!";
+                api.Data = null;
             }
             return api;
         }
+
+        public async Task PostPuraseFindEdit112233(PurchaseTableDto dto)
+        {
+            var ptd = ObjectMapper.Map<PurchaseTableDto, PurchaseTable>(dto);
+            //采购表修改
+            var pur = await _purchaseTableRepository.UpdateAsync(ptd);
+
+            await _purchaseTableRepository.UpdateAsync(pur);
+        }
+
+
+        /// <summary>
+        /// 采购 编辑
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<ResultApi<string>> PostPuraseFindEdit(PurchaseDto dto)
+        {
+            //var a = (_purchaseTableRepository.ToListAsync()).Result;
+            var api = new ResultApi<string>();
+                var ptd = ObjectMapper.Map<PurchaseTableDto, PurchaseTable>(dto.PTD);
+
+                //采购表修改
+                var pur =await _purchaseTableRepository.UpdateAsync(ptd);
+
+                List<PurchaseProductRelationshipTable>? pprt = new List<PurchaseProductRelationshipTable>();
+                foreach (var p in dto.PD)
+                {
+                    var prModel =await _purchaseProductRelationshipRepository.FirstOrDefaultAsync(x => x.ProductId.Equals(p.Id) && x.PurchaseId.Equals(dto.PTD.Id));
+
+                    if (prModel != null)
+                    {
+                        prModel.TotalPrice = p.Price * p.Num;
+                        prModel.Number = p.Num;
+                        pprt.Add(prModel);
+                    }
+                }
+                //采购产品关系表批量修改
+                await _purchaseProductRelationshipRepository.UpdateManyAsync(pprt);
+
+                if (pur != null)
+                {
+                    api.Code = 200;
+                    api.Data = "修改成功";
+                }
+                else
+                {
+                    api.Code = 500;
+                    api.Data = "修改失败";
+                }
+
+            return api;
+        }
+
+
         #endregion
         #region 销售
         /// <summary>
@@ -243,7 +308,7 @@ namespace Stash.Project.BusinessService
         /// <exception cref="NotImplementedException"></exception>
         public async Task<ResultApi<List<DisplayPurchasingDto>>> CreateSellListAsync(GetPurchaseInquireDto dto)
         {
-             var pprt = (await _sellProductRelationshipRepository.GetListAsync()).WhereIf(dto.Status != 0, x => x.Status.Equals((SellProductRelationshipStatus)dto.Status));
+            var pprt = (await _sellProductRelationshipRepository.GetListAsync()).WhereIf(dto.Status != 0, x => x.Status.Equals((SellProductRelationshipStatus)dto.Status));
             var pr = (await _productTableRepository.GetListAsync())
                .WhereIf(dto.ProductId != 0, x => x.Id.Equals(dto.ProductId))
                .WhereIf(!string.IsNullOrWhiteSpace(dto.ProductName), x => x.ProductName.Contains(dto.ProductName));
@@ -287,30 +352,78 @@ namespace Stash.Project.BusinessService
             return api;
         }
         /// <summary>
-        /// 销售 数量的更改
+        /// 采购订单 具体查询
         /// </summary>
         /// <param name="Id"></param>
         /// <param name="num"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public async Task<ResultApi<string>> GetSellFindAsync(long Id, int num)
+        public async Task<ResultApi<SellDto>> GetSellFindAsync(long Id)
         {
-            var pprt = await _sellProductRelationshipRepository.FindAsync(Id);
-            pprt.Number = num;
-            var pprtUpdate = await _sellProductRelationshipRepository.UpdateAsync(pprt);
-            var api = new ResultApi<string>();
-            if (pprtUpdate != null)
+            //获取销售表
+            var pu = await _sellTableRepository.FindAsync(Id);
+            //获取销售关系表
+            var pprt = (await _sellProductRelationshipRepository.ToArrayAsync()).WhereIf(Id != null, x => x.SellId.Equals(Id)).Select(x => x.ProductId);
+            var api = new ResultApi<SellDto>();
+            if (pu != null && pprt.Count() > 0)
             {
-                api.Code = 200;
-                api.Data = "编辑成功!";
+                //查询产品表
+                var pr = (await _productTableRepository.ToArrayAsync()).Where(
+                     x => pprt.Contains(x.Id));
+                api.Code = 0;
+                api.Data = new SellDto
+                {
+                    Std = ObjectMapper.Map<SellTable,
+                    SellTableDto>(pu),
+                    PD = ObjectMapper.Map<List<ProductTable>, List<
+                    ProductDto>>(pr.ToList())
+                };
             }
             else
             {
                 api.Code = 500;
-                api.Data = "编辑失败!";
+                api.Data = null;
             }
             return api;
         }
+        /// <summary>
+        /// 销售 编辑
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<ResultApi<string>> PostSellFindEdit(SellDto dto)
+        {
+            var pprt = new List<SellProductRelationshipTable>();
+            foreach (var p in dto.PD)
+            {
+                var prModel = await _sellProductRelationshipRepository.FirstOrDefaultAsync(x => x.ProductId.Equals(p.Id) && x.SellId.Equals(dto.Std.Id));
+                if (prModel != null)
+                {
+                    prModel.TotalPrice = p.Price * p.Num;
+                    prModel.Number = p.Num;
+                    pprt.Add(prModel);
+                }
+            }
+            var ptd = ObjectMapper.Map<SellTableDto, SellTable>(dto.Std);
+            //采购表修改
+            var pur = await _sellTableRepository.UpdateAsync(ptd);
+            //采购产品关系表批量修改
+            await _sellProductRelationshipRepository.UpdateManyAsync(pprt);
+            var api = new ResultApi<string>();
+            if (pur != null)
+            {
+                api.Code = 200;
+                api.Data = "修改成功";
+            }
+            else
+            {
+                api.Code = 500;
+                api.Data = "修改失败";
+            }
+            return api;
+        }
+
+       
         #endregion
     }
+
 }

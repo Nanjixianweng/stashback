@@ -19,4 +19,6 @@ namespace Stash.Project.IBusinessRealizeAppService.BusinessDto
         /// </summary>
         public List<ProductDto>? PD { get; set; }
     }
+
+
 }
